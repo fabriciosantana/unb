@@ -1,0 +1,63 @@
+{
+  "project": "RNAP 2026/2 — corpus Machado de Assis",
+  "created_utc_date": "2026-09-25",
+  "source_name": "NLTK Data package machado",
+  "source_download_url": "https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/machado.zip",
+  "upstream_declared_work": "Machado de Assis — Obra Completa",
+  "upstream_declared_license": "Public Domain",
+  "upstream_origin_page": "https://machado.mec.gov.br/",
+  "upstream_manifest": "https://github.com/nltk/nltk_data/blob/gh-pages/packages/corpora/machado.xml",
+  "archive_sha256_expected": "772463b1553c1b0ff1fc0360768b31f59b488f7a52d44cc92c3e31ca289acce9",
+  "archive_sha256_calculated": "772463b1553c1b0ff1fc0360768b31f59b488f7a52d44cc92c3e31ca289acce9",
+  "archive_bytes": 6151774,
+  "source_text_encoding": "Windows-1252 (CP1252), verificado nos membros do ZIP",
+  "extracted_text_encoding": "UTF-8",
+  "extracted_text_directory": "raw/machado/",
+  "archive_txt_files": 246,
+  "indexed_items": 116,
+  "included_authorial_indexed_items": 112,
+  "excluded_translations": [
+    "traducao/matr01.txt",
+    "traducao/matr02.txt",
+    "traducao/matr03.txt",
+    "miscelanea/mams02.txt (Queda que as mulheres têm para os tolos)"
+  ],
+  "unindexed_short_story_files_preserved_for_review": 0,
+  "master_file": "corpus_machado_autoral_nltk_mec.txt",
+  "master_sha256": "f5562aa740556fae3435cfacf5b54c414909cd54f2fb627067132225791cc5b3",
+  "master_utf8_bytes": 14192790,
+  "control_bibliography": "https://www.academia.org.br/academicos/machado-de-assis/bibliografia",
+  "limitations": [
+    "Itens não equivalem a livros.",
+    "A bibliografia completa não foi comprovada; ver cruzamento ABL.",
+    "Contos avulsos entraram por baixa sobreposição textual com as sete coletâneas, não por prova de ineditismo.",
+    "Transcrições citam edições modernas; preservar e revisar a proveniência editorial.",
+    "O corpus mestre mantém cabeçalhos e notas editoriais da transcrição."
+  ],
+  "unindexed_short_story_audit": {
+    "method": "corpo após nota 'Publicado originalmente'; chave alfanumérica sem diacríticos; cobertura de n-gramas distintos de 32 caracteres contra 7 coletâneas",
+    "ngrams_per_story_threshold_high": 0.85,
+    "ngrams_per_story_threshold_partial": 0.4,
+    "report_file": "auditoria_contos_avulsos.csv",
+    "counts": {
+      "sem sobreposição alta": 130
+    },
+    "automatic_addition_to_master": false
+  },
+  "abl_bibliography_crosswalk": {
+    "reference": "https://www.academia.org.br/academicos/machado-de-assis/bibliografia",
+    "titles_checked": 32,
+    "report_file": "cruzamento_bibliografia_abl.csv",
+    "counts": {
+      "tradução identificada e excluída do corpus autoral": 1,
+      "correspondência direta no pacote": 24,
+      "material relacionado localizado; equivalência integral não verificada": 6,
+      "não localizado no índice-fonte": 1
+    },
+    "direct_match_means": "mapped source path exists; does not establish edition equivalence or exhaustive coverage"
+  },
+  "master_is_working_version": true,
+  "full_bibliographic_completeness_claimed": false,
+  "final_master_item_count": 242,
+  "supplemental_avulso_items_included": 130
+}

@@ -1,0 +1,47 @@
+{
+  "project": "RNAP 2026/2 — modelo autorregressivo de linguagem sobre Machado de Assis",
+  "created_date": "2026-09-25",
+  "input_file": "dados/corpus_machado_autoral_nltk_mec.txt",
+  "input_sha256": "f5562aa740556fae3435cfacf5b54c414909cd54f2fb627067132225791cc5b3",
+  "output_directory": "dados/modelagem",
+  "document_count": 242,
+  "split_unit": "obra/arquivo (document_id); grupos de conteúdo integralmente duplicado permanecem juntos",
+  "seed": 20260925,
+  "target_split_ratios": {
+    "train": 0.8,
+    "validation": 0.1,
+    "test": 0.1
+  },
+  "actual_document_counts": {
+    "train": 181,
+    "validation": 30,
+    "test": 31
+  },
+  "actual_character_counts": {
+    "train": 11113713,
+    "validation": 1340673,
+    "test": 1245563
+  },
+  "actual_character_ratios": {
+    "train": 0.8112,
+    "validation": 0.0979,
+    "test": 0.0909
+  },
+  "cleaning": [
+    "removidos apenas os delimitadores técnicos externos do corpus mestre",
+    "Unicode NFC",
+    "finais de linha normalizados para LF",
+    "espaços finais de linha removidos",
+    "sequências de mais de duas linhas vazias reduzidas a duas",
+    "cabeçalhos, notas editoriais, índices e conteúdo literário preservados"
+  ],
+  "exact_duplicate_groups": 0,
+  "leakage_note": "Validação/teste são arquivos não vistos. Fingerprint impede duplicatas integrais após normalização de espaços, mas não prova ausência de passagens repetidas entre obras distintas.",
+  "files": [
+    "train.jsonl",
+    "validation.jsonl",
+    "test.jsonl",
+    "auditoria_documentos.csv",
+    "auditoria_particoes.csv"
+  ]
+}

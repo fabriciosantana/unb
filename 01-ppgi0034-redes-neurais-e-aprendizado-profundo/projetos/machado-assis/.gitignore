@@ -1,0 +1,25 @@
+# Dados extraídos e corpus consolidado: podem ser recriados a partir do ZIP
+# versionado e dos notebooks de construção/auditoria.
+/dados/raw/
+/dados/corpus_machado_autoral_nltk_mec.txt
+
+# Partições textuais de treino/validação/teste e dados binários do nanoGPT.
+# Os manifestos e CSVs de auditoria permanecem versionados.
+/dados/modelagem/*.jsonl
+/dados/modelagem/nanogpt_char/
+
+# Checkpoints, logs e resultados de treinamento/inferência.
+/resultados/
+/checkpoints/
+/logs/
+*.ckpt
+*.pt
+*.pth
+*.safetensors
+
+# Arquivos locais gerados por Python, Jupyter e ferramentas comuns.
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,8 @@
+﻿category,unique_groups,train_groups,validation_groups,test_groups,train_characters,validation_characters,test_characters
+contos,137,107,15,15,4289721,535206,534398
+critica,45,33,6,6,780527,96639,96548
+cronica,24,14,5,5,2512512,314008,313605
+miscelanea,9,6,1,2,41165,4158,5056
+poesia,7,5,1,1,574117,72799,42603
+romance,10,8,1,1,2595531,282377,220518
+teatro,10,8,1,1,320140,35486,32835

@@ -1,0 +1,247 @@
+﻿source_file,category,title_in_contents,in_index_116,role,include_in_master,decision
+contos/macn001.txt,contos,Contos Fluminenses (1870); Miss Dollar; Luís Soares; A mulher de preto; O segredo de Augusta; Confissões de uma viúva moça; Linha reta e linha curva; Frei Sim,True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+contos/macn002.txt,contos,Histórias da meia-noite (1873); A parasita azul; As bodas de Luís Duarte; Ernesto de Tal; Aurora sem dia; O relógio de ouro; Ponto de vista,True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+contos/macn003.txt,contos,Papéis avulsos (1882); O alienista; Teoria do medalhão; A chinela turca; Na arca; D. Benedita; O segredo do bonzo; O anel de Polícrates; O empréstimo; A sereníssima república; O espelho; Uma visita de Alcibíades; Verba testamentária,True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+contos/macn004.txt,contos,Histórias sem data (1884); A igreja do Diabo; O lapso; Último capítulo; Cantiga de esponsais; Singular ocorrência; Galeria póstuma; Capítulo dos chapéus; Conto alexandrino; Rimas de Sapucaia!; Uma senhora; Anedota pecuniária; Fulano; A segunda vida; Noite de almirante; Manuscrito de um sacristão; Ex cathedra; A senhora do Galvão; As academias de Sião,True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+contos/macn005.txt,contos,Várias histórias (1896); A cartomante; Entre santos; Uns braços; Um homem célebre; A desejada das gentes; A causa secreta; Trio em lá menor; Adão e Eva; O enfermeiro; O diplomático; Mariana; Conto de escola; Um apólogo; D. Paula; Viver!; O cônego ou Metafísica do estilo,True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+contos/macn006.txt,contos,Páginas recolhidas (1899); O caso da vara; O dicionário; Um erradio; Eterno!; Missa do galo; Idéias de canário; Lágrimas de Xerxes; Papéis velhos,True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+contos/macn007.txt,contos,Relíquias de Casa Velha (1906); Pai contra mãe; Maria Cora; Marcha fúnebre; Um capitão de voluntários; Suje-se gordo!; Umas férias; Evolução; Pílades e Orestes; Anedota do cabriolet,True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+contos/macn008.txt,contos,"Conto, Três Tesouros Perdidos, 1858",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn009.txt,contos,"Conto, O País das quimeras, 1862",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn010.txt,contos,"Conto, Virginius, 1864",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn011.txt,contos,"CONTO, Casada e viúva, 1864",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn012.txt,contos,"Conto, O anjo das donzelas, 1864",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn013.txt,contos,"Conto, Questão de Vaidade, 1864",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn014.txt,contos,"Conto, Cinco mulheres, 1865",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn015.txt,contos,"Conto, Uma excursão milagrosa, 1866",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn016.txt,contos,"Conto, Diana, 1866",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn017.txt,contos,"Conto, Felicidade pelo casamento, 1866",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn018.txt,contos,"Conto, Fernando e Fernanda, 1866",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn019.txt,contos,"Conto, O oráculo, 1866",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn020.txt,contos,"Conto, O pai, 1866",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn021.txt,contos,"Conto, A pianista, 1866",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn022.txt,contos,"Conto, O que são as moças, 1866",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn023.txt,contos,"Conto, Francisca, 1867",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn024.txt,contos,"Conto, História de uma lágrima, 1867",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn025.txt,contos,"Conto, Onda, 1867",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn026.txt,contos,"Conto, Possível e impossível, 1867",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn027.txt,contos,"Conto, O último dia de um poeta, 1867",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn028.txt,contos,"Conto, O carro n° 13, 1868",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn029.txt,contos,"Conto, Não é mel para boca de asno, 1868",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn030.txt,contos,"Conto, O anjo Rafael, 1869",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn031.txt,contos,"Conto, O capitão Mendonça, 1870",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn032.txt,contos,"Conto, O rei dos caiporas, 1870",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn033.txt,contos,"Conto, A vida eterna, 1870",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn034.txt,contos,"CONTO, Almas Agradecidas, 1871.htm",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn035.txt,contos,"Conto, Ayres e Vergueiro, 1871",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn036.txt,contos,"Conto, O Caminho de Damasco, 1871",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn037.txt,contos,"Conto, Mariana, 1871",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn038.txt,contos,"Conto, Uma Águia sem Asas, 1872",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn039.txt,contos,"Conto, Uma loureira, 1872",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn040.txt,contos,"Conto, Qual dos Dois,1872",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn041.txt,contos,"Conto, Quem Não Quer Ser Lobo, 1872",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn042.txt,contos,"Conto, Rui de Leão, 1872",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn043.txt,contos,"Conto, Decadência de dois grandes homens, 1873",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn044.txt,contos,"Conto, Um Homem superior, 1873",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn045.txt,contos,"Conto, Nem uma nem outra, 1873",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn046.txt,contos,"Conto, Quem conta um conto, 1873",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn047.txt,contos,"Conto, Tempo de crise, 1873",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn048.txt,contos,"Conto, Miloca, 1874",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn049.txt,contos,"Conto, Um dia de entrudo, 1874",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn050.txt,contos,"Conto, Muitos Anos Depois, 1874",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn051.txt,contos,"Conto, Os óculos de Pedro Antão, 1874",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn052.txt,contos,"Conto, Valério, 1874",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn053.txt,contos,"Conto, Antes que cases, 1875",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn054.txt,contos,"Conto, Brincar com fogo, 1875",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn055.txt,contos,"Conto, A Mágoa do infeliz Cosme, 1875",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn056.txt,contos,"Conto, Onze anos depois, 1875",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn057.txt,contos,"Conto, A última receita, 1875",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn058.txt,contos,"Conto, Um esqueleto, 1875",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn059.txt,contos,"Conto, O sainete, 1875",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn060.txt,contos,"Conto, Casa, não casa, 1875",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn061.txt,contos,"Conto, Longe dos Olhos, 1876",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn062.txt,contos,"Conto, O Astrólogo, 1876",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn063.txt,contos,"Conto, D. Mônica, 1876",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn064.txt,contos,"Conto, Encher tempo, 1876",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn065.txt,contos,"Conto, O Passado, o passado, 1876",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn066.txt,contos,"Conto, Sem olhos, 1876",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn067.txt,contos,"Conto, To be or not to be, 1876",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn068.txt,contos,"Conto, História de uma fita azul, 1876",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn069.txt,contos,"Conto, Um Almoço, 1877",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn070.txt,contos,"Conto, Um Ambicioso, 1877",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn071.txt,contos,"Conto, A melhor das noivas, 1877",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn072.txt,contos,"Conto, Silvestre, 1877",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn073.txt,contos,"Conto, Antes da Missa, 1878",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn074.txt,contos,"Conto, O Califa de Platina, 1878",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn075.txt,contos,"Conto, Um Cão de Lata ao Rabo, 1878",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn076.txt,contos,"Conto, Conversão de um avaro, 1878",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn077.txt,contos,"Conto, Dívida extinta, 1878",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn078.txt,contos,"Conto, Elogio da Vaidade, 1878",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn079.txt,contos,"Conto, Filosofia de um Par de Botas, 1878",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn080.txt,contos,"Conto, A Herança, 1878",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn081.txt,contos,"Conto, O Machete, 1878",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn082.txt,contos,"Conto, Folha Rota, 1878",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn083.txt,contos,"Conto, A chave, 1879",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn084.txt,contos,"Conto, O Caso da Viúva, 1881",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn085.txt,contos,"Conto, A mulher pálida, 1881",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn086.txt,contos,"Conto, O imortal, 1882",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn087.txt,contos,"Conto, Letra Vencida, 1882",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn088.txt,contos,"Conto, O programa, 1882",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn089.txt,contos,"Conto, A idéia do Ezequiel Maia, 1883",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn090.txt,contos,"Conto, Médico é remédio, 1883",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn091.txt,contos,"Conto, História comum, 1883",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn092.txt,contos,"Conto, O destinado, 1883",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn093.txt,contos,"Conto, Troca de datas, 1883",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn094.txt,contos,"Conto, Questões de maridos, 1883",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn095.txt,contos,"Conto, Três conseqüências, 1883",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn096.txt,contos,"Conto, Vidros quebrados, 1883",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn097.txt,contos,"Conto, Cantiga velha, 1883",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn098.txt,contos,"Conto, Metafísica das Rosas, 1883",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn099.txt,contos,"Conto, Trina e Una, 1884",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn100.txt,contos,"Conto, O contrato, 1884",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn101.txt,contos,"Conto, A Carteira, 1884",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn102.txt,contos,"Conto, O Melhor Remédio, 1884",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn103.txt,contos,"Conto, A Viúva Sobral, 1884",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn104.txt,contos,"Conto, Entre duas datas, 1884",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn105.txt,contos,"Conto, Vinte Anos! Vinte Anos!, 1884",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn106.txt,contos,"Conto, O Caso do Romualdo, 1884",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn107.txt,contos,"Conto, Uma Carta, 1884",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn108.txt,contos,"Conto, Só, 1885",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn109.txt,contos,"Conto, Habilidoso, 1885",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn110.txt,contos,"Conto, Viagem à roda de mim mesmo, 1885",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn111.txt,contos,"Conto, Curta História, 1886",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn112.txt,contos,"Conto, Um Dístico, 1886",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn113.txt,contos,"Conto, Astúcias de marido, 1866",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn114.txt,contos,"Conto, Pobre Cardeal, 1886",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn115.txt,contos,"Conto, Terpsícore, 1886",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn116.txt,contos,"Conto, Antes a Rocha Tarpéia, 1887",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn117.txt,contos,"Conto, Identidade, 1887",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn118.txt,contos,"Conto, Sales, 1887",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn119.txt,contos,"Conto, Dona Jucunda, 1889",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn120.txt,contos,"Conto, Como se inventaram os almanaques, 1890",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn121.txt,contos,"Conto, Pobre Finoca!, 1891",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn122.txt,contos,"Conto, O Caso Barreto, 1892.htm",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn123.txt,contos,"Conto, Uma Partida, 1892",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn124.txt,contos,"Conto, Um Sonho e Outro Sonho, 1892",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn125.txt,contos,"Conto, Um Quarto de Século, 1893",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn126.txt,contos,"Conto, Vênus! Divina Vênus!, 1893",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn127.txt,contos,"Conto, A inglesinha Barcelos, 1894",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn128.txt,contos,"Conto, João Fernandes, 1894",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn129.txt,contos,"Conto, Uma Noite, 1895",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn130.txt,contos,"Conto, Orai por ele!, 1895",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn131.txt,contos,"Conto, Um Incêndio, 1906",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn132.txt,contos,"Conto, Uma por Outra, 1897",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn133.txt,contos,"Conto, Flor Anônima, 1897",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn134.txt,contos,"Conto, Jogo do Bicho, 1904",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn135.txt,contos,"Conto, O Escrivão Coimbra, 1906",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn136.txt,contos,"Conto, Bagatela, 1859",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+contos/macn137.txt,contos,"Conto, Um para o outro, 1879",False,conto_avulso,True,incluído como texto avulso sem sobreposição alta
+critica/mact01.txt,critica,"O Passado, o presente e o futuro da literatura (1858)",True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact02.txt,critica,Idéias sobre o teatro (1859),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact03.txt,critica,Revista dos teatros (1859),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact04.txt,critica,Revista Dramática (1860),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact05.txt,critica,A Crítica teatral. José de Alencar: Mãe (1860),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact06.txt,critica,Crítica variada - Diário do RJ (1862),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact07.txt,critica,"Flores e Frutos, de Bruno Seabra (1862)",True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact08.txt,critica,Pareceres - Conservatório Dramático (1862-1864),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact09.txt,critica,Homem de Mello e B. Pinheiro – A Constituinte perante a História e Sombras e Luz (1863),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact10.txt,critica,"Peregrinação pela província de S. Paulo , por A. E. Zaluar (1863)",True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact11.txt,critica,"Revelações , de A. E. Zaluar (1863)",True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact12.txt,critica,Dois folhetins. Suplício de uma mulher (1865),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact13.txt,critica,O Ideal do crítico (1865),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact14.txt,critica,Álvares de Azevedo: Lira dos vinte anos (1866),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact15.txt,critica,Crítica teatral (1866),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact16.txt,critica,Fagundes Varela – Cantos e fantasias (1866),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact17.txt,critica,J .M. de Macedo: O culto do dever (1866),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact18.txt,critica,José de Alencar: Iracema (1866),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact19.txt,critica,Junqueira Freire: Inspirações do claustro (1866),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact20.txt,critica,Porto Alegre: Colombo (1866),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact21.txt,critica,Propósito (1866),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact22.txt,critica,Castro Alves (1868),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact23.txt,critica,Lúcio de Mendonça: Névoas matutinas (1872),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact24.txt,critica,"Un cuento endemoniado e La mujer misteriosa , de Guilherme Malta (1872)",True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact25.txt,critica,Notícia da atual literatura brasileira: Instinto de nacionalidade (1873),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact26.txt,critica,Fagundes Varela (1875),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact27.txt,critica,Eça de Queirós: O primo Basílio (1878),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact28.txt,critica,Francisco de Castro: Harmonias errantes (1878),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact29.txt,critica,A Nova geração (1879),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact30.txt,critica,Carlos Jansen: Contos seletos das mil e uma noites (1882),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact31.txt,critica,Raimundo Correia: Sinfonias (1882),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact32.txt,critica,Alberto de Oliveira: Meridionais (1884),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact33.txt,critica,Enéias Galvão: Miragens (1885),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact34.txt,critica,L. L. Fernandes Pinheiro Júnior: Tipos e quadros (1886),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact35.txt,critica,José de Alencar: O Guarani (1887),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact36.txt,critica,Henriqueta Renan (1896),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact37.txt,critica,Discursos na Academia Brasileira de Letras (1897),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact38.txt,critica,Magalhães de Azeredo: Procelárias (1898),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact39.txt,critica,"Cenas da vida amazônica , de José Veríssimo (1899)",True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact40.txt,critica,Garrett (1899),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact41.txt,critica,Eça de Queirós (1900),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact42.txt,critica,Eduardo Prado (1901),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact43.txt,critica,Magalhães de Azeredo e Mário de Alencar: Horas sagradas e Versos (1902),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact44.txt,critica,Oliveira Lima: Secretário d'el-rei (1904),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+critica/mact45.txt,critica,Joaquim Nabuco: Pensées détachées et souvenirs (1906),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr01.txt,cronica,Comentários da semana (1861-1863),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr02.txt,cronica,Crônicas do Dr. Semana (1861-1864),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr03.txt,cronica,Crônicas - O futuro (1862-1863),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr04.txt,cronica,Ao acaso (1864-1865),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr05.txt,cronica,Cartas fluminenses (1867),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr06.txt,cronica,Badaladas (1871-1873),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr07.txt,cronica,História de quinze dias (1876-1877),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr08.txt,cronica,História dos trinta dias (1878),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr09.txt,cronica,Notas semanais (1878),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr10.txt,cronica,Balas de estalo (1883-1886),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr11.txt,cronica,Bons dias! (1888-1889),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr12.txt,cronica,A semana (1892-1800),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr13.txt,cronica,O jornal e o livro (1859),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr14.txt,cronica,A reforma pelo jornal (1859),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr15.txt,cronica,Aquarelas (1859),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr16.txt,cronica,O Visconde de Castilho (1875),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr17.txt,cronica,Cherchez la femme (1881),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr18.txt,cronica,José de Alencar (1883),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr19.txt,cronica,Joaquim Serra (1888),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr20.txt,cronica,O futuro dos argentinos (1888),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr21.txt,cronica,Entre 1892 e 1894 (1892-1894),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr22.txt,cronica,Henrique Chaves (1893),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr23.txt,cronica,Henrique Lombaerts (1897),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+cronica/macr24.txt,cronica,O velho Senado (1898),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+miscelanea/mams01.txt,miscelanea,Os imortais (1859),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+miscelanea/mams02.txt,miscelanea,Queda que as mulheres têm para os tolos (1861),True,item_indexado,False,tradução: Queda que as mulheres têm para os tolos
+miscelanea/mams03.txt,miscelanea,Carta ao Sr. Bispo do RJ (1862),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+miscelanea/mams04.txt,miscelanea,Carta à redação da Imprensa Acadêmica (1864),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+miscelanea/mams05.txt,miscelanea,Pedro Luís (1884),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+miscelanea/mams06.txt,miscelanea,A morte de Francisco Otaviano (1889),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+miscelanea/mams07.txt,miscelanea,Secretaria de Agricultura (1890),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+miscelanea/mams08.txt,miscelanea,A Paixão de Jesus (1904),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+miscelanea/mams09.txt,miscelanea,Gonçalves Dias (1906),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+miscelanea/mams10.txt,miscelanea,A Estátua de José de Alencar (1906),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+poesia/maps01.txt,poesia,Crisálidas (1864),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+poesia/maps02.txt,poesia,Falenas (1870),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+poesia/maps03.txt,poesia,Americanas (1875),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+poesia/maps04.txt,poesia,Gazeta de Holanda (1886-88),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+poesia/maps05.txt,poesia,Ocidentais (1901),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+poesia/maps06.txt,poesia,O Almada (1908),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+poesia/maps07.txt,poesia,Dispersas (1854-1939),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+romance/marm01.txt,romance,Ressurreição (1872),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+romance/marm02.txt,romance,A Mão e a Luva (1874),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+romance/marm03.txt,romance,Helena (1876),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+romance/marm04.txt,romance,Iaiá Garcia (1878),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+romance/marm05.txt,romance,Memórias Póstumas de Brás Cubas (1881),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+romance/marm06.txt,romance,Casa Velha (1885),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+romance/marm07.txt,romance,Quincas Borba (1891),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+romance/marm08.txt,romance,Dom Casmurro (1899),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+romance/marm09.txt,romance,Esaú e Jacó (1904),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+romance/marm10.txt,romance,Memorial de Aires (1908),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+teatro/matt01.txt,teatro,As forcas caudinas (1956),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+teatro/matt02.txt,teatro,"Hoje avental, amanhã luva (1860)",True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+teatro/matt03.txt,teatro,Desencantos (1861),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+teatro/matt04.txt,teatro,O caminho da porta / O protocolo (1863),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+teatro/matt05.txt,teatro,Quase ministro (1864),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+teatro/matt06.txt,teatro,Os deuses de casaca (1866),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+teatro/matt07.txt,teatro,O bote de rapé (1878),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+teatro/matt08.txt,teatro,"Tu, só tu, puro amor (1880)",True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+teatro/matt09.txt,teatro,Não consultes médico (1899),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+teatro/matt10.txt,teatro,Lição de botânica (1906),True,item_indexado,True,item autoral indexado pelo pacote NLTK/MEC
+traducao/matr01.txt,traducao,Suplício de uma mulher (1865),True,item_indexado,False,tradução integral de obra alheia
+traducao/matr02.txt,traducao,Os trabalhadores do mar (1866),True,item_indexado,False,tradução integral de obra alheia
+traducao/matr03.txt,traducao,Oliver Twist (1870),True,item_indexado,False,tradução integral de obra alheia
