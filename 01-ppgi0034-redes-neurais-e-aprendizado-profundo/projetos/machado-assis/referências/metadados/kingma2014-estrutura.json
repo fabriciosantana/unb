@@ -1,0 +1,12 @@
+{
+  "schema": "pdf_read_preflight/1",
+  "verdict": "PASS",
+  "file": "/workspaces/unb/01-ppgi0034-redes-neurais-e-aprendizado-profundo/projetos/machado-assis/referências/kingma2014.pdf",
+  "sha256": "eab9c73ae2ceda884b94830bda99312254bac4806f6c9f045cbab90721ecda31",
+  "declared_page_count": 15,
+  "enumerated_page_count": 15,
+  "reader_page_count": 15,
+  "warnings": [],
+  "generated_at": "2026-09-25T01:28:41.177327+00:00",
+  "tool": "pdf_read_preflight/1.0.0"
+}

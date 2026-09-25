@@ -1,0 +1,32 @@
+{
+  "citation_title": [
+    "Don’t Stop Pretraining: Adapt Language Models to Domains and Tasks"
+  ],
+  "citation_author": [
+    "Suchin Gururangan",
+    "Ana Marasović",
+    "Swabha Swayamdipta",
+    "Kyle Lo",
+    "Iz Beltagy",
+    "Doug Downey",
+    "Noah A. Smith"
+  ],
+  "citation_conference_title": [
+    "Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics"
+  ],
+  "citation_publication_date": [
+    "2020/7"
+  ],
+  "citation_pdf_url": [
+    "https://aclanthology.org/2020.acl-main.740.pdf"
+  ],
+  "citation_firstpage": [
+    "8342"
+  ],
+  "citation_lastpage": [
+    "8360"
+  ],
+  "citation_doi": [
+    "10.18653/v1/2020.acl-main.740"
+  ]
+}

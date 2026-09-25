@@ -1,0 +1,27 @@
+{
+  "citation_title": [
+    "SentencePiece: A simple and language independent subword tokenizer and detokenizer for Neural Text Processing"
+  ],
+  "citation_author": [
+    "Taku Kudo",
+    "John Richardson"
+  ],
+  "citation_conference_title": [
+    "Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing: System Demonstrations"
+  ],
+  "citation_publication_date": [
+    "2018/11"
+  ],
+  "citation_pdf_url": [
+    "https://aclanthology.org/D18-2012.pdf"
+  ],
+  "citation_firstpage": [
+    "66"
+  ],
+  "citation_lastpage": [
+    "71"
+  ],
+  "citation_doi": [
+    "10.18653/v1/D18-2012"
+  ]
+}

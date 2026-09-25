@@ -1,0 +1,74 @@
+Journal of Machine Learning Research 15 (2014) 1929-1958 Submitted 11/13; Published 6/14
+Dropout: A Simple Way to Prevent Neural Networks from
+Overﬁtting
+Nitish Srivastava nitish@cs.toronto.edu
+Geoﬀrey Hinton hinton@cs.toronto.edu
+Alex Krizhevsky kriz@cs.toronto.edu
+Ilya Sutskever ilya@cs.toronto.edu
+Ruslan Salakhutdinov rsalakhu@cs.toronto.edu
+Department of Computer Science
+University of Toronto
+10 Kings College Road, Rm 3302
+Toronto, Ontario, M5S 3G4, Canada.
+Editor: Yoshua Bengio
+Abstract
+Deep neural nets with a large number of parameters are very powerful machine learning
+systems. However, overﬁtting is a serious problem in such networks. Large networks are also
+slow to use, making it diﬃcult to deal with overﬁtting by combining the predictions of many
+diﬀerent large neural nets at test time. Dropout is a technique for addressing this problem.
+The key idea is to randomly drop units (along with their connections) from the neural
+network during training. This prevents units from co-adapting too much. During training,
+dropout samples from an exponential number of diﬀerent “thinned” networks. At test time,
+it is easy to approximate the eﬀect of averaging the predictions of all these thinned networks
+by simply using a single unthinned network that has smaller weights. This signiﬁcantly
+reduces overﬁtting and gives major improvements over other regularization methods. We
+show that dropout improves the performance of neural networks on supervised learning
+tasks in vision, speech recognition, document classiﬁcation and computational biology,
+obtaining state-of-the-art results on many benchmark data sets.
+Keywords: neural networks, regularization, model combination, deep learning
+1. Introduction
+Deep neural networks contain multiple non-linear hidden layers and this makes them very
+expressive models that can learn very complicated relationships between their inputs and
+outputs. With limited training data, however, many of these complicated relationships
+will be the result of sampling noise, so they will exist in the training set but not in real
+test data even if it is drawn from the same distribution. This leads to overﬁtting and many
+methods have been developed for reducing it. These include stopping the training as soon as
+performance on a validation set starts to get worse, introducing weight penalties of various
+kinds such as L1 and L2 regularization and soft weight sharing (Nowlan and Hinton, 1992).
+With unlimited computation, the best way to “regularize” a ﬁxed-sized model is to
+average the predictions of all possible settings of the parameters, weighting each setting by
+c©2014 Nitish Srivastava, Geoﬀrey Hinton, Alex Krizhevsky, Ilya Sutskever and Ruslan Salakhutdinov.
+Srivastava, Hinton, Krizhevsky, Sutskever and Salakhutdinov
+(a) Standard Neural Net
+ (b) After applying dropout.
+Figure 1: Dropout Neural Net Model. Left: A standard neural net with 2 hidden layers. Right:
+An example of a thinned net produced by applying dropout to the network on the left.
+Crossed units have been dropped.
+its posterior probability given the training data. This can sometimes be approximated quite
+well for simple or small models (Xiong et al., 2011; Salakhutdinov and Mnih, 2008), but we
+would like to approach the performance of the Bayesian gold standard using considerably
+less computation. We propose to do this by approximating an equally weighted geometric
+mean of the predictions of an exponential number of learned models that share parameters.
+Model combination nearly always improves the performance of machine learning meth-
+ods. With large neural networks, however, the obvious idea of averaging the outputs of
+many separately trained nets is prohibitively expensive. Combining several models is most
+helpful when the individual models are diﬀerent from each other and in order to make
+neural net models diﬀerent, they should either have diﬀerent architectures or be trained
+on diﬀerent data. Training many diﬀerent architectures is hard because ﬁnding optimal
+hyperparameters for each architecture is a daunting task and training each large network
+requires a lot of computation. Moreover, large networks normally require large amounts of
+training data and there may not be enough data available to train diﬀerent networks on
+diﬀerent subsets of the data. Even if one was able to train many diﬀerent large networks,
+using them all at test time is infeasible in applications where it is important to respond
+quickly.
+Dropout is a technique that addresses both these issues. It prevents overﬁtting and
+provides a way of approximately combining exponentially many diﬀerent neural network
+architectures eﬃciently. The term “dropout” refers to dropping out units (hidden and
+visible) in a neural network. By dropping a unit out, we mean temporarily removing it from
+the network, along with all its incoming and outgoing connections, as shown in Figure 1.
+The choice of which units to drop is random. In the simplest case, each unit is retained with
+a ﬁxed probability p independent of other units, where p can be chosen using a validation
+set or can simply be set at 0 .5, which seems to be close to optimal for a wide range of
+networks and tasks. For the input units, however, the optimal probability of retention is
+usually closer to 1 than to 0 .5.
+1930

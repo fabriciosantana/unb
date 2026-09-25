@@ -1,0 +1,12 @@
+{
+  "schema": "pdf_read_preflight/1",
+  "verdict": "PASS",
+  "file": "/workspaces/unb/01-ppgi0034-redes-neurais-e-aprendizado-profundo/projetos/machado-assis/referências/hoffmann2022.pdf",
+  "sha256": "3fd3632a8ef48171bd25282990221d49535d75356192f068b3b2ebe08f2aedd4",
+  "declared_page_count": 36,
+  "enumerated_page_count": 36,
+  "reader_page_count": 36,
+  "warnings": [],
+  "generated_at": "2026-09-25T01:28:43.420990+00:00",
+  "tool": "pdf_read_preflight/1.0.0"
+}

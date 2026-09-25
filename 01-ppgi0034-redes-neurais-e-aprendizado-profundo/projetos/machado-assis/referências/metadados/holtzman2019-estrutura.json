@@ -1,0 +1,12 @@
+{
+  "schema": "pdf_read_preflight/1",
+  "verdict": "PASS",
+  "file": "/workspaces/unb/01-ppgi0034-redes-neurais-e-aprendizado-profundo/projetos/machado-assis/referências/holtzman2019.pdf",
+  "sha256": "f0749cc4db8afeb82006a20785b2cd3615fcbced8a29886872b6174485ced21b",
+  "declared_page_count": 16,
+  "enumerated_page_count": 16,
+  "reader_page_count": 16,
+  "warnings": [],
+  "generated_at": "2026-09-25T01:28:42.395931+00:00",
+  "tool": "pdf_read_preflight/1.0.0"
+}

@@ -1,0 +1,179 @@
+Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics , pages 8342–8360
+July 5 - 10, 2020. c©2020 Association for Computational Linguistics
+8342
+Don’t Stop Pretraining: Adapt Language Models to Domains and Tasks
+Suchin Gururangan† Ana Marasovi´c†♦ Swabha Swayamdipta†
+Kyle Lo† Iz Beltagy† Doug Downey† Noah A. Smith†♦
+†Allen Institute for Artiﬁcial Intelligence, Seattle, W A, USA
+♦Paul G. Allen School of Computer Science & Engineering, University of Washington, Seattle, W A, USA
+{suching,anam,swabhas,kylel,beltagy,dougd,noah}@allenai.org
+Abstract
+Language models pretrained on text from a
+wide variety of sources form the foundation
+of today’s NLP. In light of the success of
+these broad-coverage models, we investigate
+whether it is still helpful to tailor a pretrained
+model to the domain of a target task. We
+present a study across four domains (biomedi-
+cal and computer science publications, news,
+and reviews) and eight classiﬁcation tasks,
+showing that a second phase of pretraining in-
+domain ( domain-adaptive pretraining ) leads
+to performance gains, under both high- and
+low-resource settings. Moreover, adapting
+to the task’s unlabeled data ( task-adaptive
+pretraining) improves performance even after
+domain-adaptive pretraining. Finally, we show
+that adapting to a task corpus augmented us-
+ing simple data selection strategies is an effec-
+tive alternative, especially when resources for
+domain-adaptive pretraining might be unavail-
+able. Overall, we consistently ﬁnd that multi-
+phase adaptive pretraining offers large gains in
+task performance.
+1 Introduction
+Today’s pretrained language models are trained on
+massive, heterogeneous corpora (Raffel et al., 2019;
+Yang et al., 2019). For instance, ROBERTA (Liu
+et al., 2019) was trained on over 160GB of uncom-
+pressed text, with sources ranging from English-
+language encyclopedic and news articles, to literary
+works and web content. Representations learned
+by such models achieve strong performance across
+many tasks with datasets of varying sizes drawn
+from a variety of sources (e.g., Wang et al., 2018,
+2019). This leads us to ask whether a task’s textual
+domain—a term typically used to denote a distribu-
+tion over language characterizing a given topic or
+genre (such as “science” or “mystery novels”)—is
+still relevant. Do the latest large pretrained mod-
+els work universally or is it still helpful to build
+Figure 1: An illustration of data distributions. Task
+data is comprised of an observable task distribution,
+usually non-randomly sampled from a wider distribu-
+tion (light grey ellipsis) within an even larger target do-
+main, which is not necessarily one of the domains in-
+cluded in the original LM pretraining domain – though
+overlap is possible. We explore the beneﬁts of contin-
+ued pretraining on data from the task distribution and
+the domain distribution.
+separate pretrained models for speciﬁc domains?
+While some studies have shown the beneﬁt of
+continued pretraining on domain-speciﬁc unlabeled
+data (e.g., Lee et al., 2019), these studies only con-
+sider a single domain at a time and use a language
+model that is pretrained on a smaller and less di-
+verse corpus than the most recent language mod-
+els. Moreover, it is not known how the beneﬁt of
+continued pretraining may vary with factors like
+the amount of available labeled task data, or the
+proximity of the target domain to the original pre-
+training corpus (see Figure 1).
+We address this question for one such high-
+performing model, ROBERTA (Liu et al., 2019)
+(§2). We consider four domains (biomedical and
+computer science publications, news, and reviews;
+§3) and eight classiﬁcation tasks (two in each do-
+main). For targets that are not already in-domain
+for ROBERTA, our experiments show that contin-
+8343
+ued pretraining on the domain (which we refer to as
+domain-adaptive pretrainingor DAPT ) consistently
+improves performance on tasks from the target do-
+main, in both high- and low-resource settings.
+Above, we consider domains deﬁned around gen-
+res and forums, but it is also possible to induce a
+domain from a given corpus used for a task, such
+as the one used in supervised training of a model.
+This raises the question of whether pretraining on
+a corpus more directly tied to the task can fur-
+ther improve performance. We study how domain-
+adaptive pretraining compares to task-adaptive pre-
+training, or TAPT, on a smaller but directly task-
+relevant corpus: the unlabeled task dataset ( §4),
+drawn from the task distribution. Task-adaptive
+pretraining has been shown effective (Howard and
+Ruder, 2018), but is not typically used with the
+most recent models. We ﬁnd that TAPT provides
+a large performance boost for ROBERTA, with or
+without domain-adaptive pretraining.
+Finally, we show that the beneﬁts from task-
+adaptive pretraining increase when we have addi-
+tional unlabeled data from the task distribution that
+has been manually curated by task designers or an-
+notators. Inspired by this success, we propose ways
+to automatically select additional task-relevant un-
+labeled text, and show how this improves perfor-
+mance in certain low-resource cases (§5). On all
+tasks, our results using adaptive pretraining tech-
+niques are competitive with the state of the art.
+In summary, our contributions include:
+• a thorough analysis of domain- and task-
+adaptive pretraining across four domains and
+eight tasks, spanning low- and high-resource
+settings;
+• an investigation into the transferability of
+adapted LMs across domains and tasks; and
+• a study highlighting the importance of pre-
+training on human-curated datasets, and a sim-
+ple data selection strategy to automatically
+approach this performance.
+Our code as well as pretrained models for multiple
+domains and tasks are publicly available.1
+2 Background: Pretraining
+Learning for most NLP research systems since
+2018 consists of training in two stages. First, a
+neural language model (LM), often with millions
+of parameters, is trained on large unlabeled cor-
+1https://github.com/allenai/
+dont-stop-pretraining
+pora. The word (or wordpiece; Wu et al. 2016)
+representations learned in the pretrained model are
+then reused in supervised training for a downstream
+task, with optional updates (ﬁne-tuning) of the rep-
+resentations and network from the ﬁrst stage.
+One such pretrained LM is ROBERTA (Liu
+et al., 2019), which uses the same transformer-
+based architecture (Vaswani et al., 2017) as its
+predecessor, BERT (Devlin et al., 2019). It is
+trained with a masked language modeling objec-
+tive (i.e., cross-entropy loss on predicting randomly
+masked tokens). The unlabeled pretraining corpus
+for ROBERTA contains over 160 GB of uncom-
+pressed raw text from different English-language
+corpora (see Appendix§A.1). ROBERTA attains
+better performance on an assortment of tasks than
+its predecessors, making it our baseline of choice.
+Although ROBERTA’s pretraining corpus is de-
+rived from multiple sources, it has not yet been
+established if these sources are diverse enough to
+generalize to most of the variation in the English
+language. In other words, we would like to un-
+derstand what is out of ROBERTA’s domain. To-
+wards this end, we explore further adaptation by
+continued pretraining of this large LM into two
+categories of unlabeled data: (i) large corpora of
+domain-speciﬁc text (§3), and (ii) available unla-
+beled data associated with a given task (§4).
+3 Domain-Adaptive Pretraining
+Our approach to domain-adaptive pretraining
+(DAPT ) is straightforward—we continue pretrain-
+ing ROBERTA on a large corpus of unlabeled
+domain-speciﬁc text. The four domains we focus
+on are biomedical (BIOMED) papers, computer sci-
+ence (CS) papers, newstext from REAL NEWS, and
+AMAZON reviews. We choose these domains be-
+cause they have been popular in previous work, and
+datasets for text classiﬁcation are available in each.
+Table 1 lists the speciﬁcs of the unlabeled datasets
+in all four domains, as well asROBERTA’s training
+corpus.1
+3.1 Analyzing Domain Similarity
+Before performing DAPT , we attempt to quantify
+the similarity of the target domain to ROBERTA’s
+pretraining domain. We consider domain vocab-
+ularies containing the top 10K most frequent uni-
+grams (excluding stopwords) in comparably sized
+1For BIOMED and CS, we used an internal version of
+S2ORC that contains papers that cannot be released due to
+copyright restrictions.

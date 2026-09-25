@@ -1,0 +1,32 @@
+{
+  "citation_title": [
+    "Deduplicating Training Data Makes Language Models Better"
+  ],
+  "citation_author": [
+    "Katherine Lee",
+    "Daphne Ippolito",
+    "Andrew Nystrom",
+    "Chiyuan Zhang",
+    "Douglas Eck",
+    "Chris Callison-Burch",
+    "Nicholas Carlini"
+  ],
+  "citation_conference_title": [
+    "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)"
+  ],
+  "citation_publication_date": [
+    "2022/5"
+  ],
+  "citation_pdf_url": [
+    "https://aclanthology.org/2022.acl-long.577.pdf"
+  ],
+  "citation_firstpage": [
+    "8424"
+  ],
+  "citation_lastpage": [
+    "8445"
+  ],
+  "citation_doi": [
+    "10.18653/v1/2022.acl-long.577"
+  ]
+}

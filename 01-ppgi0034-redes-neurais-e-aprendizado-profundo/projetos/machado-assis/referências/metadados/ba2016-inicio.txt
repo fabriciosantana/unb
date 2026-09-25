@@ -1,0 +1,149 @@
+Layer Normalization
+Jimmy Lei Ba
+University of Toronto
+jimmy@psi.toronto.edu
+Jamie Ryan Kiros
+University of Toronto
+rkiros@cs.toronto.edu
+Geoffrey E. Hinton
+University of Toronto
+and Google Inc.
+hinton@cs.toronto.edu
+Abstract
+Training state-of-the-art, deep neural networks is computationally expensive. One
+way to reduce the training time is to normalize the activities of the neurons. A
+recently introduced technique called batch normalization uses the distribution of
+the summed input to a neuron over a mini-batch of training cases to compute a
+mean and variance which are then used to normalize the summed input to that
+neuron on each training case. This signiﬁcantly reduces the training time in feed-
+forward neural networks. However, the effect of batch normalization is dependent
+on the mini-batch size and it is not obvious how to apply it to recurrent neural net-
+works. In this paper, we transpose batch normalization into layer normalization by
+computing the mean and variance used for normalization from all of the summed
+inputs to the neurons in a layer on asingle training case. Like batch normalization,
+we also give each neuron its own adaptive bias and gain which are applied after
+the normalization but before the non-linearity. Unlike batch normalization, layer
+normalization performs exactly the same computation at training and test times.
+It is also straightforward to apply to recurrent neural networks by computing the
+normalization statistics separately at each time step. Layer normalization is very
+effective at stabilizing the hidden state dynamics in recurrent networks. Empiri-
+cally, we show that layer normalization can substantially reduce the training time
+compared with previously published techniques.
+1 Introduction
+Deep neural networks trained with some version of Stochastic Gradient Descent have been shown
+to substantially outperform previous approaches on various supervised learning tasks in computer
+vision [Krizhevsky et al., 2012] and speech processing [Hinton et al., 2012]. But state-of-the-art
+deep neural networks often require many days of training. It is possible to speed-up the learning
+by computing gradients for different subsets of the training cases on different machines or splitting
+the neural network itself over many machines [Dean et al., 2012], but this can require a lot of com-
+munication and complex software. It also tends to lead to rapidly diminishing returns as the degree
+of parallelization increases. An orthogonal approach is to modify the computations performed in
+the forward pass of the neural net to make learning easier. Recently, batch normalization [Ioffe and
+Szegedy, 2015] has been proposed to reduce training time by including additional normalization
+stages in deep neural networks. The normalization standardizes each summed input using its mean
+and its standard deviation across the training data. Feedforward neural networks trained using batch
+normalization converge faster even with simple SGD. In addition to training time improvement, the
+stochasticity from the batch statistics serves as a regularizer during training.
+Despite its simplicity, batch normalization requires running averages of the summed input statis-
+tics. In feed-forward networks with ﬁxed depth, it is straightforward to store the statistics separately
+for each hidden layer. However, the summed inputs to the recurrent neurons in a recurrent neu-
+ral network (RNN) often vary with the length of the sequence so applying batch normalization to
+RNNs appears to require different statistics for different time-steps. Furthermore, batch normaliza-
+arXiv:1607.06450v1  [stat.ML]  21 Jul 2016
+tion cannot be applied to online learning tasks or to extremely large distributed models where the
+minibatches have to be small.
+This paper introduces layer normalization, a simple normalization method to improve the training
+speed for various neural network models. Unlike batch normalization, the proposed method directly
+estimates the normalization statistics from the summed inputs to the neurons within a hidden layer
+so the normalization does not introduce any new dependencies between training cases. We show that
+layer normalization works well for RNNs and improves both the training time and the generalization
+performance of several existing RNN models.
+2 Background
+A feed-forward neural network is a non-linear mapping from a input pattern x to an output vector
+y. Consider the lth hidden layer in a deep feed-forward, neural network, and let al be the vector
+representation of the summed inputs to the neurons in that layer. The summed inputs are computed
+through a linear projection with the weight matrixWl and the bottom-up inputshl given as follows:
+al
+i =wl
+i
+⊤
+hl hl+1
+i =f(al
+i +bl
+i) (1)
+wheref(·) is an element-wise non-linear function andwl
+i is the incoming weights to theith hidden
+units and bl
+i is the scalar bias parameter. The parameters in the neural network are learnt using
+gradient-based optimization algorithms with the gradients being computed by back-propagation.
+One of the challenges of deep learning is that the gradients with respect to the weights in one layer
+are highly dependent on the outputs of the neurons in the previous layer especially if these outputs
+change in a highly correlated way. Batch normalization [Ioffe and Szegedy, 2015] was proposed
+to reduce such undesirable “covariate shift”. The method normalizes the summed inputs to each
+hidden unit over the training cases. Speciﬁcally, for theith summed input in thelth layer, the batch
+normalization method rescales the summed inputs according to their variances under the distribution
+of the data
+¯al
+i = gl
+i
+σl
+i
+(
+al
+i−µl
+i
+)
+µl
+i = E
+x∼P (x)
+[
+al
+i
+]
+σl
+i =
+√
+E
+x∼P (x)
+[(
+al
+i−µl
+i
+)2]
+(2)
+where ¯al
+i is normalized summed inputs to theith hidden unit in thelth layer andgi is a gain parame-
+ter scaling the normalized activation before the non-linear activation function. Note the expectation
+is under the whole training data distribution. It is typically impractical to compute the expectations
+in Eq. (2) exactly, since it would require forward passes through the whole training dataset with the
+current set of weights. Instead, µ andσ are estimated using the empirical samples from the current
+mini-batch. This puts constraints on the size of a mini-batch and it is hard to apply to recurrent
+neural networks.
+3 Layer normalization
+We now consider the layer normalization method which is designed to overcome the drawbacks of
+batch normalization.
+Notice that changes in the output of one layer will tend to cause highly correlated changes in the
+summed inputs to the next layer, especially with ReLU units whose outputs can change by a lot.
+This suggests the “covariate shift” problem can be reduced by ﬁxing the mean and the variance of
+the summed inputs within each layer. We, thus, compute the layer normalization statistics over all
+the hidden units in the same layer as follows:
+µl = 1
+H
+H∑
+i=1
+al
+i σl =
+vuu√ 1
+H
+H∑
+i=1
+(
+al
+i−µl)2
+(3)
+whereH denotes the number of hidden units in a layer. The difference between Eq. (2) and Eq. (3)
+is that under layer normalization, all the hidden units in a layer share the same normalization terms
+µ andσ, but different training cases have different normalization terms. Unlike batch normalization,
+layer normaliztion does not impose any constraint on the size of a mini-batch and it can be used in
+the pure online regime with batch size 1.
+2

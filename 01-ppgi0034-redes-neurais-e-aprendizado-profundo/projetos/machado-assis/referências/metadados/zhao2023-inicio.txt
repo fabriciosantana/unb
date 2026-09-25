@@ -1,0 +1,229 @@
+1
+A Survey of Large Language Models
+Wayne Xin Zhao, Kun Zhou*, Junyi Li*, Tianyi Tang, Xiaolei Wang, Yupeng Hou, Yingqian Min, Beichen
+Zhang, Junjie Zhang, Zican Dong, Yifan Du, Chen Y ang, Yushuo Chen, Zhipeng Chen, Jinhao Jiang,
+Ruiyang Ren, Yifan Li, Xinyu Tang, Zikang Liu, Peiyu Liu, Jian-Yun Nie and Ji-Rong Wen†
+Abstract—Ever since the Turing Test was proposed in the 1950s, humans have explored the mastering of language intelligence
+by machine. Language is essentially a complex, intricate system of human expressions governed by grammatical rules. It poses a
+significant challenge to develop capable artificial intelligence (AI) algorithms for comprehending and grasping a language. As a major
+approach,language modelinghas been widely studied for language understanding and generation in the past two decades, evolving
+from statistical language models to neural language models. Recently, pre-trained language models (PLMs) have been proposed by pre-
+training Transformer models over large-scale corpora, showing strong capabilities in solving various natural language processing (NLP)
+tasks. Since the researchers have found that model scaling can lead to an improved model capacity, they further investigate the scaling
+effect by increasing the parameter scale to an even larger size. Interestingly, when the parameter scale exceeds a certain level, these
+enlarged language models not only achieve a significant performance improvement, but also exhibit some special abilities (e.g.,in-
+context learning) that are not present in small-scale language models (e.g.,BERT). To discriminate the language models in different
+parameter scales, the research community has coined the termlarge language models (LLM)for the PLMs of significant size (e.g.,
+containing tens or hundreds of billions of parameters). Recently, the research on LLMs has been largely advanced by both academia
+and industry, and a remarkable progress is the launch of ChatGPT (a powerful AI chatbot developed based on LLMs), which has
+attracted widespread attention from society. The technical evolution of LLMs has been making an important impact on the entire AI
+community, which would revolutionize the way how we develop and use AI algorithms. Considering this rapid technical progress, in this
+survey, we review the recent advances of LLMs by introducing the background, key findings, and mainstream techniques. In particular,
+we focus on four major aspects of LLMs, namely pre-training, adaptation tuning, utilization, and capacity evaluation. Furthermore, we
+also summarize the available resources for developing LLMs and discuss the remaining issues for future directions. This survey provides
+an up-to-date review of the literature on LLMs, which can be a useful resource for both researchers and engineers.
+Index Terms—Large Language Models; Emergent Abilities; Adaptation Tuning; Utilization; Alignment; Capacity Evaluation
+✦
+1 INTRODUCTION
+“The limits of my language mean the limits of my world.”
+—Ludwig Wittgenstein
+L
+ANGUAGEis a prominent ability in human beings to
+express and communicate, which develops in early
+childhood and evolves over a lifetime [3, 4]. Machines,
+however, cannot naturally grasp the abilities of understand-
+ing and communicating in the form of human language,
+unless equipped with powerful artificial intelligence (AI)
+algorithms. It has been a longstanding research challenge
+to achieve this goal, to enable machines to read, write, and
+communicate like humans [5].
+Technically,language modeling (LM)is one of the major
+approaches to advancing language intelligence of machines.
+In general, LM aims to model the generative likelihood
+of word sequences, so as to predict the probabilities of
+future (or missing) tokens. The research of LM has received
+•Version: v18 (major update on March 7, 2026).
+•GitHub link: https://github.com/RUCAIBox/LLMSurvey
+•Chinese book link: lmbook-zh.github.io
+• †Corresponding Author.
+•* K. Zhou and J. Li contribute equally to this work.
+•The authors are mainly with Gaoling School of Artificial Intelligence and
+School of Information, Renmin University of China, Beijing, China; Jian-
+Yun Nie is with DIRO, Universit´ e de Montr´ eal, Canada.
+Contact e-mail: batmanfly@gmail.com
+•The authors of this survey paper reserve all the copyrights of the fig-
+ures/tables, and any use of these materials for publication purpose must be
+officially granted by the survey authors.
+extensive attention in the literature, which can be divided
+into four major development stages:
+•Statistical language models (SLM). SLMs [6–9] are de-
+veloped based onstatistical learningmethods that rose in
+the 1990s. The basic idea is to build the word prediction
+model based on the Markov assumption,e.g.,predicting the
+next word based on the most recent context. The SLMs with
+a fixed context lengthnare also calledn-gram language
+models,e.g.,bigram and trigram language models. SLMs
+have been widely applied to enhance task performance
+in information retrieval (IR) [10, 11] and natural language
+processing (NLP) [12–14]. However, they often suffer from
+the curse of dimensionality: it is difficult to accurately
+estimate high-order language models since an exponential
+number of transition probabilities need to be estimated.
+Thus, specially designed smoothing strategies such as back-
+off estimation [15] and Good–Turing estimation [16] have
+been introduced to alleviate the data sparsity problem.
+•Neural language models (NLM). NLMs [1, 17, 18] charac-
+terize the probability of word sequences by neural networks,
+e.g.,multi-layer perceptron (MLP) and recurrent neural net-
+works (RNNs). As a remarkable contribution, the work in
+[1] introduced the concept ofdistributed representationof
+words and built the word prediction function conditioned
+on the aggregated context features (i.e.,the distributed
+word vectors). By extending the idea of learning effective
+features for text data, a general neural network approach
+was developed to build a unified, end-to-end solution for
+arXiv:2303.18223v19  [cs.CL]  18 Mar 2026
+2
+/uni00000015/uni00000013/uni00000014/uni0000001b/uni00000015/uni00000013/uni00000014/uni0000001c/uni00000015/uni00000013/uni00000015/uni00000013/uni00000015/uni00000013/uni00000015/uni00000014/uni00000015/uni00000013/uni00000015/uni00000015/uni00000015/uni00000013/uni00000015/uni00000016
+/uni00000037/uni0000004c/uni00000050/uni00000048
+/uni00000013
+/uni00000015/uni00000013/uni00000013/uni00000013
+/uni00000017/uni00000013/uni00000013/uni00000013
+/uni00000019/uni00000013/uni00000013/uni00000013
+/uni0000001b/uni00000013/uni00000013/uni00000013
+/uni00000014/uni00000013/uni00000013/uni00000013/uni00000013
+/uni0000002a/uni00000033/uni00000037/uni00000010/uni00000014
+/uni00000025/uni00000028/uni00000035/uni00000037
+/uni0000002a/uni00000033/uni00000037/uni00000010/uni00000015
+/uni00000037/uni00000018
+/uni0000002a/uni00000033/uni00000037/uni00000010/uni00000016
+/uni00000026/uni00000052/uni00000047/uni00000048/uni0000005b
+/uni0000002c/uni00000051/uni00000056/uni00000057/uni00000055/uni00000058/uni00000046/uni00000057/uni0000002a/uni00000033/uni00000037
+/uni00000026/uni0000004b/uni00000044/uni00000057/uni0000002a/uni00000033/uni00000037
+/uni0000002f/uni0000002f/uni00000044/uni00000030/uni00000024
+/uni0000002a/uni00000033/uni00000037/uni00000010/uni00000017
+/uni00000015/uni00000013/uni00000015/uni00000013/uni00000015/uni00000013/uni00000015/uni00000014/uni00000015/uni00000013/uni00000015/uni00000015/uni00000015/uni00000013/uni00000015/uni00000016
+/uni00000037/uni0000004c/uni00000050/uni00000048
+/uni00000013
+/uni00000015/uni00000018/uni00000013
+/uni00000018/uni00000013/uni00000013
+/uni0000001a/uni00000018/uni00000013
+/uni00000014/uni00000013/uni00000013/uni00000013
+/uni00000014/uni00000015/uni00000018/uni00000013
+/uni00000014/uni00000018/uni00000013/uni00000013
+/uni00000014/uni0000001a/uni00000018/uni00000013
+/uni00000037/uni00000018/uni0000002a/uni00000033/uni00000037/uni00000010/uni00000016/uni00000026/uni00000052/uni00000047/uni00000048/uni0000005b
+/uni0000002c/uni00000051/uni00000056/uni00000057/uni00000055/uni00000058/uni00000046/uni00000057/uni0000002a/uni00000033/uni00000037
+/uni00000026/uni0000004b/uni00000044/uni00000057/uni0000002a/uni00000033/uni00000037
+/uni0000002f/uni0000002f/uni00000044/uni00000030/uni00000024
+/uni0000002a/uni00000033/uni00000037/uni00000010/uni00000017
+(a) Query=”Language Model”
+/uni00000015/uni00000013/uni00000014/uni0000001b/uni00000015/uni00000013/uni00000014/uni0000001c/uni00000015/uni00000013/uni00000015/uni00000013/uni00000015/uni00000013/uni00000015/uni00000014/uni00000015/uni00000013/uni00000015/uni00000015/uni00000015/uni00000013/uni00000015/uni00000016
+/uni00000037/uni0000004c/uni00000050/uni00000048
+/uni00000013
+/uni00000015/uni00000013/uni00000013/uni00000013
+/uni00000017/uni00000013/uni00000013/uni00000013
+/uni00000019/uni00000013/uni00000013/uni00000013
+/uni0000001b/uni00000013/uni00000013/uni00000013
+/uni00000014/uni00000013/uni00000013/uni00000013/uni00000013
+/uni0000002a/uni00000033/uni00000037/uni00000010/uni00000014
+/uni00000025/uni00000028/uni00000035/uni00000037
+/uni0000002a/uni00000033/uni00000037/uni00000010/uni00000015
+/uni00000037/uni00000018
+/uni0000002a/uni00000033/uni00000037/uni00000010/uni00000016
+/uni00000026/uni00000052/uni00000047/uni00000048/uni0000005b
+/uni0000002c/uni00000051/uni00000056/uni00000057/uni00000055/uni00000058/uni00000046/uni00000057/uni0000002a/uni00000033/uni00000037
+/uni00000026/uni0000004b/uni00000044/uni00000057/uni0000002a/uni00000033/uni00000037
+/uni0000002f/uni0000002f/uni00000044/uni00000030/uni00000024
+/uni0000002a/uni00000033/uni00000037/uni00000010/uni00000017
+/uni00000015/uni00000013/uni00000015/uni00000013/uni00000015/uni00000013/uni00000015/uni00000014/uni00000015/uni00000013/uni00000015/uni00000015/uni00000015/uni00000013/uni00000015/uni00000016
+/uni00000037/uni0000004c/uni00000050/uni00000048
+/uni00000013
+/uni00000015/uni00000018/uni00000013
+/uni00000018/uni00000013/uni00000013
+/uni0000001a/uni00000018/uni00000013
+/uni00000014/uni00000013/uni00000013/uni00000013
+/uni00000014/uni00000015/uni00000018/uni00000013
+/uni00000014/uni00000018/uni00000013/uni00000013
+/uni00000014/uni0000001a/uni00000018/uni00000013
+/uni00000037/uni00000018/uni0000002a/uni00000033/uni00000037/uni00000010/uni00000016/uni00000026/uni00000052/uni00000047/uni00000048/uni0000005b
+/uni0000002c/uni00000051/uni00000056/uni00000057/uni00000055/uni00000058/uni00000046/uni00000057/uni0000002a/uni00000033/uni00000037
+/uni00000026/uni0000004b/uni00000044/uni00000057/uni0000002a/uni00000033/uni00000037
+/uni0000002f/uni0000002f/uni00000044/uni00000030/uni00000024
+/uni0000002a/uni00000033/uni00000037/uni00000010/uni00000017 (b) Query=”Large Language Model”
+Fig. 1: The trends of the cumulative numbers of arXiv papers that contain the keyphrases “language model” (since June 2018)
+and “large language model” (since October 2019), respectively. The statistics are calculated using exact match by querying
+the keyphrases in title or abstract by months. We set different x-axis ranges for the two keyphrases, because “language
+models” have been explored at an earlier time. We label the points corresponding to important landmarks in the research
+progress of LLMs. A sharp increase occurs after the release of ChatGPT: the average number of published arXiv papers
+that contain “large language model” in title or abstract goes from 0.40 per day to 8.58 per day (Figure 1(b)).
+Statistical LM
+Neural LM
+Pre-trained LM
+LLM
+Task 
+solving
+capacity 
+1990s 2013 2018 2020
+Word2vec (NPLM)!NLPS
+Static word representations
+Neural context modeling 
+Solve typical NLP tasks
+n-gram models
+Statistical methods  
+Probability estimation 
+Assist in specific tasks
+ELMO!BERT!GPT-1/2
+Context-aware representations
+Pre-training + fine-tuning
+Solve various NLP tasks
+GPT-3/4!ChatGPT!Claude
+Scaling language models
+Prompt based completion
+Solve various real-world tasks
+General-purpose 
+task solver
+Specific task 
+helper
+Task-agnostic 
+feature learner
+Transferable 
+NLP task solver
+Fig. 2: An evolution process of the four generations of language models (LM) from the perspective of task solving capacity.
+Note that the time period for each stage may not be very accurate, and we set the time mainly according to the publish
+date of the most representative studies at each stage. For neural language models, we abbreviate the paper titles of
+two representative studies to name the two approaches: NPLM [1] (“A neural probabilistic language model”) and NLPS [2]
+(“Natural language processing (almost) from scratch”). Due to the space limitation, we don’t list all representative studies in
+this figure.
+various NLP tasks [2]. Furthermore, word2vec [19, 20] was
+proposed to build a simplified shallow neural network
+for learning distributed word representations, which were
+demonstrated to be very effective across a variety of NLP
+tasks. These studies have initiated the use of language
+models for representation learning (beyond word sequence
+modeling), having an important impact on the field of NLP .
+•Pre-trained language models (PLM). As an early at-
+tempt, ELMo [21] was proposed to capture context-aware
+word representations by first pre-training a bidirectional
+LSTM (biLSTM) network (instead of learning fixed word
+representations) and then fine-tuning the biLSTM network
+according to specific downstream tasks. Furthermore, based
+on the highly parallelizable Transformer architecture [22]
+with self-attention mechanisms, BERT [23] was proposed by
+pre-training bidirectional language models with specially
+designed pre-training tasks on large-scale unlabeled cor-
+pora. These pre-trained context-aware word representations
+are very effective as general-purpose semantic features,
+which have largely raised the performance bar of NLP
+tasks. This study has inspired a large number of follow-up
+work, which sets the “pre-trainingandfine-tuning” learning
+paradigm. Following this paradigm, a great number of stud-
+ies on PLMs have been developed, introducing either differ-
+ent architectures [24, 25] (e.g.,GPT-2 [26] and BART [24]) or
+improved pre-training strategies [27–29]. In this paradigm, it
+often requires fine-tuning the PLM for adapting to different
+downstream tasks.
+•Large language models (LLM). Researchers find that
+scaling PLM (e.g.,scaling model size or data size) often
+leads to an improved model capacity on downstream tasks
+(i.e.,following the scaling law [30]). A number of studies

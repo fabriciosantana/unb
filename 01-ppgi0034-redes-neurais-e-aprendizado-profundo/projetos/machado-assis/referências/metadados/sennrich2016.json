@@ -1,0 +1,28 @@
+{
+  "citation_title": [
+    "Neural Machine Translation of Rare Words with Subword Units"
+  ],
+  "citation_author": [
+    "Rico Sennrich",
+    "Barry Haddow",
+    "Alexandra Birch"
+  ],
+  "citation_conference_title": [
+    "Proceedings of the 54th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)"
+  ],
+  "citation_publication_date": [
+    "2016/8"
+  ],
+  "citation_pdf_url": [
+    "https://aclanthology.org/P16-1162.pdf"
+  ],
+  "citation_firstpage": [
+    "1715"
+  ],
+  "citation_lastpage": [
+    "1725"
+  ],
+  "citation_doi": [
+    "10.18653/v1/P16-1162"
+  ]
+}

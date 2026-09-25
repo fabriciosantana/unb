@@ -1,0 +1,124 @@
+GAUSSIAN ERROR LINEAR UNITS (GELU S)
+Dan Hendrycks∗
+University of California, Berkeley
+hendrycks@berkeley.edu
+Kevin Gimpel
+Toyota Technological Institute at Chicago
+kgimpel@ttic.edu
+ABSTRACT
+We propose the Gaussian Error Linear Unit (GELU), a high-performing neural
+network activation function. The GELU activation function isxΦ(x), where Φ(x)
+the standard Gaussian cumulative distribution function. The GELU nonlinearity
+weights inputs by their value, rather than gates inputs by their sign as in ReLUs
+(x1x>0). We perform an empirical evaluation of the GELU nonlinearity against
+the ReLU and ELU activations and find performance improvements across all
+considered computer vision, natural language processing, and speech tasks.
+1 I NTRODUCTION
+Early artificial neurons utilized binary threshold units (Hopfield, 1982; McCulloch & Pitts, 1943).
+These hard binary decisions are smoothed with sigmoid activations, enabling a neuron to have a “fir-
+ing rate” interpretation and to train with backpropagation. But as networks became deeper, training
+with sigmoid activations proved less effective than the non-smooth, less-probabilistic ReLU (Nair &
+Hinton, 2010) which makes hard gating decisions based upon an input’s sign. Despite having less of
+a statistical motivation, the ReLU remains a competitive engineering solution which often enables
+faster and better convergence than sigmoids. Building on the successes of ReLUs, a recent modifi-
+cation called ELUs (Clevert et al., 2016) allows a ReLU-like nonlinearity to output negative values
+which sometimes increases training speed. In all, the activation choice has remained a necessary
+architecture decision for neural networks lest the network be a deep linear classifier.
+Deep nonlinear classifiers can fit their data so well that network designers are often faced with the
+choice of including stochastic regularizer like adding noise to hidden layers or applying dropout (Sri-
+vastava et al., 2014), and this choice remains separate from the activation function. Some stochastic
+regularizers can make the network behave like an ensemble of networks, a pseudoensemble (Bach-
+man et al., 2014), and can lead to marked accuracy increases. For example, the stochastic regular-
+izer dropout creates a pseudoensemble by randomly altering some activation decisions through zero
+multiplication. Nonlinearities and dropout thus determine a neuron’s output together, yet the two
+innovations have remained distinct. More, neither subsumed the other because popular stochastic
+regularizers act irrespectively of the input and nonlinearities are aided by such regularizers.
+In this work, we introduce a new nonlinearity, the Gaussian Error Linear Unit (GELU). It relates
+to stochastic regularizers in that it is the expectation of a modification to Adaptive Dropout (Ba &
+Frey, 2013). This suggests a more probabilistic view of a neuron’s output. We find that this novel
+nonlinearity matches or exceeds models with ReLUs or ELUs across tasks from computer vision,
+natural language processing, and automatic speech recognition.
+2 GELU F ORMULATION
+We motivate our activation function by combining properties from dropout, zoneout, and ReLUs.
+First note that a ReLU and dropout both yield a neuron’s output with the ReLU deterministi-
+cally multiplying the input by zero or one and dropout stochastically multiplying by zero. Also,
+a new RNN regularizer called zoneout stochastically multiplies inputs by one (Krueger et al.,
+2016). We merge this functionality by multiplying the input by zero or one, but the values of
+this zero-one mask are stochastically determined while also dependent upon the input. Specif-
+ically, we can multiply the neuron input x by m ∼ Bernoulli(Φ(x)), where Φ(x) = P (X ≤
+∗Work done while the author was at TTIC. Code available at github.com/hendrycks/GELUs
+1
+arXiv:1606.08415v5  [cs.LG]  6 Jun 2023
+x),X ∼ N(0, 1) is the cumulative distribution function of the standard normal distribution.
+We choose this distribution since neuron inputs tend to follow a normal distribution, especially
+with Batch Normalization. In this setting, inputs have a higher probability of being “dropped”
+as x decreases, so the transformation applied to x is stochastic yet depends upon the input.
+4
+ 3
+ 2
+ 1
+ 0 1 2 3
+1
+0
+1
+2
+3 GELU
+ReLU
+ELU
+Figure 1: The GELU ( µ = 0,σ = 1 ), ReLU, and ELU
+(α = 1).
+Masking inputs in this fashion re-
+tains non-determinism but maintains
+dependency upon the input value. A
+stochastically chosen mask amounts to
+a stochastic zero or identity transforma-
+tion of the input. This is much like
+Adaptive Dropout (Ba & Frey, 2013),
+but adaptive dropout is used in tandem
+with nonlinearities and uses a logistic
+not standard normal distribution. We
+found that it is possible to train com-
+petitive MNIST and TIMIT networks
+solely with this stochastic regularizer,
+all without using any nonlinearity.
+We often want a deterministic decision
+from a neural network, and this gives
+rise to our new nonlinearity. The non-
+linearity is the expected transformation
+of the stochastic regularizer on an input x, which is Φ(x)×Ix + (1− Φ(x))× 0x = xΦ(x).
+Loosely, this expression states that we scalex by how much greater it is than other inputs. Since the
+cumulative distribution function of a Gaussian is often computed with the error function, we define
+the Gaussian Error Linear Unit (GELU) as
+GELU(x) =xP (X≤x) =xΦ(x) =x· 1
+2
+h
+1 + erf(x/
+√
+2)
+i
+.
+We can approximate the GELU with
+0.5x(1 + tanh[
+p
+2/π(x + 0.044715x3)])
+or
+xσ(1.702x),
+if greater feedforward speed is worth the cost of exactness.
+We could use different CDFs. For example we could use Logistic Distribution CDF σ(x) to get
+what we call the Sigmoid Linear Unit (SiLU) xσ(x). We could use the CDF ofN (µ,σ 2) and have
+µ andσ be learnable hyperparameters, but throughout this work we simply let µ = 0 andσ = 1.
+Consequently, we do not introduce any new hyperparameters in the following experiments. In the
+next section, we show that the GELU exceeds ReLUs and ELUs across numerous tasks.
+3 GELU E XPERIMENTS
+We evaluate the GELU, ELU, and ReLU on MNIST classification (grayscale images with 10 classes,
+60k training examples and 10k test examples), MNIST autoencoding, Tweet part-of-speech tagging
+(1000 training, 327 validation, and 500 testing tweets), TIMIT frame recognition (3696 training,
+1152 validation, and 192 test audio sentences), and CIFAR-10/100 classification (color images with
+10/100 classes, 50k training and 10k test examples). We do not evaluate nonlinearities like the
+LReLU because of its similarity to ReLUs (see Maas et al. (2013) for a description of LReLUs).
+3.1 MNIST C LASSIFICATION
+Let us verify that this nonlinearity competes with previous activation functions by replicating an
+experiment from Clevert et al. (2016). To this end, we train a fully connected neural network with
+GELUs (µ = 0,σ = 1 ), ReLUs, and ELUs ( α = 1 ). Each 8-layer, 128 neuron wide neural
+network is trained for 50 epochs with a batch size of 128. This experiment differs from those of
+2

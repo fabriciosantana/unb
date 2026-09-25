@@ -1,0 +1,12 @@
+{
+  "schema": "pdf_read_preflight/1",
+  "verdict": "PASS",
+  "file": "/workspaces/unb/01-ppgi0034-redes-neurais-e-aprendizado-profundo/projetos/machado-assis/referências/radford2019.pdf",
+  "sha256": "d9d852e2894556e73f53cb22b7c605a9643d6f0b19bf604b429ed6192fa24f4e",
+  "declared_page_count": 24,
+  "enumerated_page_count": 24,
+  "reader_page_count": 24,
+  "warnings": [],
+  "generated_at": "2026-09-25T01:28:48.152359+00:00",
+  "tool": "pdf_read_preflight/1.0.0"
+}

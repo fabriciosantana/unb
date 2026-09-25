@@ -1,0 +1,12 @@
+{
+  "schema": "pdf_read_preflight/1",
+  "verdict": "PASS",
+  "file": "/workspaces/unb/01-ppgi0034-redes-neurais-e-aprendizado-profundo/projetos/machado-assis/referências/ufu2025.pdf",
+  "sha256": "7c4bb6d2248ff0dddd1c08669d41fb10c9890543522cd8d143d89167f9a94d57",
+  "declared_page_count": 41,
+  "enumerated_page_count": 41,
+  "reader_page_count": 41,
+  "warnings": [],
+  "generated_at": "2026-09-25T01:28:56.464341+00:00",
+  "tool": "pdf_read_preflight/1.0.0"
+}

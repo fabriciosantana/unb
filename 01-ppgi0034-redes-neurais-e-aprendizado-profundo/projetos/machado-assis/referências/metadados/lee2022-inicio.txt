@@ -1,0 +1,191 @@
+Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics
+V olume 1: Long Papers, pages 8424 - 8445
+May 22-27, 2022 c©2022 Association for Computational Linguistics
+Deduplicating Training Data Makes Language Models Better
+Katherine Lee∗† Daphne Ippolito ∗†‡ Andrew Nystrom† Chiyuan Zhang†
+Douglas Eck† Chris Callison-Burch‡ Nicholas Carlini†
+Abstract
+We ﬁnd that existing language modeling
+datasets contain many near-duplicate exam-
+ples and long repetitive substrings. As
+a result, over 1% of the unprompted out-
+put of language models trained on these
+datasets is copied verbatim from the train-
+ing data. We develop two tools that allow
+us to deduplicate training datasets—for exam-
+ple removing from C4 a single 61 word En-
+glish sentence that is repeated over 60,000
+times. Deduplication allows us to train mod-
+els that emit memorized text ten times less
+frequently and require fewer training steps
+to achieve the same or better accuracy. We
+can also reduce train-test overlap, which af-
+fects over 4% of the validation set of stan-
+dard datasets, thus allowing for more accurate
+evaluation. Code for deduplication is released
+at https://github.com/goog/l.Vare-research/
+dedup/l.Varicate-text-datasets.
+1 Introduction
+A key factor behind the recent progress in natural
+language processing is the development of large-
+scale text corpora used to train increasingly large
+language models. These datasets have grown from
+single gigabytes to as much as a terabyte over the
+past few years (Chelba et al., 2013; Xue et al., 2020;
+Graff et al., 2003; Brown et al., 2020). Because
+it is so expensive to perform manual review and
+curation on massive datasets, they tend to suffer
+in quality compared to their smaller predecessors.
+This has implications far beyond metrics like per-
+plexity and validation loss, as learned models re-
+ﬂect the biases present in their training data (Ben-
+der et al., 2021; Wallace et al., 2019; Sheng et al.,
+2020). Quantitatively and qualitatively understand-
+ing these datasets is therefore a research challenge
+in its own right (Dodge et al., 2021a).
+∗ Equal contribution. † Google Research, Brain Team.
+‡ University of Pennsylvania. Correspond to kather-
+inelee@google.com and daphnei@seas.upenn.edu.
+We show that one particular source of bias, du-
+plicated training examples, is pervasive: all four
+common NLP datasets we studied contained dupli-
+cates. Additionally, all four corresponding valida-
+tion sets contained text duplicated in the training
+set. While naive deduplication is straightforward
+(and the datasets we consider already perform some
+naive form of deduplication), performing thorough
+deduplication at scale is both computationally chal-
+lenging and requires sophisticated techniques.
+We propose two scalable techniques to detect
+and remove duplicated training data. Exact sub-
+string matching identiﬁes verbatim strings that are
+repeated. This allows us to identify cases where
+only part of a training example is duplicated (§4.1).
+Approximate full document matching uses hash-
+based techniques (Broder, 1997) to identify pairs
+of documents with highn-gram overlap (§4.2).
+We identify four distinct advantages to training
+on datasets that have been thoroughly deduplicated.
+1. Over 1% of tokens emitted unprompted from
+a model trained on standard datasets (e.g., C4)
+are part of a memorized sequence (See §6.2)—
+even though the 1.5 billion parameter model
+is much smaller than the 350GB dataset it
+was trained on. By deduplicating the training
+dataset we reduce the rate of emitting memo-
+rized training data by a factor of 10×.
+2. Train-test overlap is common in non-
+deduplicated datasets. For example, we ﬁnd a
+61-word sequence1 in C4 (Raffel et al., 2020)
+that is repeated 61,036 times verbatim in the
+training dataset and 61 times in the validation
+set ( 0.02% of the samples in each dataset).
+1“by combining fantastic ideas, interesting arrangements,
+and follow the current trends in the ﬁeld of that make you
+more inspired and give artistic touches. We’d be honored if
+you can apply some or all of these design in your wedding.
+believe me, brilliant ideas would be perfect if it can be applied
+in real and make the people around you amazed!”
+1
+8424
+This train-test set overlap not only causes re-
+searchers to over-estimate model accuracy, but
+also biases model selection towards models
+and hyperparameters that intentionally overﬁt
+their training datasets.
+3. Training models on deduplicated datasets is
+more efﬁcient. Processing a dataset with our
+framework requires a CPU-only linear-time
+algorithm. And so because these datasets are
+up to 19% smaller, even including the dedu-
+plication runtime itself, training on dedupli-
+cated datasets directly reduces the training
+cost in terms of time, dollar, and the environ-
+ment (Bender et al., 2021; Strubell et al., 2019;
+Patterson et al., 2021).
+4. Deduplicating training data does not hurt
+perplexity: models trained on deduplicated
+datasets have no worse perplexity compared
+to baseline models trained on the original
+datasets. In some cases deduplication reduces
+perplexity by up to 10%. Further, because re-
+cent LMs are typically limited to training for
+just a few epochs (Radford et al., 2019; Raffel
+et al., 2020), by training on higher quality data
+the models can reach higher accuracy faster.
+To summarize, data duplication offers signiﬁcant
+advantages and no observed disadvantages. In the
+remainder of this paper we present our text dedu-
+plication framework in §4, and study the extent of
+duplicate content in common NLP datasets (e.g.,
+C4, Wiki-40B, and LM1B) in §5. We then exam-
+ine the impact of deduplication on test perplexity
+(§6.1) and on the frequency of emitting memorized
+content (§6.2). Finally, we analyze to what ex-
+tent perplexity on existing, released models are
+skewed as a result of overlap between the train and
+test/validation splits (§6.3).
+2 Related Work
+Large language model datasets. While we be-
+lieve our results are independent of model archi-
+tecture, we perform our analysis on Transformer-
+based decoder-only language models (Vaswani
+et al., 2017) trained for open-ended text generation.
+These current state-of-the-art models are trained
+on internet text. For example, the GPT-2 family
+of models Radford et al. (2019) is trained on Web-
+Text, a dataset of web documents highly ranked on
+Reddit—however this dataset was not made avail-
+able publicly. A common dataset starting point
+is CommonCrawl, an index of public webpages.
+Among the models trained on CommonCrawl in-
+clude GPT-3 (Brown et al., 2020) with the addition
+of book datasets, GROVER (Zellers et al., 2019) on
+a restricted subset ﬁltered to news domains called
+RealNews, and T5 (Raffel et al., 2020) on a cleaned
+version of common crawl called C4. Other models
+are trained on more curated Internet sources—for
+example Guo et al. (2020) used high quality pro-
+cessed Wikipedia text from 40 different languages
+to train monolingual 141.4M parameter language
+models. Non-English models necessarily use dif-
+ferent datasets; Zeng et al. (2021) for instance in-
+troduced PANGU-α, a family of models with up to
+200B parameters that were trained on a non-public
+corpus of cleaned and ﬁltered Chinese-language
+documents from CommonCrawl and other sources.
+Since many of these datasets are not public, we
+deduplicate three that are: Wiki-40B, C4, and
+RealNews–as well as the One Billion Word Lan-
+guage Model Benchmark (Chelba et al., 2013), a
+smaller dataset commonly used for evaluation.
+Contamination of downstream tasks. When
+models are trained on datasets constructed by crawl-
+ing the Internet, it is possible the model will train
+on the test set of downstream target tasks. For ex-
+ample, Radford et al. (2019, §4) performed a post-
+hoc analysis to identify 8-gram overlaps between
+GPT-2’s training set and datasets used for evalu-
+ation, and Dodge et al. (2021b) analyzed C4 and
+found that up to 14.4% of test examples for various
+standard tasks were found verbatim (normalizing
+for capitalization and punctuation) in the dataset.
+A more proactive approach removes contaminated
+data. Trinh and Le (2018, Appendix B) removed
+documents from their CommonCrawl-based train
+set that overlapped substantially with the common-
+sense reasoning used for evaluation. And GPT-3
+(Brown et al., 2020, §5) did the reverse and re-
+moved downstream evaluation examples from their
+training data by conservatively ﬁltering out any
+train set examples with a 13-gram overlap with
+any evaluation example. Up to 90% of tasks were
+ﬂagged as potentially contaminated.
+In our research, we do not focus on the impact of
+duplicate text in pretrained models on downstream
+benchmark tasks; instead we address how duplicate
+text in the LM training and validation sets impacts
+model perplexity and the extent to which generated
+text included memorized content.
+2
+8425

@@ -1,0 +1,12 @@
+{
+  "schema": "pdf_read_preflight/1",
+  "verdict": "PASS",
+  "file": "/workspaces/unb/01-ppgi0034-redes-neurais-e-aprendizado-profundo/projetos/machado-assis/referências/sennrich2016.pdf",
+  "sha256": "ebf5b38456ca47ca5e8dc194e9df50ba6dda5fa5a841c8b6de18741774ecd9ce",
+  "declared_page_count": 11,
+  "enumerated_page_count": 11,
+  "reader_page_count": 11,
+  "warnings": [],
+  "generated_at": "2026-09-25T01:28:46.931416+00:00",
+  "tool": "pdf_read_preflight/1.0.0"
+}

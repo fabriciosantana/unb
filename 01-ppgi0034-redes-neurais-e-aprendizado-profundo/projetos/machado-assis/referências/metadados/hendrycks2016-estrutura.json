@@ -1,0 +1,12 @@
+{
+  "schema": "pdf_read_preflight/1",
+  "verdict": "PASS",
+  "file": "/workspaces/unb/01-ppgi0034-redes-neurais-e-aprendizado-profundo/projetos/machado-assis/referências/hendrycks2016.pdf",
+  "sha256": "ef59863c8e36d4b64c43ced6b399a95412b4f232ff1ce83e84cf10b8a786b6a8",
+  "declared_page_count": 10,
+  "enumerated_page_count": 10,
+  "reader_page_count": 10,
+  "warnings": [],
+  "generated_at": "2026-09-25T01:28:42.042000+00:00",
+  "tool": "pdf_read_preflight/1.0.0"
+}

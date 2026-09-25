@@ -1,0 +1,12 @@
+{
+  "schema": "pdf_read_preflight/1",
+  "verdict": "PASS",
+  "file": "/workspaces/unb/01-ppgi0034-redes-neurais-e-aprendizado-profundo/projetos/machado-assis/referências/ouyang2022.pdf",
+  "sha256": "c1984bb50a5b90fddb895fdc3a0f72e5bc977148c9f63ef6040cbe7a3e1f0d98",
+  "declared_page_count": 68,
+  "enumerated_page_count": 68,
+  "reader_page_count": 68,
+  "warnings": [],
+  "generated_at": "2026-09-25T01:28:44.849776+00:00",
+  "tool": "pdf_read_preflight/1.0.0"
+}

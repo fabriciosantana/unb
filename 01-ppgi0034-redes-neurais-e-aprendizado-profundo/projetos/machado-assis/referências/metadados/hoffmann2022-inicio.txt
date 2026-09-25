@@ -1,0 +1,96 @@
+Training Compute-Optimal Large Language Models
+Jordan Hoﬀmann★, Sebastian Borgeaud★, Arthur Mensch★, Elena Buchatskaya, Trevor Cai, Eliza Rutherford,
+Diego de Las Casas, Lisa Anne Hendricks, Johannes Welbl, Aidan Clark, Tom Hennigan, Eric Noland,
+Katie Millican, George van den Driessche, Bogdan Damoc, Aurelia Guy, Simon Osindero, Karen Simonyan,
+Erich Elsen, Jack W. Rae, Oriol Vinyals and Laurent Sifre★
+★Equal contributions
+We investigate the optimal model size and number of tokens for training a transformer language model
+under a given compute budget. We ﬁnd that current large language models are signiﬁcantly under-
+trained, a consequence of the recent focus on scaling language models whilst keeping the amount of
+trainingdataconstant. Bytrainingover400languagemodelsrangingfrom70milliontoover16billion
+parameters on 5 to 500 billion tokens, we ﬁnd that for compute-optimal training, the model size and
+the number of training tokens should be scaled equally: for every doubling of model size the number
+of training tokens should also be doubled. We test this hypothesis by training a predicted compute-
+optimal model,Chinchilla, that uses the same compute budget asGopher but with 70B parameters and
+4 more more data.Chinchilla uniformly and signiﬁcantly outperformsGopher (280B), GPT-3 (175B),
+Jurassic-1 (178B), and Megatron-Turing NLG (530B) on a large range of downstream evaluation tasks.
+This also means thatChinchilla uses substantially less compute for ﬁne-tuning and inference, greatly
+facilitating downstream usage. As a highlight,Chinchilla reaches a state-of-the-art average accuracy of
+67.5% on the MMLU benchmark, greater than a 7% improvement overGopher.
+1. Introduction
+Recently a series ofLarge Language Models(LLMs) have been introduced (Brown et al., 2020; Lieber
+et al., 2021; Rae et al., 2021; Smith et al., 2022; Thoppilan et al., 2022), with the largest dense
+language models now having over 500 billion parameters. These large autoregressive transformers
+(Vaswani et al., 2017) have demonstrated impressive performance on many tasks using a variety of
+evaluation protocols such as zero-shot, few-shot, and ﬁne-tuning.
+The compute and energy cost for training large language models is substantial (Rae et al., 2021;
+Thoppilan et al., 2022) and rises with increasing model size. In practice, the allocated training
+compute budget is often known in advance: how many accelerators are available and for how long
+we want to use them. Since it is typically only feasible to train these large models once, accurately
+estimating the best model hyperparameters for a given compute budget is critical (Tay et al., 2021).
+Kaplan et al. (2020) showed that there is a power law relationship between the number of
+parameters in an autoregressive language model (LM) and its performance. As a result, the ﬁeld has
+beentraininglargerandlargermodels,expectingperformanceimprovements. Onenotableconclusion
+in Kaplan et al. (2020) is that large models should not be trained to their lowest possible loss to be
+compute optimal. Whilst we reach the same conclusion, we estimate that large models should be
+trained for many more training tokens than recommended by the authors. Speciﬁcally, given a10
+increase computational budget, they suggests that the size of the model should increase55 while
+the number of training tokens should only increase 1.8. Instead, we ﬁnd that model size and the
+number of training tokens should be scaled in equal proportions.
+Following Kaplan et al. (2020) and the training setup of GPT-3 (Brown et al., 2020), many of the
+recently trained large models have been trained for approximately 300 billion tokens (Table 1), in
+line with the approach of predominantly increasing model size when increasing compute.
+Corresponding authors: {jordanhoﬀmann|sborgeaud|amensch|sifre}@deepmind.com
+© 2023 DeepMind. All rights reserved
+arXiv:2203.15556v1  [cs.CL]  29 Mar 2022
+1017 1019 1021 1023 1025
+FLOPs
+10M
+100M
+1.0B
+10B
+100B
+1T
+Parameters
+Approach 1
+Approach 2
+Approach 3
+Kaplan et al (2020)
+ 
+Chinchilla (70B)
+Gopher (280B)
+GPT-3 (175B)
+Megatron-Turing NLG (530B)
+Figure 1j Overlaid predictions.We overlay the predictions from our three diﬀerent approaches,
+along with projections from Kaplan et al. (2020). We ﬁnd that all three methods predict that current
+large models should be substantially smaller and therefore trained much longer than is currently
+done. In Figure A3, we show the results with the predicted optimal tokens plotted against the optimal
+number of parameters for ﬁxed FLOP budgets.Chinchillaoutperforms Gopherand the other large
+models (see Section 4.2).
+In this work, we revisit the question:Given a ﬁxed FLOPs budget,1 how should one trade-oﬀ model
+size and the number of training tokens?To answer this question, we model the ﬁnal pre-training loss2
+𝐿„𝑁𝐷”as a function of the number of model parameters𝑁, and the number of training tokens,𝐷.
+Since the computational budget𝐶 is a deterministic functionFLOPs„𝑁𝐷”of the number of seen
+training tokens and model parameters, we are interested in minimizing𝐿 under the constraint
+FLOPs„𝑁𝐷”=𝐶:
+𝑁𝑜𝑝𝑡„𝐶”𝐷 𝑜𝑝𝑡„𝐶”= argmin
+𝑁𝐷 s.t. FLOPs„𝑁𝐷”=𝐶
+𝐿„𝑁𝐷” (1)
+The functions𝑁𝑜𝑝𝑡„𝐶”, and𝐷𝑜𝑝𝑡„𝐶”describe the optimal allocation of a computational budget𝐶. We
+empirically estimate these functions based on the losses of over 400 models, ranging from under70M
+to over16B parameters, and trained on5B to over400B tokens – with each model conﬁguration
+trained for several diﬀerent training horizons. Our approach leads to considerably diﬀerent results
+than that of Kaplan et al. (2020). We highlight our results in Figure 1 and how our approaches diﬀer
+in Section 2.
+Based on our estimated compute-optimal frontier, we predict that for the compute budget used
+to trainGopher, an optimal model should be 4 times smaller, while being training on 4 times more
+tokens. We verify this by training a morecompute-optimal70B model, calledChinchilla, on 1.4 trillion
+tokens. Not only doesChinchilla outperform its much larger counterpart,Gopher, but its reduced
+model size reduces inference cost considerably and greatly facilitates downstream uses on smaller
+hardware. The energy cost of a large language model is amortized through its usage for inference an
+ﬁne-tuning. The beneﬁts of a more optimally trained smaller model, therefore, extend beyond the
+immediate beneﬁts of its improved performance.
+1For example, knowing the number of accelerators and a target training duration.
+2For simplicity, we perform our analysis on the smoothed training loss which is an unbiased estimate of the test loss, as
+we are in the inﬁnite data regime (the number of training tokens is less than the number of tokens in the entire corpus).
+2

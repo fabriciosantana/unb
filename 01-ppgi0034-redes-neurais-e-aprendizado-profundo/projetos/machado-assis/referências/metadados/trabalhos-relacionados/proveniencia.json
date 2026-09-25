@@ -1,0 +1,34 @@
+[
+  {
+    "chave": "jpvercosa2023",
+    "commit": "a7a5c4ff40ee68d1eb04a7c4a48de2a3dc8baa07",
+    "url": "https://raw.githubusercontent.com/JPVercosa/machado-transformer/a7a5c4ff40ee68d1eb04a7c4a48de2a3dc8baa07/notebooks/nanoGPT.ipynb",
+    "arquivo": "jpvercosa2023-nanoGPT.ipynb",
+    "sha256": "897586f6c2c445df0bd95961a8e522b9c74bce77650e898d3e4e3b19e51cf7d7",
+    "acesso": "2026-09-25"
+  },
+  {
+    "chave": "westphal2026",
+    "commit": "ea6f8f67f74c4ee9b26db051ff533a5a64a059e9",
+    "url": "https://raw.githubusercontent.com/HeitorWestphal/machado-lm/ea6f8f67f74c4ee9b26db051ff533a5a64a059e9/out/historico.json",
+    "arquivo": "westphal2026-historico.json",
+    "sha256": "a0c6dcc8b9c8e2035edaea91848d8eb00a5e2590098f00e779e42b5594577e36",
+    "acesso": "2026-09-25"
+  },
+  {
+    "chave": "losouto2025",
+    "commit": "36d81df0bddf45bac39b03e5ff191e2fa1e37107",
+    "url": "https://raw.githubusercontent.com/losout0/deeplearning-final/36d81df0bddf45bac39b03e5ff191e2fa1e37107/README.md",
+    "arquivo": "losouto2025-README.md",
+    "sha256": "0433daecf5b82fed5a87432830769f534171f12eb7771c3e88a0ce293066b206",
+    "acesso": "2026-09-25"
+  },
+  {
+    "chave": "santos2026pipeline",
+    "commit": "b60e196194291aed5988a5db9e06aba2e46442dd",
+    "url": "https://raw.githubusercontent.com/Joao-pedrosantos/NaturalLanguageProcessing/b60e196194291aed5988a5db9e06aba2e46442dd/main.tex",
+    "arquivo": "santos2026pipeline-main.tex",
+    "sha256": "8e8352e8d59640bca4326409651dd6a814e5db56e9ca983cfb36969cd432c60b",
+    "acesso": "2026-09-25"
+  }
+]

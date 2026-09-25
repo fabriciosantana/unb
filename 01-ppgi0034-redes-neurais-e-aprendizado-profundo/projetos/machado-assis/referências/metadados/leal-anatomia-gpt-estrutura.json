@@ -1,0 +1,12 @@
+{
+  "schema": "pdf_read_preflight/1",
+  "verdict": "PASS",
+  "file": "projetos/machado-assis/referências/leal-anatomia-gpt.pdf",
+  "sha256": "2d39a6ca8181cbf0a39500b5ace96d28fac720789fc83f4c81d2af43b4e74f45",
+  "declared_page_count": 84,
+  "enumerated_page_count": 84,
+  "reader_page_count": 84,
+  "warnings": [],
+  "generated_at": "2026-09-25T01:32:55.706209+00:00",
+  "tool": "pdf_read_preflight/1.0.0"
+}

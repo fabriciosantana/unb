@@ -1,0 +1,12 @@
+{
+  "schema": "pdf_read_preflight/1",
+  "verdict": "PASS",
+  "file": "/workspaces/unb/01-ppgi0034-redes-neurais-e-aprendizado-profundo/projetos/machado-assis/referências/lee2022.pdf",
+  "sha256": "f282bf06ab3564b363a4df5ab184cebb729c23a3be3ecb9aa7c5edc0a9f5e045",
+  "declared_page_count": 22,
+  "enumerated_page_count": 22,
+  "reader_page_count": 22,
+  "warnings": [],
+  "generated_at": "2026-09-25T01:28:47.360956+00:00",
+  "tool": "pdf_read_preflight/1.0.0"
+}

@@ -1,0 +1,187 @@
+Proceedings of the 54th Annual Meeting of the Association for Computational Linguistics , pages 1715–1725,
+Berlin, Germany, August 7-12, 2016. c©2016 Association for Computational Linguistics
+Neural Machine Translation of Rare Words with Subword Units
+Rico Sennrich and Barry Haddow and Alexandra Birch
+School of Informatics, University of Edinburgh
+{rico.sennrich,a.birch}@ed.ac.uk,bhaddow@inf.ed.ac.uk
+Abstract
+Neural machine translation (NMT) mod-
+els typically operate with a ﬁxed vocabu-
+lary, but translation is an open-vocabulary
+problem. Previous work addresses the
+translation of out-of-vocabulary words by
+backing off to a dictionary. In this pa-
+per, we introduce a simpler and more ef-
+fective approach, making the NMT model
+capable of open-vocabulary translation by
+encoding rare and unknown words as se-
+quences of subword units. This is based on
+the intuition that various word classes are
+translatable via smaller units than words,
+for instance names (via character copying
+or transliteration), compounds (via com-
+positional translation), and cognates and
+loanwords (via phonological and morpho-
+logical transformations). We discuss the
+suitability of different word segmentation
+techniques, including simple character n-
+gram models and a segmentation based on
+the byte pair encoding compression algo-
+rithm, and empirically show that subword
+models improve over a back-off dictionary
+baseline for the WMT 15 translation tasks
+English→German and English→Russian
+by up to 1.1 and 1.3 BLEU, respectively.
+1 Introduction
+Neural machine translation has recently shown
+impressive results (Kalchbrenner and Blunsom,
+2013; Sutskever et al., 2014; Bahdanau et al.,
+2015). However, the translation of rare words
+is an open problem. The vocabulary of neu-
+ral models is typically limited to 30 000–50 000
+words, but translation is an open-vocabulary prob-
+The research presented in this publication was conducted
+in cooperation with Samsung Electronics Polska sp. z o.o. -
+Samsung R&D Institute Poland.
+lem, and especially for languages with produc-
+tive word formation processes such as aggluti-
+nation and compounding, translation models re-
+quire mechanisms that go below the word level.
+As an example, consider compounds such as the
+German Abwasser|behandlungs|anlange ‘sewage
+water treatment plant’, for which a segmented,
+variable-length representation is intuitively more
+appealing than encoding the word as a ﬁxed-length
+vector.
+For word-level NMT models, the translation
+of out-of-vocabulary words has been addressed
+through a back-off to a dictionary look-up (Jean et
+al., 2015; Luong et al., 2015b). We note that such
+techniques make assumptions that often do not
+hold true in practice. For instance, there is not al-
+ways a 1-to-1 correspondence between source and
+target words because of variance in the degree of
+morphological synthesis between languages, like
+in our introductory compounding example. Also,
+word-level models are unable to translate or gen-
+erate unseen words. Copying unknown words into
+the target text, as done by (Jean et al., 2015; Luong
+et al., 2015b), is a reasonable strategy for names,
+but morphological changes and transliteration is
+often required, especially if alphabets differ.
+We investigate NMT models that operate on the
+level of subword units. Our main goal is to model
+open-vocabulary translation in the NMT network
+itself, without requiring a back-off model for rare
+words. In addition to making the translation pro-
+cess simpler, we also ﬁnd that the subword models
+achieve better accuracy for the translation of rare
+words than large-vocabulary models and back-off
+dictionaries, and are able to productively generate
+new words that were not seen at training time. Our
+analysis shows that the neural networks are able to
+learn compounding and transliteration from sub-
+word representations.
+This paper has two main contributions:
+• We show that open-vocabulary neural ma-
+1715
+chine translation is possible by encoding
+(rare) words via subword units. We ﬁnd our
+architecture simpler and more effective than
+using large vocabularies and back-off dictio-
+naries (Jean et al., 2015; Luong et al., 2015b).
+• We adapt byte pair encoding (BPE) (Gage,
+1994), a compression algorithm, to the task
+of word segmentation. BPE allows for the
+representation of an open vocabulary through
+a ﬁxed-size vocabulary of variable-length
+character sequences, making it a very suit-
+able word segmentation strategy for neural
+network models.
+2 Neural Machine Translation
+We follow the neural machine translation archi-
+tecture by Bahdanau et al. (2015), which we will
+brieﬂy summarize here. However, we note that our
+approach is not speciﬁc to this architecture.
+The neural machine translation system is imple-
+mented as an encoder-decoder network with recur-
+rent neural networks.
+The encoder is a bidirectional neural network
+with gated recurrent units (Cho et al., 2014)
+that reads an input sequence x = ( x1,...,x m)
+and calculates a forward sequence of hidden
+states (− →h 1,...,− →h m), and a backward sequence
+(← −h 1,...,← −h m). The hidden states − →h j and← −h j are
+concatenated to obtain the annotation vectorhj.
+The decoder is a recurrent neural network that
+predicts a target sequence y = (y1,...,y n). Each
+word yi is predicted based on a recurrent hidden
+state si, the previously predicted word yi−1, and
+a context vector ci. ci is computed as a weighted
+sum of the annotations hj. The weight of each
+annotation hj is computed through an alignment
+modelαij, which models the probability thatyi is
+aligned to xj. The alignment model is a single-
+layer feedforward neural network that is learned
+jointly with the rest of the network through back-
+propagation.
+A detailed description can be found in (Bah-
+danau et al., 2015). Training is performed on a
+parallel corpus with stochastic gradient descent.
+For translation, a beam search with small beam
+size is employed.
+3 Subword Translation
+The main motivation behind this paper is that
+the translation of some words is transparent in
+that they are translatable by a competent transla-
+tor even if they are novel to him or her, based
+on a translation of known subword units such as
+morphemes or phonemes. Word categories whose
+translation is potentially transparent include:
+• named entities. Between languages that share
+an alphabet, names can often be copied from
+source to target text. Transcription or translit-
+eration may be required, especially if the al-
+phabets or syllabaries differ. Example:
+Barack Obama (English; German)
+Áàðàê Îáàìà (Russian)
+バラク・オバマ (ba-ra-ku o-ba-ma) (Japanese)
+• cognates and loanwords. Cognates and loan-
+words with a common origin can differ in
+regular ways between languages, so that
+character-level translation rules are sufﬁcient
+(Tiedemann, 2012). Example:
+claustrophobia (English)
+Klaustrophobie (German)
+Êëàóñòðîôîáèÿ (Klaustrofobiâ) (Russian)
+• morphologically complex words. Words con-
+taining multiple morphemes, for instance
+formed via compounding, afﬁxation, or in-
+ﬂection, may be translatable by translating
+the morphemes separately. Example:
+solar system (English)
+Sonnensystem (Sonne + System) (German)
+Naprendszer (Nap + Rendszer) (Hungarian)
+In an analysis of 100 rare tokens (not among
+the 50 000 most frequent types) in our German
+training data 1, the majority of tokens are poten-
+tially translatable from English through smaller
+units. We ﬁnd 56 compounds, 21 names,
+6 loanwords with a common origin ( emanci-
+pate→emanzipieren), 5 cases of transparent afﬁx-
+ation (sweetish ‘sweet’ + ‘-ish’→ süßlich ‘süß’ +
+‘-lich’), 1 number and 1 computer language iden-
+tiﬁer.
+Our hypothesis is that a segmentation of rare
+words into appropriate subword units is sufﬁ-
+cient to allow for the neural translation network
+to learn transparent translations, and to general-
+ize this knowledge to translate and produce unseen
+words.2 We provide empirical support for this hy-
+1Primarily parliamentary proceedings and web crawl data.
+2Not every segmentation we produce is transparent.
+While we expect no performance beneﬁt from opaque seg-
+mentations, i.e. segmentations where the units cannot be
+translated independently, our NMT models show robustness
+towards oversplitting.
+1716

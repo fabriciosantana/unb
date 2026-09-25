@@ -1,0 +1,12 @@
+{
+  "schema": "pdf_read_preflight/1",
+  "verdict": "PASS",
+  "file": "/workspaces/unb/01-ppgi0034-redes-neurais-e-aprendizado-profundo/projetos/machado-assis/referências/zhao2023.pdf",
+  "sha256": "585551fe1a17793d141f6bff3e595e63151e867a53353991c3c9891facc72377",
+  "declared_page_count": 144,
+  "enumerated_page_count": 144,
+  "reader_page_count": 144,
+  "warnings": [],
+  "generated_at": "2026-09-25T01:28:46.158473+00:00",
+  "tool": "pdf_read_preflight/1.0.0"
+}

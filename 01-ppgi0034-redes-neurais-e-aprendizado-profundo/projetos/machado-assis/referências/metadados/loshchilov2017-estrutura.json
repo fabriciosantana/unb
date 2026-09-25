@@ -1,0 +1,12 @@
+{
+  "schema": "pdf_read_preflight/1",
+  "verdict": "PASS",
+  "file": "/workspaces/unb/01-ppgi0034-redes-neurais-e-aprendizado-profundo/projetos/machado-assis/referências/loshchilov2017.pdf",
+  "sha256": "9d5af48931e773d6983d167e15c06ef594475b751c1f263827f5ed3c7a00d0d8",
+  "declared_page_count": 19,
+  "enumerated_page_count": 19,
+  "reader_page_count": 19,
+  "warnings": [],
+  "generated_at": "2026-09-25T01:28:41.441484+00:00",
+  "tool": "pdf_read_preflight/1.0.0"
+}

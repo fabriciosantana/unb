@@ -1,0 +1,12 @@
+{
+  "schema": "pdf_read_preflight/1",
+  "verdict": "PASS",
+  "file": "/workspaces/unb/01-ppgi0034-redes-neurais-e-aprendizado-profundo/projetos/machado-assis/referências/gururangan2020.pdf",
+  "sha256": "0b6eefb84456ba7ee0b5280ca8bf11be431dd6dc40329bb95fb419a153da214d",
+  "declared_page_count": 19,
+  "enumerated_page_count": 19,
+  "reader_page_count": 19,
+  "warnings": [],
+  "generated_at": "2026-09-25T01:28:47.689367+00:00",
+  "tool": "pdf_read_preflight/1.0.0"
+}
