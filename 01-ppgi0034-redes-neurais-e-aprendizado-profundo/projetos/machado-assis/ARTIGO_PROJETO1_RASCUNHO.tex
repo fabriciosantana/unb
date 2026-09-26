@@ -1,0 +1,122 @@
+\documentclass[conference]{IEEEtran}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage{microtype}
+
+\title{Treinamento de um Modelo de Linguagem Autoregressivo em Nível de Caractere com Textos de Machado de Assis}
+
+\author{%
+  \IEEEauthorblockN{Nome do estudante}
+  \IEEEauthorblockA{Departamento de Ciência da Computação\\
+  Universidade de Brasília\\
+  Matrícula: preencher}
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Este trabalho implementa, treina e avalia uma linha de base de modelo de linguagem autoregressivo em nível de caractere com textos de Machado de Assis. A implementação utiliza o nanoGPT em commit fixado e uma arquitetura Transformer decoder-only pequena, treinada do zero em uma GPU Tesla T4 no Google Colab. O corpus foi separado por documentos em conjuntos de treino, validação e teste, e o tokenizador foi ajustado somente com o conjunto de treino. O modelo possui aproximadamente 10,68 milhões de parâmetros e alcançou perda de teste igual a 1,2399 nats por caractere, com perplexidade por caractere de 3,455 em 31 documentos de teste. A geração qualitativa reproduziu padrões ortográficos e estilísticos do corpus, mas apresentou incoerências semânticas. O artigo delimita as capacidades do modelo, discute a comparação experimental exigida pela especificação do projeto e propõe uma extensão baseada em recuperação de trechos para responder perguntas sobre o universo de Machado de Assis.
+\end{abstract}
+
+\begin{IEEEkeywords}
+modelos de linguagem, Transformer, nanoGPT, Machado de Assis, geração de texto, aprendizado profundo.
+\end{IEEEkeywords}
+
+\section{Introdução}
+
+Modelos de linguagem autoregressivos aprendem a estimar a probabilidade do próximo símbolo a partir de um prefixo textual. A arquitetura Transformer tornou esse tipo de modelagem escalável ao substituir recorrência por mecanismos de atenção, permitindo relacionar posições distintas da sequência \cite{vaswani2017}. Modelos da família GPT utilizam uma organização decoder-only com máscara causal: cada posição pode consultar apenas o contexto anterior \cite{radford2019}. Modelos posteriores demonstraram que aumento de escala pode produzir capacidades de modelagem e aprendizagem em contexto, mas esses resultados dependem de grandes corpora, orçamento computacional e configurações muito diferentes das disponíveis neste projeto \cite{brown2020}.
+
+O objetivo deste Projeto 1 é construir um modelo de linguagem semelhante ao GPT-2 com conteúdo de Machado de Assis, utilizando o nanoGPT como código-base. O trabalho focaliza a implementação reprodutível de uma linha de base pequena, a avaliação quantitativa e qualitativa de sua geração e a discussão de uma possível extensão para perguntas sobre o autor. A contribuição não é reproduzir o GPT-2 original nem produzir um sistema conversacional; é estabelecer um experimento didático, documentado e auditável em um corpus literário em português.
+
+As principais contribuições são: (i) preparação de partições por documento e tokenização em nível de caractere; (ii) treinamento de um Transformer decoder-only de aproximadamente 10,68 milhões de parâmetros; (iii) avaliação por perda e perplexidade por caractere; e (iv) análise das limitações e de uma arquitetura futura de recuperação e geração.
+
+\section{Fundamentação}
+
+No Transformer, a atenção escalada por produto escalar combina consultas, chaves e valores, enquanto múltiplas cabeças permitem aprender diferentes relações entre posições. Conexões residuais, normalização e redes feed-forward são aplicadas em blocos empilhados \cite{vaswani2017}. O modelo deste trabalho mantém a ideia central do Transformer decoder-only, com atenção causal e embeddings de token e posição, mas opera em escala muito menor que os modelos apresentados na literatura de GPT.
+
+O objetivo de treinamento é minimizar a entropia cruzada da distribuição do próximo caractere. Usando logaritmo natural, a perplexidade é a exponencial da perda média. Como a unidade é o caractere, a métrica deve ser interpretada como incerteza por caractere e não comparada diretamente com valores obtidos por tokenizadores BPE. A escolha por caracteres segue o exemplo de Shakespeare do nanoGPT e evita introduzir, nesta primeira linha de base, um tokenizador subword adicional \cite{karpathyNanoGPT,karpathyTutorial}.
+
+O GPT-3 é citado como referência de escala e aprendizagem em contexto, não como comparação direta. O modelo deste projeto é treinado do zero com corpus e orçamento muito menores; portanto, não se deve atribuir a ele as capacidades ou a escala experimental de GPT-3 \cite{brown2020}.
+
+\section{Dados e metodologia}
+
+\subsection{Corpus e partições}
+
+Os textos foram organizados em um arquivo mestre e em partições derivadas para modelagem. Os arquivos utilizados foram `train.jsonl`, `validation.jsonl` e `test.jsonl`, com 11.821.395, 1.427.693 e 1.325.011 bytes, respectivamente. A divisão foi realizada por documento/obra, reduzindo o risco de que janelas do mesmo texto apareçam em conjuntos diferentes. O conjunto de teste contém 31 documentos.
+
+O vocabulário foi ajustado somente no treino e possui 147 símbolos, incluindo tokens reservados de fim de documento e desconhecido. Não houve caracteres desconhecidos no treino e foram observados dois casos na validação. Essa decisão preserva uma separação entre o ajuste do vocabulário e a avaliação.
+
+\subsection{Modelo e treinamento}
+
+Foi utilizado o nanoGPT no commit `3adf61e154c3fe3fca428ad6bc3818b27a3b8291`, cuja licença MIT foi preservada no ambiente de execução. A configuração possui seis camadas, seis cabeças de atenção, dimensão de embedding 384, contexto de 256 caracteres, lote de 64 exemplos, dropout 0,1 e aproximadamente 10,68 milhões de parâmetros. O treinamento foi executado por 5.000 iterações, com taxa de aprendizado inicial $3\times10^{-4}$, aquecimento de 100 iterações, weight decay 0,1, clipping de gradiente 1,0 e precisão `float16`.
+
+O experimento foi executado no Google Colab com PyTorch 2.11.0+cu128 e GPU NVIDIA Tesla T4. A semente registrada no notebook foi 20260925. O checkpoint final foi salvo em `out/ckpt.pt` e os artefatos foram exportados para preservação.
+
+\subsection{Avaliação}
+
+A perda e a perplexidade foram calculadas no conjunto de teste após o treinamento. A amostra gerada foi usada apenas como inspeção qualitativa. Não se afirma que a amostra constitui avaliação humana de qualidade literária, autoria ou factualidade.
+
+\section{Resultados}
+
+\begin{table}[t]
+\caption{Configuração e resultado do baseline.}
+\label{tab:baseline}
+\centering
+\begin{tabular}{ll}
+\toprule
+Item & Resultado \\
+\midrule
+Parâmetros & 10,68 milhões \\
+Iterações & 5.000 \\
+Contexto & 256 caracteres \\
+GPU & Tesla T4 \\
+Documentos de teste & 31 \\
+Perda de teste & 1,2399 nats/caractere \\
+Perplexidade & 3,455/caractere \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+O modelo concluiu o treinamento e produziu um checkpoint válido. A perda de teste foi 1,2399 nats por caractere e a perplexidade correspondente foi 3,455. Esses números indicam que o modelo aprendeu regularidades estatísticas do corpus, mas não permitem concluir que ele compreenda as obras ou mantenha coerência narrativa longa.
+
+Na inspeção qualitativa, as amostras apresentaram ortografia, pontuação, nomes próprios e estruturas sintáticas compatíveis com literatura em português. Também foram observadas transições semânticas improváveis, personagens combinados de maneira incoerente e continuidade narrativa instável. O comportamento é compatível com a capacidade limitada de um modelo pequeno treinado do zero em nível de caractere.
+
+\subsection{Comparação exigida pela especificação}
+
+A especificação do Projeto 1 solicita avaliações e comparações dos resultados obtidos. A execução documentada neste rascunho contém uma única configuração experimental; portanto, a Tabela~\ref{tab:baseline} é um baseline, não uma comparação entre modelos. Antes da submissão final, esta seção deve ser completada com uma segunda condição experimental ou com a forma de comparação explicitamente aceita pelo professor. A comparação deve manter as mesmas partições, protocolo de teste e unidade de perplexidade, alterando uma única dimensão por vez e registrando tempo, memória, seed e perdas.
+
+Não são apresentados números inventados para preencher essa lacuna. Comparar a perplexidade deste modelo diretamente com GPT-2 ou GPT-3 seria metodologicamente inadequado, pois esses modelos usam escalas, corpora e tokenizações diferentes.
+
+\section{Discussão}
+
+O resultado confirma a viabilidade do pipeline: os dados foram lidos, o vocabulário foi construído, o modelo foi treinado em CUDA e o checkpoint foi avaliado. A opção por caracteres simplifica a implementação e torna explícita a previsão do próximo símbolo, mas aumenta o número de passos necessários para representar palavras e sequências semânticas. Uma futura comparação com subpalavras deverá usar um vocabulário ajustado somente no treino e relatar a unidade da métrica separadamente.
+
+O corpus e a divisão são tão importantes quanto a arquitetura. Duplicatas ou sobreposição entre documentos podem reduzir artificialmente a dificuldade do teste; por isso, a auditoria de proveniência e a divisão por obra devem permanecer parte do protocolo. Estudos sobre deduplicação mostram que sobreposição de dados pode afetar tanto a avaliação quanto a memorização de modelos de linguagem \cite{lee2022}.
+
+As perdas de treino e validação intermediárias não foram preservadas na saída final do Colab, porque o subprocesso de treinamento não exibiu seus logs continuamente. A perda de teste foi registrada após a conclusão e deve ser mantida, mas a ausência das curvas limita a análise de sobreajuste. Em uma execução de controle, os logs devem ser gravados em arquivo ou emitidos com saída não bufferizada.
+
+\section{Extensão para perguntas sobre Machado de Assis}
+
+O modelo autoregressivo treinado apenas para continuação de texto não deve ser apresentado como sistema de perguntas e respostas. Para responder perguntas sobre o universo de Machado de Assis, uma extensão adequada seria um pipeline de recuperação e geração. As obras seriam segmentadas e indexadas com título, obra, capítulo e posição; diante de uma pergunta, o sistema recuperaria trechos relevantes e os forneceria ao gerador junto com instruções para responder somente com base nas evidências. A resposta deveria citar os trechos recuperados ou declarar insuficiência de evidência.
+
+Essa proposta é relacionada à geração aumentada por recuperação, mas uma implementação simples de recuperação mais prompt não reproduziria integralmente o treinamento conjunto do RAG original \cite{lewis2020rag}. A avaliação deveria separar recuperação e geração: precisão dos trechos recuperados, apoio textual da resposta, taxa de respostas sem evidência e, idealmente, avaliação humana com perguntas preparadas antes do teste.
+
+\section{Conclusão}
+
+Foi implementada e avaliada uma linha de base de modelo de linguagem autoregressivo em nível de caractere com textos de Machado de Assis. O modelo possui 10,68 milhões de parâmetros, foi treinado por 5.000 iterações em uma Tesla T4 e obteve perda de teste 1,2399 nats por caractere e perplexidade 3,455. As amostras confirmam a aprendizagem de padrões locais de linguagem, mas também mostram limitações de coerência e não sustentam alegações de compreensão ou capacidade conversacional.
+
+O resultado é suficiente como baseline técnico documentado. Contudo, a seção comparativa ainda precisa de uma segunda condição experimental para cumprir integralmente a especificação do Projeto 1. A extensão mais promissora é um sistema de perguntas e respostas fundamentado em recuperação de trechos, com evidências explícitas e avaliação separada da recuperação e da geração.
+
+\section*{Reprodutibilidade e atribuição}
+
+O código do projeto e o notebook identificam o nanoGPT como código-base externo e registram o commit utilizado. As adaptações próprias incluem a preparação do corpus, o tokenizador de caracteres, as partições, a configuração do experimento, a avaliação e a exportação dos artefatos. O checkpoint, a configuração e os resultados foram preservados no arquivo `machado_gpt_caractere_baseline.zip`.
+
+\bibliographystyle{IEEEtran}
+\bibliography{referências/bibliografia}
+
+\end{document}

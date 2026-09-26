@@ -31,3 +31,11 @@
 3. Executar novos experimentos mantendo as mesmas partições de treino, validação e teste.
 4. Comparar loss, perplexidade, tempo, configuração, seed, dispositivo e amostras geradas.
 5. Atualizar o relatório ou artigo com os resultados e as limitações do modelo.
+
+## Avaliação de escopo
+
+- O baseline já cobre o núcleo do trabalho: preparação dos dados, treinamento de um modelo autorregressivo nanoGPT em nível de caractere, avaliação no conjunto de teste e preservação do checkpoint.
+- O notebook caracteriza o modelo como uma linha de base educacional, não como reprodução do GPT-2 original nem como modelo conversacional.
+- A especificação formal exige um artigo IEEE de seis páginas com avaliações e comparações dos resultados obtidos.
+- Portanto, o baseline está concluído, mas a entrega final ainda precisa de uma comparação experimental ou de uma forma de comparação explicitamente aceita pelo professor.
+- Não comparar diretamente a perplexidade deste modelo com GPT-2/GPT-3, pois as escalas, corpora e tokenizações são diferentes.
