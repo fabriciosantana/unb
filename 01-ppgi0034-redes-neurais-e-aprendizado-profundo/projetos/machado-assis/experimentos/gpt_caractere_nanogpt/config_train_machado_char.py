@@ -1,11 +1,31 @@
-Era uma coisa de Flávio. Nem da parte de Virgília seja encontrada. Vai
-ler à porta do Castelo, quando as da carta casa percebi que lhe deixa apenas a
-prazer soltar por dia. Juro-lhe que esta irritação para a Prata, e a baronesa e
-modéstia. O senhor se não faz nada, por terra como se a viagem antiga do amor.
-
-“Eu estando os dois conselhos no sonho de Santos,
-eu presente antes, e falo voltar para a casa da missa, e tornando a sua filha
-do casamento. -- Pai vê que eu não pôde vir a minha casa? Muito isto, se não foi
-para sair dela, não se acharia tão bonito em alguma coisa que fosse um pouco mais.
-Não podia fazer uma linha de interesse, — que por que D. Quincas Borba ou
-Jesus Baratina, musa de pé e
+# Configuração do projeto RNAP — derivada do padrão train_shakespeare_char do nanoGPT.
+out_dir = r"/content/projetos/machado-assis/experimentos/gpt_caractere_nanogpt/out"
+eval_interval = 500
+log_interval = 50
+eval_iters = 100
+eval_only = False
+always_save_checkpoint = True
+init_from = "scratch"
+dataset = "machado_assis_char"
+gradient_accumulation_steps = 1
+batch_size = 64
+block_size = 256
+n_layer = 6
+n_head = 6
+n_embd = 384
+dropout = 0.1
+bias = False
+learning_rate = 3e-4
+max_iters = 5000
+weight_decay = 0.1
+beta1 = 0.9
+beta2 = 0.95
+grad_clip = 1.0
+decay_lr = True
+warmup_iters = 100
+lr_decay_iters = 5000
+min_lr = 3e-5
+backend = "nccl"
+device = "cuda"
+dtype = "float16"
+compile = False

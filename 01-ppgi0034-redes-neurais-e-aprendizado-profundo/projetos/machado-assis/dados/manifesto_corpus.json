@@ -42,7 +42,8 @@
     "counts": {
       "sem sobreposição alta": 130
     },
-    "automatic_addition_to_master": false
+    "automatic_addition_to_master": true,
+    "selection_policy": "inclusão programática dos textos cuja sobreposição de n-gramas com sete coletâneas ficou abaixo do limiar; isso não prova ineditismo, completude bibliográfica ou ausência em outras edições"
   },
   "abl_bibliography_crosswalk": {
     "reference": "https://www.academia.org.br/academicos/machado-de-assis/bibliografia",
@@ -52,7 +53,7 @@
       "tradução identificada e excluída do corpus autoral": 1,
       "correspondência direta no pacote": 24,
       "material relacionado localizado; equivalência integral não verificada": 6,
-      "não localizado no índice-fonte": 1
+      "obra listada pela ABL; conteúdo não localizado no pacote NLTK": 1
     },
     "direct_match_means": "mapped source path exists; does not establish edition equivalence or exhaustive coverage"
   },

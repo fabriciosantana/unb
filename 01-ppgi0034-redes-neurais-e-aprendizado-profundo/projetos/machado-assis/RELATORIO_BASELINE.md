@@ -8,9 +8,8 @@ caractere usando o nanoGPT como código-base. O resultado serve como referência
 para o trabalho e não como reprodução do GPT-2 original nem como modelo
 conversacional.
 
-Não foi realizado um segundo treinamento para comparação entre arquiteturas ou
-configurações, pois essa comparação não foi estabelecida como requisito do
-escopo atual do trabalho.
+Foi realizado um segundo treinamento comparativo de capacidade reduzida,
+necessário para descrever e comparar os resultados solicitados no enunciado.
 
 ## 2. Dados
 
@@ -56,10 +55,14 @@ caracteres mapeados para `UNK` no treino e 2 na validação.
 | Aquecimento (`warmup_iters`) | 100 iterações |
 | Iterações máximas | 5.000 |
 | Gradiente máximo (`grad_clip`) | 1,0 |
-| Semente | 20260925 |
+| Seed efetiva de treino (nanoGPT, uma GPU) | 1337 |
+| Seed da preparação/avaliação/geração | 20260925 (janelas: `SEED+1`) |
 | Compilação PyTorch | desativada |
 
-O modelo possui aproximadamente 10,68 milhões de parâmetros.
+O log do nanoGPT conta 10.678.272 parâmetros treináveis sem incluir embeddings
+posicionais. Incluindo os 98.304 parâmetros posicionais únicos, são 10.776.576.
+A cabeça de saída compartilha pesos com o embedding de tokens e não é contada
+duas vezes.
 
 ## 5. Execução
 
@@ -86,11 +89,15 @@ A perplexidade foi calculada em nível de caractere e, portanto, não deve ser
 comparada diretamente com perplexidades de modelos que utilizam tokenização BPE
 ou outra unidade lexical.
 
-As perdas intermediárias de treino e validação não foram registradas no
-relatório final da execução, porque a saída do subprocesso de treinamento não
-foi exibida de forma contínua no Colab. A métrica de teste acima foi calculada
-após a seleção do checkpoint final. Essa ausência deve ser apresentada como uma
-limitação de registro, e não como uma estimativa inventada.
+As perdas intermediárias de treino e validação não foram preservadas. Não é
+possível afirmar que o checkpoint final seja o de menor perda de validação:
+`always_save_checkpoint=True` sobrescreve `ckpt.pt` nos intervalos, e o arquivo
+disponível corresponde à iteração 5.000. A métrica foi informada pelo autor na
+saída Colab e reproduzida pela reavaliação independente em CPU, registrada em
+`experimentos/gpt_caractere_nanogpt/reevaluacao_baseline_cpu.json`. A estimativa
+usa 200 lotes amostrados (batch 32,
+contexto 256), sorteados do fluxo concatenado que inclui EOS entre documentos;
+não é uma varredura exaustiva de todos os caracteres.
 
 ## 7. Avaliação qualitativa
 
@@ -133,17 +140,22 @@ conversacional ou de reprodução do GPT-2.
 
 ## 11. Experimento comparativo de capacidade reduzida
 
-Foi executado um segundo notebook com a mesma seed, corpus, partições,
-tokenização, contexto, orçamento de 5.000 iterações, hiperparâmetros de
-otimização, GPU e protocolo de avaliação. A única alteração foi a capacidade
-arquitetural: 4 camadas, 4 cabeças e embedding 256.
+Foi executado um segundo notebook com o mesmo corpus, partições, tokenização,
+contexto, orçamento de 5.000 iterações, hiperparâmetros de otimização, GPU e
+protocolo. No código de treino fixado, ambos usam seed 1337; a seed 20260925 dos
+notebooks controla preparação/tokenizador/geração, e `SEED+1` as janelas de
+teste. A condição comparativa altera conjuntamente camadas, cabeças e dimensão
+do embedding, não permitindo atribuir causalmente o efeito a um fator isolado.
+O orçamento iguala atualizações, não FLOPs nem tempo.
 
 | Modelo | Parâmetros | Test loss | Perplexidade por caractere |
 |---|---:|---:|---:|
 | Baseline (6/6/384) | 10,68 M | 1,2399 | 3,455 |
 | Comparativo reduzido (4/4/256) | 3,19 M | 1,3862 | 4,000 |
 
-O modelo reduzido possui aproximadamente 70,1% menos parâmetros. Em relação
+Contando parâmetros únicos incluindo posições, são 3.251.200 no modelo reduzido
+contra 10.776.576 no baseline, redução de 69,8%. Sem posições, conforme o log do
+nanoGPT, são 3.185.664 contra 10.678.272. Em relação
 ao baseline, sua perda de teste aumentou 0,1463 nats por caractere, ou cerca de
 11,8%, enquanto sua perplexidade aumentou 0,545, ou cerca de 15,8%. Portanto,
 neste protocolo, a redução de capacidade diminuiu o custo paramétrico, mas

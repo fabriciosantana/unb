@@ -10,17 +10,17 @@
 \title{Treinamento de um Modelo de Linguagem Autoregressivo em Nível de Caractere com Textos de Machado de Assis}
 
 \author{%
-  \IEEEauthorblockN{Nome do estudante}
+  \IEEEauthorblockN{FABRICIO FERNANDES SANTANA}
   \IEEEauthorblockA{Departamento de Ciência da Computação\\
   Universidade de Brasília\\
-  Matrícula: preencher}
+  Matrícula: preencher antes da entrega}
 }
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Este trabalho implementa, treina e avalia dois modelos de linguagem autoregressivos em nível de caractere com textos de Machado de Assis. A implementação utiliza o nanoGPT em commit fixado e arquiteturas Transformer decoder-only pequenas, treinadas do zero em uma GPU Tesla T4 no Google Colab. O corpus foi separado por documentos em conjuntos de treino, validação e teste, e o tokenizador foi ajustado somente com o conjunto de treino. O baseline possui 10,68 milhões de parâmetros e alcançou perda de teste igual a 1,2399 nats por caractere, com perplexidade de 3,455; a variante reduzida possui 3,19 milhões de parâmetros, perda 1,3862 e perplexidade 4,000, em 31 documentos de teste. A redução de capacidade diminuiu o custo paramétrico, mas piorou o desempenho preditivo. O artigo delimita as capacidades dos modelos e propõe uma extensão baseada em recuperação de trechos para responder perguntas sobre o universo de Machado de Assis.
+Este trabalho implementa, treina e avalia dois modelos autoregressivos em nível de caractere com uma versão de trabalho de textos de Machado de Assis. Utiliza-se o nanoGPT em commit fixado e dois Transformers decoder-only treinados do zero em Tesla T4 no Google Colab. As partições são separadas por documento e o vocabulário é derivado apenas do treino. Sob uma avaliação amostrada em 31 documentos de teste, o baseline registrou 1,2399 nats/caractere e perplexidade 3,455; a condição reduzida registrou 1,3862 e 4,000. Incluindo embeddings posicionais, os totais são 10,78 e 3,25 milhões de parâmetros únicos. A configuração reduzida tem aproximadamente 69,8\% menos parâmetros e pior previsão neste protocolo. A cobertura bibliográfica do corpus não está comprovada; portanto, os resultados não são atribuídos à obra completa. Discute-se uma extensão futura por recuperação de evidências, sem alegar capacidade conversacional dos modelos atuais.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -33,33 +33,83 @@ Modelos de linguagem autoregressivos aprendem a estimar a probabilidade do próx
 
 O objetivo deste Projeto 1 é construir um modelo de linguagem semelhante ao GPT-2 com conteúdo de Machado de Assis, utilizando o nanoGPT como código-base. O trabalho focaliza a implementação reprodutível de uma linha de base pequena, a avaliação quantitativa e qualitativa de sua geração e a discussão de uma possível extensão para perguntas sobre o autor. A contribuição não é reproduzir o GPT-2 original nem produzir um sistema conversacional; é estabelecer um experimento didático, documentado e auditável em um corpus literário em português.
 
-As principais contribuições são: (i) preparação de partições por documento e tokenização em nível de caractere; (ii) treinamento controlado de duas arquiteturas Transformer decoder-only; (iii) avaliação por perda e perplexidade por caractere; e (iv) análise das limitações e de uma arquitetura futura de recuperação e geração.
+As contribuições são: (i) um pipeline de auditoria e preparação com rastros de origem; (ii) duas execuções de configurações decoder-only sob partições e orçamento de atualizações comuns; (iii) comparação quantitativa e inspeção de geração; e (iv) delimitação explícita da cobertura do corpus e de uma extensão futura de recuperação e geração. O estudo é exploratório: não estima efeito causal de cada dimensão arquitetural e não comprova cobertura exaustiva.
 
 \section{Fundamentação}
 
 No Transformer, a atenção escalada por produto escalar combina consultas, chaves e valores, enquanto múltiplas cabeças permitem aprender diferentes relações entre posições. Conexões residuais, normalização e redes feed-forward são aplicadas em blocos empilhados \cite{vaswani2017}. O modelo deste trabalho mantém a ideia central do Transformer decoder-only, com atenção causal e embeddings de token e posição, mas opera em escala muito menor que os modelos apresentados na literatura de GPT.
 
-O objetivo de treinamento é minimizar a entropia cruzada da distribuição do próximo caractere. Usando logaritmo natural, a perplexidade é a exponencial da perda média. Como a unidade é o caractere, a métrica deve ser interpretada como incerteza por caractere e não comparada diretamente com valores obtidos por tokenizadores BPE. A escolha por caracteres segue o exemplo de Shakespeare do nanoGPT e evita introduzir, nesta primeira linha de base, um tokenizador subword adicional \cite{karpathyNanoGPT,karpathyTutorial}.
+Em cada posição $t$, o objetivo é minimizar a entropia cruzada do próximo token dado o prefixo. Para caracteres $x_1,\ldots,x_T$, a perda média é $L=-T^{-1}\sum_{t=1}^{T}\log p_\theta(x_t\mid x_{<t})$ e a perplexidade é $\mathrm{PPL}=\exp(L)$. O logaritmo natural produz nats por caractere. Não se deve comparar esse valor diretamente com perplexidades BPE, pois a unidade de predição difere. A escolha por caracteres segue o exemplo \texttt{shakespeare\_char} do nanoGPT e evita adicionar um tokenizador subword nesta experiência \cite{karpathyNanoGPT,karpathyTutorial}.
+
+Em uma cabeça de atenção, as projeções de consulta, chave e valor são combinadas por $\mathrm{Attention}(Q,K,V)=\mathrm{softmax}(QK^\top/\sqrt{d_k}+M)V$, em que a máscara causal $M$ impede acesso às posições futuras. Cabeças paralelas permitem subespaços de relações; o bloco também inclui projeções, rede feed-forward, conexões residuais e normalização. O código usado segue a variante decoder-only do nanoGPT, não o Transformer encoder--decoder completo descrito originalmente por Vaswani et al. A contextualização de GPT-3 em Brown et al. diz respeito a aprendizagem em contexto em escala muito maior e não implica que os modelos presentes adquiram essa capacidade.
 
 O GPT-3 é citado como referência de escala e aprendizagem em contexto, não como comparação direta. O modelo deste projeto é treinado do zero com corpus e orçamento muito menores; portanto, não se deve atribuir a ele as capacidades ou a escala experimental de GPT-3 \cite{brown2020}.
+
+Essa distinção também importa ao interpretar o tutorial de Karpathy. O material didático implementa os componentes passo a passo, enquanto o experimento usa o código-base nanoGPT para treinamento e adapta os caminhos de dados e o vocabulário; o notebook não é uma transcrição integral do tutorial. A máscara causal impede que a posição atual consulte símbolos futuros durante o treino. A posição absoluta fornece informação de ordem, e a perda associa as distribuições previstas aos alvos deslocados em um caractere. No vocabulário char-level, cada token geralmente representa um caractere do treino, enquanto EOS e UNK são classes reservadas.
+
+Esse desenho mantém um vocabulário compacto, mas limita o alcance semântico de uma janela de 256 tokens a aproximadamente 256 caracteres. Uma codificação subword representaria unidades maiores no mesmo comprimento de contexto. A comparação de perplexidade entre tais regimes requer cautela porque a unidade e a quantidade de eventos previstos variam conforme a segmentação. Por isso, a métrica aqui permanece explicitamente definida por caractere.
 
 \section{Dados e metodologia}
 
 \subsection{Corpus e partições}
 
-Os textos foram organizados em um arquivo mestre e em partições derivadas para modelagem. Os arquivos utilizados foram `train.jsonl`, `validation.jsonl` e `test.jsonl`, com 11.821.395, 1.427.693 e 1.325.011 bytes, respectivamente. A divisão foi realizada por documento/obra, reduzindo o risco de que janelas do mesmo texto apareçam em conjuntos diferentes. O conjunto de teste contém 31 documentos.
+Os textos foram organizados em um arquivo mestre e partições derivadas. Os JSONL de treino, validação e teste têm 11.821.395, 1.427.693 e 1.325.011 bytes. A divisão determinística, com seed 20260925, aloca documentos e grupos de duplicação integral para uma única partição; resultaram 181, 30 e 31 documentos. Essa estratégia reduz vazamento literal entre partições, embora não elimine sobreposição de trechos entre obras relacionadas ou edições.
 
-O vocabulário foi ajustado somente no treino e possui 147 símbolos, incluindo tokens reservados de fim de documento e desconhecido. Não houve caracteres desconhecidos no treino e foram observados dois casos na validação. Essa decisão preserva uma separação entre o ajuste do vocabulário e a avaliação.
+A fonte baixada é o pacote Machado do NLTK, cuja proveniência declarada aponta à coleção digital MEC/NUPILL \cite{mecMachado,abl2020}. O manifesto conta 246 arquivos TXT no arquivo-fonte, 112 itens indexados tratados como autorais e 130 contos avulsos adicionais selecionados por baixa sobreposição de n-gramas contra sete coletâneas. O critério não prova ineditismo. O cruzamento com 32 títulos da bibliografia da ABL identificou 24 caminhos diretamente correspondentes, seis casos sem equivalência integral verificada, uma tradução excluída e a lacuna da coletânea \textit{Correspondência} (1932), listada pela ABL, mas não encontrada no pacote. Logo, o corpus não pode ser chamado de obra completa; a ausência de correspondência editorial constitui limitação central perante o requisito do projeto. Os resultados referem-se ao mestre versionado por SHA-256, não a todos os livros publicados.
+
+Essas contagens representam unidades de inventário, não uma correspondência um-para-um entre arquivos e livros. Uma coletânea do século XIX pode corresponder a um arquivo, enquanto séries póstumas podem estar distribuídas por dezenas de crônicas ou textos críticos. Algumas entradas da bibliografia são traduções, volumes de reunião ou edições organizadas após a morte do autor; é necessário distinguir autoria de Machado, organização editorial e conteúdo traduzido. Por isso, “24 correspondências diretas” significa que o caminho candidato existe no pacote, e não que todos os textos e a edição estejam completos. Os seis casos de material relacionado incluem títulos agregadores cujos componentes não foram confrontados integralmente com sumários de edições de referência.
+
+Para contos não indexados individualmente, o procedimento compara n-gramas de 32 caracteres após normalização com sete coletâneas. Abaixo do limiar de cobertura alta, o texto é classificado como avulso e incluído; isso pode selecionar tanto texto genuinamente ausente quanto variante editorial, transcrição diferente ou material com normalização insuficiente. O limiar é uma ferramenta de triagem para reduzir duplicação, não um teste bibliográfico de originalidade. A análise de arquivos de entrada e hashes do corpus permite refazer a decisão, mas a confirmação requer inspeção de edições e sumários bibliográficos.
+
+A lacuna de \textit{Correspondência} ilustra um limite específico: a bibliografia da ABL lista o volume de 1932, mas o pacote usado não contém arquivo candidato. Não se incorporou uma edição diferente sem rastrear a fonte e validar que o conteúdo é de autoria de Machado e compatível com o escopo de textos originais. A edição digital de correspondência exige também tratar interlocutores e textos de terceiros com cuidado. Essa decisão evita afirmar completude com evidência insuficiente, mas significa que o corpus atual ainda não satisfaz documentalmente a cobertura integral pedida no enunciado. O caminho correto é localizar fonte verificável, registrar edição e componentes e, se a inclusão ampliar o mestre, gerar novas partições e refazer ambos os experimentos.
+
+O vocabulário foi ajustado somente no treino e possui 147 símbolos, incluindo fim de documento (EOS) e desconhecido (UNK). Não houve UNK no treino e ocorreram dois no conjunto de validação; na reavaliação da baseline e na execução reduzida foi observado um UNK no teste. O tokenizador da baseline foi recuperado do artefato local e validado como pickle. Uma avaliação independente do checkpoint baseline em CPU reproduziu, ao arredondamento reportado, a saída do Colab; o ZIP original e os logs históricos ainda não foram recuperados.
+
+Cada documento é codificado caractere a caractere e terminado por EOS. Documentos da mesma partição são concatenados em um fluxo; EOS marca a fronteira, mas uma janela de contexto pode conter o final de um texto e o início de outro. Cabeçalhos e notas editoriais foram mantidos conforme a decisão conservadora de preparação. Assim, o modelo aprende também elementos editoriais presentes na fonte. A comparação permanece internamente consistente, pois ambas as condições usam os mesmos dados e tokenizador, embora essas escolhas influenciem a distribuição aprendida.
+
+As proporções-alvo das partições foram 80\%/10\%/10\% por caracteres. A alocação real obedeceu a unidades documentais, categorias e grupos de duplicação integral; o balanço efetivo é aproximado, pois os textos têm comprimentos diferentes. A avaliação não computa uma pontuação por documento: amostra posições do fluxo concatenado, de modo que obras maiores oferecem mais posições possíveis de sorteio.
+
+Cada documento é codificado caractere a caractere e terminado por EOS. Os documentos de uma partição são concatenados em um fluxo para a entrada do nanoGPT; EOS marca a fronteira, mas uma janela pode conter o fim de um texto e o início do próximo. Cabeçalhos e notas da transcrição foram mantidos conforme a decisão conservadora de preparação. Assim, o modelo aprende também elementos editoriais presentes na fonte. Ambas as condições usam os mesmos arquivos e tokenizador, embora essas escolhas influenciem a distribuição aprendida.
+
+As proporções-alvo foram 80\%/10\%/10\% por caracteres. A alocação real obedeceu a unidades documentais, duplicatas integrais agrupadas e categorias, portanto o balanço é aproximado: obras têm comprimentos muito diferentes. A métrica de teste amostra posições do fluxo tokenizado, sem pontuação individual por documento; textos mais longos oferecem mais posições possíveis de amostragem.
 
 \subsection{Modelo e treinamento}
 
-Foi utilizado o nanoGPT no commit `3adf61e154c3fe3fca428ad6bc3818b27a3b8291`, cuja licença MIT foi preservada no ambiente de execução. A configuração possui seis camadas, seis cabeças de atenção, dimensão de embedding 384, contexto de 256 caracteres, lote de 64 exemplos, dropout 0,1 e aproximadamente 10,68 milhões de parâmetros. O treinamento foi executado por 5.000 iterações, com taxa de aprendizado inicial $3\times10^{-4}$, aquecimento de 100 iterações, weight decay 0,1, clipping de gradiente 1,0 e precisão `float16`.
+Foi utilizado o nanoGPT no commit \url{https://github.com/karpathy/nanoGPT/tree/3adf61e154c3fe3fca428ad6bc3818b27a3b8291}, licença MIT. O baseline tem seis camadas, seis cabeças, dimensão 384, contexto de 256, lote 64 e dropout 0,1. A condição reduzida tem quatro camadas, quatro cabeças e dimensão 256; os demais hiperparâmetros são compartilhados. Ambas treinaram 5.000 iterações com taxa inicial $3\times10^{-4}$, aquecimento 100, weight decay 0,1, clipping 1,0 e \texttt{float16}.
 
-Os dois experimentos foram executados no Google Colab com PyTorch 2.11.0+cu128 e GPU NVIDIA Tesla T4. A semente registrada nos notebooks foi 20260925. O baseline possui 6 camadas, 6 cabeças e embedding 384; a variante comparativa possui 4 camadas, 4 cabeças e embedding 256. Ambas usam contexto de 256 caracteres, lote de 64, dropout 0,1 e 5.000 iterações. Os checkpoints finais foram salvos separadamente e os artefatos foram exportados para preservação.
+As execuções foram no Colab, PyTorch 2.11.0+cu128 e Tesla T4. Importa distinguir seeds: a variável 20260925 controla preparação/tokenizador e geração; \texttt{train.py} neste commit inicializa o treino com 1337 para uma GPU. A amostragem do teste usa gerador NumPy com 20260926. \texttt{always\_save\_checkpoint=True} grava checkpoint em cada avaliação; o \texttt{ckpt.pt} disponível é o estado da iteração 5000, não há série de losses que prove ser o melhor estado por validação. A diferença de arquitetura altera três dimensões simultaneamente. O orçamento iguala número de atualizações e hiperparâmetros, mas não FLOPs ou tempo.
+
+A Tabela~\ref{tab:config} resume os parâmetros compartilhados e os que definem cada condição. O objetivo não foi ajustar cada arquitetura pelo teste, mas contrastar configurações sob orçamento comum de atualizações. Reduzir camadas, cabeças e dimensão simultaneamente constitui uma intervenção composta. Os resultados não informam qual mudança responde pela diferença de perda; isolar esses efeitos exigiria outras condições experimentais.
+
+\begin{table}[t]
+\caption{Hiperparâmetros do treinamento.}
+\label{tab:config}
+\centering
+\begin{tabular}{ll}
+\toprule
+Item & Configuração \\
+\midrule
+Inicialização & do zero (scratch) \\
+Camadas/cabeças/dimensão & 6/6/384; reduzido 4/4/256 \\
+Contexto / lote & 256 caracteres / 64 \\
+Dropout / bias & 0,1 / desativado \\
+Otimizador & AdamW; $\beta_1=0{,}9$, $\beta_2=0{,}95$ \\
+Taxa inicial / mínima & $3\cdot10^{-4}$ / $3\cdot10^{-5}$ \\
+Aquecimento / decaimento & 100 / 5.000 iterações \\
+Weight decay / clipping & 0,1 / 1,0 \\
+Precisão / compilação & float16 / desativada \\
+Iterações / GPU & 5.000 / Tesla T4 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Avaliação}
 
-A perda e a perplexidade foram calculadas no conjunto de teste após o treinamento. A amostra gerada foi usada apenas como inspeção qualitativa. Não se afirma que a amostra constitui avaliação humana de qualidade literária, autoria ou factualidade.
+A avaliação estima a perda em 200 lotes de 32 janelas de contexto 256 sorteadas do fluxo tokenizado concatenado de teste, com seed NumPy 20260926. Assim, trata-se de estimativa amostral, não avaliação exaustiva por caractere ou média por obra. Janelas podem incluir o EOS que separa dois documentos. O baseline foi reavaliado em CPU e reproduziu a saída Colab a quatro casas; essa reavaliação está separada em JSON e não altera o registro original informado. A variante reduzida possui JSON exportado do Colab. A amostra foi gerada a partir do prompt \texttt{Era}, temperatura 0,8 e top-k 40, com seed 20260925; serve à inspeção qualitativa, não é uma avaliação humana de qualidade, autoria ou factualidade.
+
+Cada lote contém sequências de entrada e alvos deslocados um caractere; a perda interna é média por token-alvo. A avaliação calcula a média das 200 perdas de lote e aplica a exponencial. Os inícios são aleatórios, podem se repetir ou gerar janelas sobrepostas; portanto, as 6.400 sequências não são necessariamente independentes. A seed fixa o sorteio para os mesmos dados e implementação, mas não remove a incerteza amostral.
+
+A geração é condicionada pelo prefixo “Era ”, temperatura 0,8 e top-k 40. O prefixo é um início narrativo, não uma pergunta, e EOS encerra a amostra quando emitido. A temperatura reescala logits antes da amostragem e top-k restringe a distribuição aos candidatos de maior pontuação. A inspeção não cobre outros prompts, temperaturas ou decodificadores; exemplos são ilustrativos e não substituem protocolo humano formal.
 
 \section{Resultados}
 
@@ -69,45 +119,61 @@ A perda e a perplexidade foram calculadas no conjunto de teste após o treinamen
 \centering
 \begin{tabular}{lrrr}
 \toprule
-Modelo & Parâmetros & Loss & PPL \\
+Modelo & Parâmetros totais & Loss & PPL \\
 \midrule
-Baseline (6/6/384) & 10,68 M & 1,2399 & 3,455 \\
-Reduzido (4/4/256) & 3,19 M & 1,3862 & 4,000 \\
+Baseline (6/6/384) & 10,78 M & 1,2399 & 3,455 \\
+Reduzido (4/4/256) & 3,25 M & 1,3862 & 4,000 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Os dois modelos concluíram o treinamento e produziram checkpoints válidos. O baseline obteve perda de teste 1,2399 e perplexidade 3,455; o modelo reduzido obteve perda 1,3862 e perplexidade 4,000. A variante reduzida tem aproximadamente 70,1\% menos parâmetros, mas sua perda aumentou 0,1463 nats por caractere, ou 11,8\%, e sua perplexidade aumentou 0,545, ou 15,8\%. Os resultados indicam que a redução de capacidade diminuiu o custo paramétrico, mas prejudicou a previsão do próximo caractere neste protocolo.
+Os dois checkpoints carregaram e registraram 5.000 iterações. A contagem total inclui a tabela de posição, contando uma vez embeddings de token compartilhados com a cabeça de saída: 10.776.576 no baseline e 3.251.200 na variante, redução de 69,8\%. A contagem exibida pelo nanoGPT sem posições é 10.678.272 e 3.185.664. A perda reportada aumentou 0,1463 nats/caractere (11,8\%) na configuração menor, e a perplexidade aumentou 0,545 (15,8\%). Logo, a redução paramétrica veio acompanhada de pior previsão neste par de configurações; os dados não permitem atribuir esse efeito isoladamente a profundidade, cabeças ou dimensão.
 
-Na inspeção qualitativa, as amostras apresentaram ortografia, pontuação, nomes próprios e estruturas sintáticas compatíveis com literatura em português. Também foram observadas transições semânticas improváveis, personagens combinados de maneira incoerente e continuidade narrativa instável. O comportamento é compatível com a capacidade limitada de um modelo pequeno treinado do zero em nível de caractere.
+Na amostra baseline, a sequência “Juro-lhe que esta irritação para a Prata” combina palavras e pontuação plausíveis, mas apresenta relação sintática/semântica anômala. O trecho “D. Quincas Borba ou Jesus Baratina” justapõe nomes e expressão não coerentes com o contexto; já a amostra reduzida contém “as duas amizas” e “a idéia de Estela Reveirou”, com grafia inventada e concordância/continuidade instáveis. Em ambas há pontuação e moldes de diálogo reconhecíveis, sem consistência narrativa. São exemplos escolhidos para ilustrar fenômenos, não uma amostra aleatória avaliada por anotadores; por isso não autorizam inferência global de qualidade literária.
+
+Esses exemplos ilustram a diferença entre plausibilidade local e coerência discursiva. “Juro-lhe que esta irritação” começa com sintaxe possível, mas “para a Prata” não estabelece relação semântica clara. A menção a Quincas Borba pode ser formalmente aprendida sem inserção apropriada no enunciado. “Amizas” preserva uma forma ortográfica semelhante à língua, mas não a palavra esperada “amigas”; “Reveirou” combina fragmentos plausíveis e gera nome ou flexão inexistente. Tais observações são uma leitura demonstrativa, não anotação linguística. Uma avaliação futura poderia categorizar ortografia, sintaxe, repetição, coerência local e global com avaliadores independentes e rubrica comum.
 
 \subsection{Comparação experimental}
 
-A especificação do Projeto 1 solicita avaliações e comparações dos resultados obtidos. Para atender a esse requisito, a segunda condição alterou somente a capacidade arquitetural, mantendo dados, partições, tokenização, seed, contexto, orçamento, otimização, GPU e protocolo de teste. A comparação favorece o baseline em perda e perplexidade, enquanto a variante reduzida apresenta menor custo paramétrico. Comparar a perplexidade destes modelos diretamente com GPT-2 ou GPT-3 seria metodologicamente inadequado, pois esses modelos usam escalas, corpora e tokenizações diferentes.
+A especificação do Projeto 1 solicita avaliações e comparações. A segunda condição manteve dados, partições, tokenização, contexto, hiperparâmetros, hardware e atualizações, mas alterou conjuntamente três dimensões da arquitetura. O baseline tem menor perda e perplexidade reportadas; a condição reduzida tem menor número de parâmetros. A comparação é descritiva e limitada a uma execução por condição. Além da diferença de capacidades, o resultado do baseline já havia sido observado antes da execução comparativa; portanto, não houve seleção totalmente cega às métricas de teste. Comparar estas perplexidades com GPT-2/GPT-3 é inadequado devido a escala, corpora e tokenização diferentes.
+
+Em termos absolutos, a diferença de perda é 0,1463 nats por caractere. A perplexidade é uma transformação exponencial da perda, de modo que a diferença entre perplexidades não é aditiva. O quociente observado, aproximadamente $4{,}000/3{,}455=1{,}158$, corresponde a perplexidade amostral 15,8\% maior para a variante reduzida. Como os lotes são sorteados e não há erro-padrão nem repetição com seeds independentes, a incerteza não está quantificada. Os valores são úteis como comparação didática sob protocolo comum, mas não estimam com precisão o desempenho esperado em novas execuções.
+
+O modelo reduzido tem menos pesos, o que sugere menor estado de parâmetros e menor espaço de armazenamento. Não se mediram latência, energia, throughput ou pico de memória em protocolo controlado. Portanto, não se conclui que o tempo ou custo de inferência caiu em determinada proporção. A redução de parâmetros não se converte necessariamente de modo linear em velocidade: tamanho de lote, kernels e transferências também afetam o tempo. Esta distinção impede transformar a contagem paramétrica em uma alegação de desempenho computacional não medida.
 
 \section{Discussão}
 
-Os resultados confirmam a viabilidade do pipeline e mostram um trade-off entre capacidade e desempenho: reduzir o modelo de 10,68 M para 3,19 M parâmetros economizou aproximadamente 70,1\% dos parâmetros, mas elevou a perplexidade de 3,455 para 4,000. A opção por caracteres simplifica a implementação e torna explícita a previsão do próximo símbolo, mas aumenta o número de passos necessários para representar palavras e sequências semânticas. Uma futura comparação com subpalavras deverá usar um vocabulário ajustado somente no treino e relatar a unidade da métrica separadamente.
+Os resultados mostram um trade-off entre capacidade e previsão: reduzir o total único de 10,78 M para 3,25 M parâmetros economizou 69,8\%, mas elevou a perplexidade de 3,455 para 4,000. A opção por caracteres simplifica a implementação e torna explícita a previsão do próximo símbolo, mas aumenta o número de passos necessários para representar palavras e sequências semânticas. Uma futura comparação com subpalavras deverá usar vocabulário ajustado somente no treino e relatar a unidade da métrica separadamente.
 
 O corpus e a divisão são tão importantes quanto a arquitetura. Duplicatas ou sobreposição entre documentos podem reduzir artificialmente a dificuldade do teste; por isso, a auditoria de proveniência e a divisão por obra devem permanecer parte do protocolo. Estudos sobre deduplicação mostram que sobreposição de dados pode afetar tanto a avaliação quanto a memorização de modelos de linguagem \cite{lee2022}.
 
-As perdas de treino e validação intermediárias não foram preservadas na saída final do Colab, porque o subprocesso de treinamento não exibiu seus logs continuamente. A perda de teste foi registrada após a conclusão e deve ser mantida, mas a ausência das curvas limita a análise de sobreajuste. Em uma execução de controle, os logs devem ser gravados em arquivo ou emitidos com saída não bufferizada.
+As perdas intermediárias de treino e validação não foram preservadas, o que impede analisar convergência, sobreajuste e escolher retrospectivamente o melhor checkpoint. O campo \texttt{best\_val\_loss} nos checkpoints não deve ser interpretado como evidência de mínimo histórico, pois a configuração sempre salva o estado em avaliação. Em futuras execuções, registrar stdout em arquivo, curva de validação e número da iteração selecionada, sem consultar o teste durante a seleção. Esta é uma limitação de rastreabilidade; não se fabricam curvas nem uma seleção retrospectiva.
+
+Há quatro ameaças à validade. (1) Cobertura: a fonte NLTK e a heurística para contos avulsos não garantem todos os livros originais, reduzindo a validade externa em relação à obra completa. (2) Estimativa: as 6.400 janelas podem se sobrepor ou repetir; sem intervalo de confiança, a incerteza não é quantificada. (3) Comparação arquitetural: três dimensões mudam juntas e cada condição foi executada uma vez, confundindo efeitos de capacidade e aleatoriedade. (4) Rastreabilidade: o resultado baseline é transcrito da saída Colab fornecida pelo autor; checkpoint e tokenizer locais existem, mas não houve reprodução independente da métrica neste ambiente. Essas limitações restringem a força das conclusões, sem invalidar a comparação descritiva.
+
+Há também uma limitação temporal: o resultado baseline já era conhecido quando se decidiu executar a variante. Isso não significa que os exemplos de teste tenham sido usados em gradientes, mas torna inadequado descrever a comparação como completamente pré-registrada ou independente de resultados prévios. Em novos estudos, hipóteses e configurações podem ser congeladas antes de consultar o teste, com decisões de arquitetura baseadas em validação e um conjunto externo reservado.
+
+A disponibilidade de checkpoint também não basta para reconstituir toda a execução. Uma reprodução de ponta a ponta requer versões exatas dos dados, tokenizer, hiperparâmetros, seed real, logs e ambiente, além de acesso ao notebook executado. O commit, checkpoints, configurações e JSONs preservam parte da trilha. Os nomes locais dos artefatos baseline estavam trocados e foram corrigidos; a reavaliação independente concordou com os valores reportados, embora o ZIP original e logs de treino não estejam disponíveis. Os links aos Colabs e a matrícula permanecem pendentes de inserção manual.
 
 \section{Extensão para perguntas sobre Machado de Assis}
 
 Os modelos autoregressivos treinados apenas para continuação de texto não devem ser apresentados como sistemas de perguntas e respostas. Para responder perguntas sobre o universo de Machado de Assis, uma extensão adequada seria um pipeline de recuperação e geração. As obras seriam segmentadas e indexadas com título, obra, capítulo e posição; diante de uma pergunta, o sistema recuperaria trechos relevantes e os forneceria ao gerador junto com instruções para responder somente com base nas evidências. A resposta deveria citar os trechos recuperados ou declarar insuficiência de evidência.
 
-Essa proposta é relacionada à geração aumentada por recuperação, mas uma implementação simples de recuperação mais prompt não reproduziria integralmente o treinamento conjunto do RAG original \cite{lewis2020rag}. A avaliação deveria separar recuperação e geração: precisão dos trechos recuperados, apoio textual da resposta, taxa de respostas sem evidência e, idealmente, avaliação humana com perguntas preparadas antes do teste.
+Por exemplo, diante de “Como Bentinho interpreta a ausência de Capitu?”, o sistema deveria recuperar passagens identificadas por obra/capítulo e responder com citação curta e localização; se não houver passagem suficiente, deveria declarar insuficiência em vez de inventar. Um gerador char-level de contexto 256 dificilmente acomoda pergunta, instrução e vários excertos: seria preciso ampliar contexto, resumir evidências com cuidado ou substituir/adaptar o gerador com exemplos instrucionais. Esta proposta é relacionada a RAG, mas recuperação seguida de prompt não reproduz o treinamento conjunto do sistema RAG original \cite{lewis2020rag}. A avaliação separaria recall/precisão dos trechos, apoio textual, abstenção e avaliação humana com perguntas e critérios definidos antes do teste.
+
+Um plano incremental seria estruturar trechos com identificadores estáveis de obra, capítulo e posição; construir índice lexical ou vetorial e medir recuperação em perguntas anotadas; fornecer excertos ao gerador e exigir respostas com referências; por fim, avaliar recuperação, suporte textual, resposta à pergunta e abstenção separadamente. Um baseline extrativo que apenas devolve passagens deve preceder a geração para localizar erros na busca ou na composição. Perguntas e critérios devem ser preparados antes da avaliação final. Este plano é uma extensão proposta, não funcionalidade implementada.
+
+Um plano incremental seria: estruturar passagens com identificadores estáveis de obra, capítulo e posição; construir índice lexical ou vetorial e medir se recupera evidências relevantes em perguntas anotadas; fornecer excertos ao gerador e exigir resposta com referências internas; avaliar separadamente recuperação, apoio factual, resposta à pergunta e abstenção. Um baseline extrativo que apenas retorna trechos deve preceder a geração, para atribuir erros à recuperação ou à composição. Perguntas e critérios devem ser preparados antes da avaliação final. Esse plano é uma extensão proposta, não resultado implementado neste projeto.
 
 \section{Conclusão}
 
-Foram implementadas e avaliadas duas arquiteturas de modelo de linguagem autoregressivo em nível de caractere com textos de Machado de Assis. O baseline obteve perda de teste 1,2399 e perplexidade 3,455, enquanto a variante reduzida obteve perda 1,3862 e perplexidade 4,000 com 70,1\% menos parâmetros. A comparação mostra que, neste protocolo, a redução de capacidade piorou o desempenho preditivo. As amostras confirmam a aprendizagem de padrões locais de linguagem, mas também mostram limitações de coerência e não sustentam alegações de compreensão ou capacidade conversacional.
+Foram implementadas e comparadas duas configurações autoregressivas char-level. A variante reduzida tem 69,8\% menos parâmetros únicos incluindo posições, mas apresenta maior perda e perplexidade neste protocolo. O resultado é descritivo, sem isolar efeitos arquiteturais. As amostras sugerem padrões locais de linguagem junto a erros de coerência e não sustentam capacidade conversacional. Além das limitações do teste amostral e ausência de curvas, a cobertura bibliográfica do corpus permanece não comprovada; suprir essa lacuna exigiria nova versão de dados e repetir ambas as condições.
 
 O trabalho atende ao requisito de comparação entre resultados por meio das duas condições controladas. A extensão mais promissora é um sistema de perguntas e respostas fundamentado em recuperação de trechos, com evidências explícitas e avaliação separada da recuperação e da geração.
 
 \section*{Reprodutibilidade e atribuição}
 
-O código do projeto e os notebooks identificam o nanoGPT como código-base externo e registram o commit utilizado. As adaptações próprias incluem a preparação do corpus, o tokenizador de caracteres, as partições, as duas configurações experimentais, a avaliação e a exportação dos artefatos. Os checkpoints, configurações e resultados foram preservados nos arquivos \texttt{machado\_gpt\_caractere\_baseline.zip} e \texttt{machado\_gpt\_caractere\_comparativo\_reduzido.zip}.
+O \texttt{model.py}, \texttt{train.py} e utilitários pertencem ao nanoGPT, por Andrej Karpathy, licença MIT, commit fixado. A configuração de caracteres deriva de \texttt{shakespeare\_char}; não é uma implementação integralmente própria. Os notebooks do projeto integram auditoria e preparação do corpus, tokenizador, partições, configurações, avaliação e exportação. O checkpoint e tokenizer do baseline estão no diretório experimental; os resultados numéricos baseline disponíveis foram reportados pelo autor no Colab e seu JSON local registra essa proveniência. O ZIP original não foi localizado nesta auditoria. A matrícula deve ser preenchida pelo estudante e os links de acesso aos Colabs precisam ser informados na entrega.
 
 \bibliographystyle{IEEEtran}
 \bibliography{referências/bibliografia}

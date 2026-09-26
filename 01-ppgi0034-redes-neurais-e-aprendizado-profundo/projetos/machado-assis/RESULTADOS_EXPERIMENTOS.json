@@ -1,0 +1,77 @@
+{
+  "project": "RNAP 2026/2 — Machado de Assis",
+  "data": {
+    "partitions": "dados/modelagem/{train,validation,test}.jsonl",
+    "documents": {
+      "train": 181,
+      "validation": 30,
+      "test": 31
+    },
+    "vocabulary_size": 147,
+    "context_characters": 256,
+    "data_preparation_seed": 20260925,
+    "corpus_sha256": "f5562aa740556fae3435cfacf5b54c414909cd54f2fb627067132225791cc5b3",
+    "coverage_warning": "Versão de trabalho; completude bibliográfica não comprovada. Ver dados/AVALIACAO_COBERTURA_CORPUS.md."
+  },
+  "training": {
+    "base_code": "nanoGPT",
+    "commit": "3adf61e154c3fe3fca428ad6bc3818b27a3b8291",
+    "framework": "PyTorch 2.11.0+cu128",
+    "device": "NVIDIA Tesla T4 / CUDA",
+    "effective_training_seed": 1337,
+    "notebook_seed": 20260925,
+    "iterations": 5000,
+    "batch_size": 64,
+    "dtype": "float16",
+    "checkpoint_selection": "checkpoint salvo na iteração 5000; não há evidência arquivada de que seja o mínimo histórico de validação"
+  },
+  "evaluation": {
+    "metric": "estimativa amostral de perda e perplexidade por caractere",
+    "test_window_seed": 20260926,
+    "batches": 200,
+    "batch_size": 32,
+    "window_characters": 256,
+    "sampling": "inícios aleatórios no fluxo concatenado de teste; janelas podem incluir o EOS entre documentos; não é varredura exaustiva nem média por obra",
+    "perplexity_definition": "exp(loss); valores char-level não são diretamente comparáveis com métricas BPE"
+  },
+  "experiments": [
+    {
+      "name": "baseline",
+      "architecture": {
+        "layers": 6,
+        "heads": 6,
+        "embedding_dimension": 384
+      },
+      "trainable_parameters_excluding_position_embeddings": 10678272,
+      "unique_parameters_including_position_embeddings": 10776576,
+      "test_loss_nats_per_character": 1.2398603546619416,
+      "test_perplexity_per_character": 3.45513093814427,
+      "unknown_characters_in_test": 1,
+      "metric_provenance": "Independent CPU re-evaluation of local checkpoint, matching the previously reported Colab output at its displayed precision.",
+      "evaluation_artifact": "experimentos/gpt_caractere_nanogpt/reevaluacao_baseline_cpu.json"
+    },
+    {
+      "name": "reduced_capacity",
+      "architecture": {
+        "layers": 4,
+        "heads": 4,
+        "embedding_dimension": 256
+      },
+      "trainable_parameters_excluding_position_embeddings": 3185664,
+      "unique_parameters_including_position_embeddings": 3251200,
+      "test_loss_nats_per_character": 1.3862289541959762,
+      "test_perplexity_per_character": 3.9997383808602875,
+      "unknown_characters_in_test": 1,
+      "metric_provenance": "Results exported from the Colab run.",
+      "evaluation_artifact": "experimentos/gpt_caractere_reduzido/resultados_comparativo_reduzido.json"
+    }
+  ],
+  "comparison": {
+    "parameter_reduction_percent_including_positions": 69.83086278981376,
+    "test_loss_increase_nats_per_character": 0.1463685995340346,
+    "test_loss_relative_increase_percent": 11.8052,
+    "test_perplexity_increase": 0.5446074427160175,
+    "test_perplexity_relative_increase_percent": 15.7623,
+    "interpretation": "Descriptive comparison of two configurations; layers, heads, and embedding dimension change jointly. One run per condition; update budget is equal, FLOPs and runtime were not measured/equalized."
+  }
+}
