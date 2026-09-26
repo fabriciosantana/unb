@@ -39,3 +39,21 @@
 - A especificação formal exige um artigo IEEE de seis páginas com avaliações e comparações dos resultados obtidos.
 - Portanto, o baseline está concluído, mas a entrega final ainda precisa de uma comparação experimental ou de uma forma de comparação explicitamente aceita pelo professor.
 - Não comparar diretamente a perplexidade deste modelo com GPT-2/GPT-3, pois as escalas, corpora e tokenizações são diferentes.
+
+## Experimento comparativo planejado
+
+- Notebook: `projetos/machado-assis/04_comparativo_gpt_caractere_reduzido.ipynb`.
+- Condição comparativa: 4 camadas, 4 cabeças e embedding 256.
+- Variável alterada em relação ao baseline: capacidade arquitetural.
+- Mantidos constantes: corpus, partições, tokenização, seed `20260925`, contexto de 256 caracteres, 5.000 iterações, hiperparâmetros de otimização, GPU, precisão e protocolo de avaliação.
+- Diretório de resultados esperado: `projetos/machado-assis/experimentos/gpt_caractere_reduzido/`.
+- O novo notebook foi criado limpo, sem resultados executados; deve ser rodado no Colab com GPU.
+
+### Resultado do comparativo
+
+- Parâmetros: 3,19 milhões.
+- Test loss: `1,3862 nats/caractere`.
+- Perplexidade por caractere: `4,000`.
+- Documentos de teste: 31.
+- Em relação ao baseline, houve redução aproximada de 70,1% nos parâmetros, aumento de 11,8% na perda de teste e aumento de 15,8% na perplexidade.
+- A amostra preservou padrões locais de português, mas mostrou maior fragmentação e incoerência semântica.

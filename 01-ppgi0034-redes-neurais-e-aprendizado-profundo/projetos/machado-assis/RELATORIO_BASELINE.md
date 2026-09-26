@@ -130,3 +130,32 @@ conversacional ou de reprodução do GPT-2.
 - Notebook: [`03_baseline_gpt_caractere_nanogpt.ipynb`](03_baseline_gpt_caractere_nanogpt.ipynb)
 - Memória do trabalho: [`../../MEMORIA_TRABALHO.md`](../../MEMORIA_TRABALHO.md)
 - Dados preparados: [`dados/modelagem/`](dados/modelagem/)
+
+## 11. Experimento comparativo de capacidade reduzida
+
+Foi executado um segundo notebook com a mesma seed, corpus, partições,
+tokenização, contexto, orçamento de 5.000 iterações, hiperparâmetros de
+otimização, GPU e protocolo de avaliação. A única alteração foi a capacidade
+arquitetural: 4 camadas, 4 cabeças e embedding 256.
+
+| Modelo | Parâmetros | Test loss | Perplexidade por caractere |
+|---|---:|---:|---:|
+| Baseline (6/6/384) | 10,68 M | 1,2399 | 3,455 |
+| Comparativo reduzido (4/4/256) | 3,19 M | 1,3862 | 4,000 |
+
+O modelo reduzido possui aproximadamente 70,1% menos parâmetros. Em relação
+ao baseline, sua perda de teste aumentou 0,1463 nats por caractere, ou cerca de
+11,8%, enquanto sua perplexidade aumentou 0,545, ou cerca de 15,8%. Portanto,
+neste protocolo, a redução de capacidade diminuiu o custo paramétrico, mas
+produziu pior desempenho preditivo no conjunto de teste.
+
+As amostras do modelo reduzido mantiveram padrões locais de português,
+pontuação e forma dialogal, mas exibiram mais fragmentação e incoerência
+semântica. Essa observação qualitativa é compatível com as métricas, mas não
+substitui uma avaliação humana formal.
+
+O notebook do segundo experimento é
+[`04_comparativo_gpt_caractere_reduzido.ipynb`](04_comparativo_gpt_caractere_reduzido.ipynb),
+com resultados esperados em
+`experimentos/gpt_caractere_reduzido/`. O checkpoint e os demais artefatos do
+segundo modelo foram preservados nessa pasta.

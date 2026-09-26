@@ -20,7 +20,7 @@
 \maketitle
 
 \begin{abstract}
-Este trabalho implementa, treina e avalia uma linha de base de modelo de linguagem autoregressivo em nível de caractere com textos de Machado de Assis. A implementação utiliza o nanoGPT em commit fixado e uma arquitetura Transformer decoder-only pequena, treinada do zero em uma GPU Tesla T4 no Google Colab. O corpus foi separado por documentos em conjuntos de treino, validação e teste, e o tokenizador foi ajustado somente com o conjunto de treino. O modelo possui aproximadamente 10,68 milhões de parâmetros e alcançou perda de teste igual a 1,2399 nats por caractere, com perplexidade por caractere de 3,455 em 31 documentos de teste. A geração qualitativa reproduziu padrões ortográficos e estilísticos do corpus, mas apresentou incoerências semânticas. O artigo delimita as capacidades do modelo, discute a comparação experimental exigida pela especificação do projeto e propõe uma extensão baseada em recuperação de trechos para responder perguntas sobre o universo de Machado de Assis.
+Este trabalho implementa, treina e avalia dois modelos de linguagem autoregressivos em nível de caractere com textos de Machado de Assis. A implementação utiliza o nanoGPT em commit fixado e arquiteturas Transformer decoder-only pequenas, treinadas do zero em uma GPU Tesla T4 no Google Colab. O corpus foi separado por documentos em conjuntos de treino, validação e teste, e o tokenizador foi ajustado somente com o conjunto de treino. O baseline possui 10,68 milhões de parâmetros e alcançou perda de teste igual a 1,2399 nats por caractere, com perplexidade de 3,455; a variante reduzida possui 3,19 milhões de parâmetros, perda 1,3862 e perplexidade 4,000, em 31 documentos de teste. A redução de capacidade diminuiu o custo paramétrico, mas piorou o desempenho preditivo. O artigo delimita as capacidades dos modelos e propõe uma extensão baseada em recuperação de trechos para responder perguntas sobre o universo de Machado de Assis.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -33,7 +33,7 @@ Modelos de linguagem autoregressivos aprendem a estimar a probabilidade do próx
 
 O objetivo deste Projeto 1 é construir um modelo de linguagem semelhante ao GPT-2 com conteúdo de Machado de Assis, utilizando o nanoGPT como código-base. O trabalho focaliza a implementação reprodutível de uma linha de base pequena, a avaliação quantitativa e qualitativa de sua geração e a discussão de uma possível extensão para perguntas sobre o autor. A contribuição não é reproduzir o GPT-2 original nem produzir um sistema conversacional; é estabelecer um experimento didático, documentado e auditável em um corpus literário em português.
 
-As principais contribuições são: (i) preparação de partições por documento e tokenização em nível de caractere; (ii) treinamento de um Transformer decoder-only de aproximadamente 10,68 milhões de parâmetros; (iii) avaliação por perda e perplexidade por caractere; e (iv) análise das limitações e de uma arquitetura futura de recuperação e geração.
+As principais contribuições são: (i) preparação de partições por documento e tokenização em nível de caractere; (ii) treinamento controlado de duas arquiteturas Transformer decoder-only; (iii) avaliação por perda e perplexidade por caractere; e (iv) análise das limitações e de uma arquitetura futura de recuperação e geração.
 
 \section{Fundamentação}
 
@@ -55,7 +55,7 @@ O vocabulário foi ajustado somente no treino e possui 147 símbolos, incluindo 
 
 Foi utilizado o nanoGPT no commit `3adf61e154c3fe3fca428ad6bc3818b27a3b8291`, cuja licença MIT foi preservada no ambiente de execução. A configuração possui seis camadas, seis cabeças de atenção, dimensão de embedding 384, contexto de 256 caracteres, lote de 64 exemplos, dropout 0,1 e aproximadamente 10,68 milhões de parâmetros. O treinamento foi executado por 5.000 iterações, com taxa de aprendizado inicial $3\times10^{-4}$, aquecimento de 100 iterações, weight decay 0,1, clipping de gradiente 1,0 e precisão `float16`.
 
-O experimento foi executado no Google Colab com PyTorch 2.11.0+cu128 e GPU NVIDIA Tesla T4. A semente registrada no notebook foi 20260925. O checkpoint final foi salvo em `out/ckpt.pt` e os artefatos foram exportados para preservação.
+Os dois experimentos foram executados no Google Colab com PyTorch 2.11.0+cu128 e GPU NVIDIA Tesla T4. A semente registrada nos notebooks foi 20260925. O baseline possui 6 camadas, 6 cabeças e embedding 384; a variante comparativa possui 4 camadas, 4 cabeças e embedding 256. Ambas usam contexto de 256 caracteres, lote de 64, dropout 0,1 e 5.000 iterações. Os checkpoints finais foram salvos separadamente e os artefatos foram exportados para preservação.
 
 \subsection{Avaliação}
 
@@ -64,37 +64,30 @@ A perda e a perplexidade foram calculadas no conjunto de teste após o treinamen
 \section{Resultados}
 
 \begin{table}[t]
-\caption{Configuração e resultado do baseline.}
-\label{tab:baseline}
+\caption{Comparação dos dois experimentos no conjunto de teste.}
+\label{tab:comparison}
 \centering
-\begin{tabular}{ll}
+\begin{tabular}{lrrr}
 \toprule
-Item & Resultado \\
+Modelo & Parâmetros & Loss & PPL \\
 \midrule
-Parâmetros & 10,68 milhões \\
-Iterações & 5.000 \\
-Contexto & 256 caracteres \\
-GPU & Tesla T4 \\
-Documentos de teste & 31 \\
-Perda de teste & 1,2399 nats/caractere \\
-Perplexidade & 3,455/caractere \\
+Baseline (6/6/384) & 10,68 M & 1,2399 & 3,455 \\
+Reduzido (4/4/256) & 3,19 M & 1,3862 & 4,000 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-O modelo concluiu o treinamento e produziu um checkpoint válido. A perda de teste foi 1,2399 nats por caractere e a perplexidade correspondente foi 3,455. Esses números indicam que o modelo aprendeu regularidades estatísticas do corpus, mas não permitem concluir que ele compreenda as obras ou mantenha coerência narrativa longa.
+Os dois modelos concluíram o treinamento e produziram checkpoints válidos. O baseline obteve perda de teste 1,2399 e perplexidade 3,455; o modelo reduzido obteve perda 1,3862 e perplexidade 4,000. A variante reduzida tem aproximadamente 70,1\% menos parâmetros, mas sua perda aumentou 0,1463 nats por caractere, ou 11,8\%, e sua perplexidade aumentou 0,545, ou 15,8\%. Os resultados indicam que a redução de capacidade diminuiu o custo paramétrico, mas prejudicou a previsão do próximo caractere neste protocolo.
 
 Na inspeção qualitativa, as amostras apresentaram ortografia, pontuação, nomes próprios e estruturas sintáticas compatíveis com literatura em português. Também foram observadas transições semânticas improváveis, personagens combinados de maneira incoerente e continuidade narrativa instável. O comportamento é compatível com a capacidade limitada de um modelo pequeno treinado do zero em nível de caractere.
 
-\subsection{Comparação exigida pela especificação}
+\subsection{Comparação experimental}
 
-A especificação do Projeto 1 solicita avaliações e comparações dos resultados obtidos. A execução documentada neste rascunho contém uma única configuração experimental; portanto, a Tabela~\ref{tab:baseline} é um baseline, não uma comparação entre modelos. Antes da submissão final, esta seção deve ser completada com uma segunda condição experimental ou com a forma de comparação explicitamente aceita pelo professor. A comparação deve manter as mesmas partições, protocolo de teste e unidade de perplexidade, alterando uma única dimensão por vez e registrando tempo, memória, seed e perdas.
-
-Não são apresentados números inventados para preencher essa lacuna. Comparar a perplexidade deste modelo diretamente com GPT-2 ou GPT-3 seria metodologicamente inadequado, pois esses modelos usam escalas, corpora e tokenizações diferentes.
+A especificação do Projeto 1 solicita avaliações e comparações dos resultados obtidos. Para atender a esse requisito, a segunda condição alterou somente a capacidade arquitetural, mantendo dados, partições, tokenização, seed, contexto, orçamento, otimização, GPU e protocolo de teste. A comparação favorece o baseline em perda e perplexidade, enquanto a variante reduzida apresenta menor custo paramétrico. Comparar a perplexidade destes modelos diretamente com GPT-2 ou GPT-3 seria metodologicamente inadequado, pois esses modelos usam escalas, corpora e tokenizações diferentes.
 
 \section{Discussão}
 
-O resultado confirma a viabilidade do pipeline: os dados foram lidos, o vocabulário foi construído, o modelo foi treinado em CUDA e o checkpoint foi avaliado. A opção por caracteres simplifica a implementação e torna explícita a previsão do próximo símbolo, mas aumenta o número de passos necessários para representar palavras e sequências semânticas. Uma futura comparação com subpalavras deverá usar um vocabulário ajustado somente no treino e relatar a unidade da métrica separadamente.
+Os resultados confirmam a viabilidade do pipeline e mostram um trade-off entre capacidade e desempenho: reduzir o modelo de 10,68 M para 3,19 M parâmetros economizou aproximadamente 70,1\% dos parâmetros, mas elevou a perplexidade de 3,455 para 4,000. A opção por caracteres simplifica a implementação e torna explícita a previsão do próximo símbolo, mas aumenta o número de passos necessários para representar palavras e sequências semânticas. Uma futura comparação com subpalavras deverá usar um vocabulário ajustado somente no treino e relatar a unidade da métrica separadamente.
 
 O corpus e a divisão são tão importantes quanto a arquitetura. Duplicatas ou sobreposição entre documentos podem reduzir artificialmente a dificuldade do teste; por isso, a auditoria de proveniência e a divisão por obra devem permanecer parte do protocolo. Estudos sobre deduplicação mostram que sobreposição de dados pode afetar tanto a avaliação quanto a memorização de modelos de linguagem \cite{lee2022}.
 
@@ -102,19 +95,19 @@ As perdas de treino e validação intermediárias não foram preservadas na saí
 
 \section{Extensão para perguntas sobre Machado de Assis}
 
-O modelo autoregressivo treinado apenas para continuação de texto não deve ser apresentado como sistema de perguntas e respostas. Para responder perguntas sobre o universo de Machado de Assis, uma extensão adequada seria um pipeline de recuperação e geração. As obras seriam segmentadas e indexadas com título, obra, capítulo e posição; diante de uma pergunta, o sistema recuperaria trechos relevantes e os forneceria ao gerador junto com instruções para responder somente com base nas evidências. A resposta deveria citar os trechos recuperados ou declarar insuficiência de evidência.
+Os modelos autoregressivos treinados apenas para continuação de texto não devem ser apresentados como sistemas de perguntas e respostas. Para responder perguntas sobre o universo de Machado de Assis, uma extensão adequada seria um pipeline de recuperação e geração. As obras seriam segmentadas e indexadas com título, obra, capítulo e posição; diante de uma pergunta, o sistema recuperaria trechos relevantes e os forneceria ao gerador junto com instruções para responder somente com base nas evidências. A resposta deveria citar os trechos recuperados ou declarar insuficiência de evidência.
 
 Essa proposta é relacionada à geração aumentada por recuperação, mas uma implementação simples de recuperação mais prompt não reproduziria integralmente o treinamento conjunto do RAG original \cite{lewis2020rag}. A avaliação deveria separar recuperação e geração: precisão dos trechos recuperados, apoio textual da resposta, taxa de respostas sem evidência e, idealmente, avaliação humana com perguntas preparadas antes do teste.
 
 \section{Conclusão}
 
-Foi implementada e avaliada uma linha de base de modelo de linguagem autoregressivo em nível de caractere com textos de Machado de Assis. O modelo possui 10,68 milhões de parâmetros, foi treinado por 5.000 iterações em uma Tesla T4 e obteve perda de teste 1,2399 nats por caractere e perplexidade 3,455. As amostras confirmam a aprendizagem de padrões locais de linguagem, mas também mostram limitações de coerência e não sustentam alegações de compreensão ou capacidade conversacional.
+Foram implementadas e avaliadas duas arquiteturas de modelo de linguagem autoregressivo em nível de caractere com textos de Machado de Assis. O baseline obteve perda de teste 1,2399 e perplexidade 3,455, enquanto a variante reduzida obteve perda 1,3862 e perplexidade 4,000 com 70,1\% menos parâmetros. A comparação mostra que, neste protocolo, a redução de capacidade piorou o desempenho preditivo. As amostras confirmam a aprendizagem de padrões locais de linguagem, mas também mostram limitações de coerência e não sustentam alegações de compreensão ou capacidade conversacional.
 
-O resultado é suficiente como baseline técnico documentado. Contudo, a seção comparativa ainda precisa de uma segunda condição experimental para cumprir integralmente a especificação do Projeto 1. A extensão mais promissora é um sistema de perguntas e respostas fundamentado em recuperação de trechos, com evidências explícitas e avaliação separada da recuperação e da geração.
+O trabalho atende ao requisito de comparação entre resultados por meio das duas condições controladas. A extensão mais promissora é um sistema de perguntas e respostas fundamentado em recuperação de trechos, com evidências explícitas e avaliação separada da recuperação e da geração.
 
 \section*{Reprodutibilidade e atribuição}
 
-O código do projeto e o notebook identificam o nanoGPT como código-base externo e registram o commit utilizado. As adaptações próprias incluem a preparação do corpus, o tokenizador de caracteres, as partições, a configuração do experimento, a avaliação e a exportação dos artefatos. O checkpoint, a configuração e os resultados foram preservados no arquivo `machado_gpt_caractere_baseline.zip`.
+O código do projeto e os notebooks identificam o nanoGPT como código-base externo e registram o commit utilizado. As adaptações próprias incluem a preparação do corpus, o tokenizador de caracteres, as partições, as duas configurações experimentais, a avaliação e a exportação dos artefatos. Os checkpoints, configurações e resultados foram preservados nos arquivos `machado_gpt_caractere_baseline.zip` e `machado_gpt_caractere_comparativo_reduzido.zip`.
 
 \bibliographystyle{IEEEtran}
 \bibliography{referências/bibliografia}
