@@ -4,9 +4,9 @@ Data: 26 de setembro de 2026.
 
 ## Parecer e nota
 
-**Nota atribuída ao estado da entrega antes das implementações registradas ao final: 6,5/10.**
+**Nota atribuída ao estado da entrega antes das implementações registradas ao final: 6,5/10 (parecer histórico, anterior ao esclarecimento do professor sobre a amostra do corpus).**
 
-Trata-se de uma avaliação técnica simulada na perspectiva de um professor da disciplina, baseada exclusivamente nos requisitos de `projeto1-rnap-2026_2.pdf`. Não é a nota oficial do professor. O enunciado não fornece pesos; a distribuição abaixo é uma rubrica explícita deste parecer. A apresentação oral não foi observada e seus pontos permanecem não demonstrados, sujeitos à avaliação presencial. Sua ausência no diretório não comprova que o estudante não tenha apresentado.
+Trata-se de uma avaliação técnica simulada na perspectiva de um professor da disciplina, baseada exclusivamente nos requisitos de `projeto1-rnap-2026_2.pdf`. Não é a nota oficial do professor. O enunciado não fornece pesos; a distribuição abaixo é uma rubrica explícita deste parecer. Depois deste parecer, o professor esclareceu que não é necessário reunir todas as obras e que uma boa amostra útil ao treinamento e ao aprendizado é suficiente. Portanto, a penalização por não demonstrar cobertura integral e a recomendação 2 abaixo são históricas e não devem ser consideradas pendências atuais. A apresentação oral não foi observada e seus pontos permanecem não demonstrados, sujeitos à avaliação presencial. Sua ausência no diretório não comprova que o estudante não tenha apresentado.
 
 O projeto tem mérito técnico: construção de corpus rastreável, quatro notebooks organizados, uso do nanoGPT em commit fixado, treinamento de duas configurações, checkpoints recuperáveis e uma comparação quantitativa pertinente. Entretanto, o artigo tem três páginas em vez de seis, a abrangência do corpus não satisfaz de maneira comprovada a exigência de todos os conteúdos originais dos livros e os artefatos locais do baseline estão com nomes incompatíveis com seus conteúdos. Há também descrições metodológicas que não correspondem exatamente ao código.
 
@@ -29,7 +29,7 @@ Os critérios não são duplicados: problemas de conteúdo da avaliação foram 
 ## Evidências conferidas
 
 - Enunciado integral: `projeto1-rnap-2026_2.pdf`.
-- Artigo: `ARTIGO_PROJETO1_RASCUNHO.tex` e `out/ARTIGO_PROJETO1_RASCUNHO.pdf`. A conferência estrutural do PDF passou, com três páginas tanto na árvore do documento quanto na leitura pelo parser.
+- Artigo no snapshot inicial: `../latex/ARTIGO_PROJETO1_RASCUNHO.tex` e `../latex/out/ARTIGO_PROJETO1_RASCUNHO.pdf`. A conferência estrutural daquele PDF passou, com três páginas; a tabela de situação posterior registra a versão ampliada.
 - Notebooks de construção, preparação, baseline e modelo reduzido, incluindo configuração, exportação e avaliação.
 - `dados/manifesto_corpus.json`, `dados/cruzamento_bibliografia_abl.csv`, `dados/modelagem/manifesto_modelagem.json` e código de auditoria/particionamento.
 - Arquivo mestre: SHA-256 consistente com o manifesto. Os JSONL têm 181, 30 e 31 documentos; os hashes dos textos correspondem aos registros de cada documento.
@@ -62,13 +62,13 @@ Isso não prova que o treino esteja errado. Demonstra que a cópia local dos art
 
 **O que fazer:** restaurar `amostra_gerada.txt` como texto, `config_train_machado_char.py` como configuração, `meta.pkl` como tokenizer e `resultados_baseline.json` como JSON. Conferir configuração, vocabulário e métricas. Se o JSON original não existir, repetir somente a avaliação do checkpoint existente com os mesmos dados/protocolo, registrando a nova execução como tal. Não fabricar um JSON como se fosse saída original. Critério de conclusão: os quatro arquivos podem ser lidos com seus leitores apropriados e os números da tabela são rastreáveis.
 
-### 2. Fechar a cobertura do corpus exigida — prioridade alta
+### 2. Documentar a composição e os limites da amostra — recomendação histórica, não pendência
 
-**Por quê:** o enunciado pede um arquivo contendo todos os conteúdos originais dos livros. O manifesto registra 242 itens, mas adverte que itens não equivalem a livros e informa `full_bibliographic_completeness_claimed=false`. O cruzamento de 32 entradas registra 24 correspondências diretas, seis equivalências integrais não verificadas, uma tradução excluída e uma entrada não localizada: “Correspondência (1932)”. Algumas entradas são coletâneas póstumas; sua pertinência precisa ser justificada, não presumida.
+**Por quê (registro do entendimento inicial):** este parecer interpretou que seria necessário comprovar todos os conteúdos originais dos livros. O professor esclareceu posteriormente que a entrega pode usar uma boa amostra útil ao treinamento e ao aprendizado; cobertura exaustiva não é requisito. A auditoria continua útil para descrever composição e limites, mas não para exigir a incorporação de obras ausentes.
 
-**Como implementar:** transformar o cruzamento existente em uma matriz de cobertura por livro e conteúdo: título, edição/fonte, componentes, arquivo correspondente, cobertura e motivo de eventual exclusão. Para coletâneas, comparar sumário/conteúdos, evitando contar novamente textos já incluídos.
+**Como implementar:** manter a matriz e o manifesto como documentação de proveniência e representatividade da amostra, sem classificar lacunas bibliográficas como descumprimento. Para qualquer material novo, registrar fonte, edição, componentes e deduplicação.
 
-**O que fazer:** resolver os seis casos parciais e a entrada não localizada, distinguir textos autorais de traduções e notas de terceiros e verificar se a lista de controle cobre o universo solicitado. Corrigir a inconsistência entre a inclusão programática dos 130 contos e o campo `automatic_addition_to_master=false`. Atualizar o mestre e seus manifestos quando necessário. Não declarar completude apenas pela quantidade de itens. Se a cobertura alterar os dados de modelagem, preservar a versão usada nos dois experimentos e explicitar a divergência; para afirmar resultados no corpus corrigido, ambos terão de usar as mesmas novas partições. Se houver restrição de escopo, ela precisa ser aceita pelo professor, pois o parecer não pode dispensar esse requisito.
+**O que fazer:** nenhuma expansão ou novo treinamento é necessário por motivo de cobertura integral. Preservar a descrição honesta da amostra e, caso a curadoria seja ampliada voluntariamente, versionar dados e partições e repetir as condições antes de atribuir resultados à nova versão.
 
 ### 3. Concluir o artigo de seis páginas IEEE — prioridade alta
 
@@ -147,8 +147,8 @@ Esta seção atualiza o estado das recomendações sem substituir a nota 6,5/10,
 | Recomendação | Situação | Evidência / pendência |
 |---|---|---|
 | 1. Artefatos baseline | Parcialmente concluída | Arquivos locais renomeados a partir da inspeção de conteúdo; tokenizer, configuração e amostra restaurados. A reavaliação independente em CPU (200×32 janelas) reproduziu loss 1,239860 e PPL 3,455131, arredondando aos valores do Colab. Registro em `reevaluacao_baseline_cpu.json`; o ZIP original do Drive e logs históricos não foram localizados. Cópia redundante de 129.363.420 bytes foi removida após SHA-256 idêntico ao checkpoint preservado. |
-| 2. Cobertura do corpus | Parcial; pendência crítica | Manifesto agora torna explícita a inclusão programática dos 130 contos heurísticos; cruzamento identifica *Correspondência* como listada na ABL, mas ausente do pacote NLTK. Relatório de cobertura criado. Não há fonte digital verificada no projeto para fechar a lacuna; os modelos não foram treinados novamente com outro corpus. |
-| 3. Artigo IEEE | Parcialmente concluída | Fonte revisada e PDF recompilado em duas colunas com seis páginas em `out/ARTIGO_PROJETO1_RASCUNHO.pdf`. Nome de autoria preenchido a partir da configuração local de Git; matrícula ainda precisa de confirmação/preenchimento. |
+| 2. Cobertura do corpus | Adequada ao escopo esclarecido | Amostra, composição e limites documentados; professor confirmou que não é necessário reunir todas as obras. Não há pendência de completar a lacuna de *Correspondência* nem de repetir os treinamentos por esse motivo. |
+| 3. Artigo IEEE | Parcialmente concluída | PDF recompilado em duas colunas com cinco páginas em `../latex/out/ARTIGO_PROJETO1_RASCUNHO.pdf`; falta uma página para o formato de seis páginas indicado no enunciado. Nome preenchido; matrícula ainda precisa de confirmação/preenchimento. |
 | 4. Seeds e checkpoint | Implementada documentalmente | Notebooks, artigo, relatório e roteiro distinguem seed efetiva do treino (1337 no commit fixado/uma GPU) das seeds de preparação, avaliação e geração; checkpoint identificado como iteração 5000 sem afirmar mínimo histórico de validação. |
 | 5. Protocolo comparativo | Implementada documentalmente | Artigo e relatório descrevem as 200 janelas amostradas por 32, contexto 256, unidade nats/caractere, amostragem no fluxo concatenado, mudança simultânea de três dimensões e limite do orçamento em atualizações. |
 | 6. Parâmetros | Implementada | Artigo/relatório distinguem contagem do log sem posições (10.678.272; 3.185.664) e totais únicos com posições (10.776.576; 3.251.200). |
@@ -157,4 +157,4 @@ Esta seção atualiza o estado das recomendações sem substituir a nota 6,5/10,
 | 9. Extensão QA | Implementada como proposta | Artigo descreve recuperação por obra/trecho, evidência, citação/abstenção e avaliação separada; nenhuma funcionalidade RAG é alegada como implementada. |
 | 10. Apresentação | Preparação concluída; realização pendente | `ROTEIRO_APRESENTACAO_5_MIN.md` foi criado. Ensaiar e apresentar em sala continua sendo responsabilidade do estudante e não pode ser atestado aqui. |
 
-Itens bloqueados por informação ou fonte externa não devem ser apresentados como concluídos: cobertura exaustiva, matrícula, links dos Colabs e apresentação oral. A matriz ABL foi consultada no endereço oficial, que lista “Correspondência, 1932”; isso confirma a existência do item bibliográfico, mas não fornece por si só o texto integral nem prova qual edição deve ser incluída.
+Itens dependentes de informação ou ação do estudante: matrícula, links dos Colabs e apresentação oral. A matriz ABL lista “Correspondência, 1932”, mas a ausência do texto na amostra não constitui pendência segundo o esclarecimento do professor. Este arquivo preserva recomendações e pontuações de um estado anterior; para a organização atual, consulte também `MEMORIA_TRABALHO.md` e `AVALIACAO_COBERTURA_CORPUS.md`.

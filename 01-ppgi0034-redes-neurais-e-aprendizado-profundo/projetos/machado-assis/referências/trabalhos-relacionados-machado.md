@@ -29,16 +29,16 @@ As métricas acima pertencem aos experimentos dos autores. Não devem ser ordena
 
 O manuscrito compara xLSTM e Transformer estilo GPT. Descreve 19 romances de seis autores, incluindo seis romances de Machado no treino, e reserva *Memórias Póstumas de Brás Cubas* para avaliação. A tabela GPU relata melhor perplexidade 269,3 para Transformer de 10,2 milhões de parâmetros, contra 287,3 para xLSTM de 10,1 milhões. Também examina tarefas com representações congeladas. É relevante para desenho de comparações e separação por obra, mas o corpus é misto e o manuscrito usa regimes distintos; não transferir seus números ao corpus exclusivamente machadiano. O conjunto reservado é usado como desenvolvimento/seleção de melhor checkpoint, portanto não deve ser chamado de teste final intocado. Não confirmei publicação em periódico/evento ou revisão por pares. A fonte LaTeX foi preservada; não foi localizado PDF autoral no repositório consultado. Há divergências entre instruções de prova de conceito do README e o protocolo do manuscrito, exigindo auditoria antes de reprodução.
 
-## O requisito de reunir todos os livros originais
+## Escopo e seleção do corpus
 
-O enunciado atribui ao aluno a construção do arquivo de treinamento. Os trabalhos encontrados ajudam a definir o processo, mas nenhum foi auditado aqui contra um catálogo completo de livros originais. Nem “116 obras”, nem “machado-all”, nem a existência de PDFs demonstram cumprimento integral.
+O enunciado atribui ao aluno a construção do arquivo de treinamento. O professor esclareceu que não é necessário reunir todas as obras: uma amostra útil ao treinamento e ao aprendizado é suficiente. Os trabalhos encontrados ajudam a pensar a seleção e a avaliação, mas seus números não comprovam a composição da amostra deste projeto; nem “116 obras”, nem “machado-all”, nem a existência de PDFs demonstram por si sós representatividade.
 
 Proposta metodológica para este projeto:
 
 1. Definir o universo bibliográfico e registrar, por obra, título canônico, gênero, edição, fonte e autoria original. Explicitar tratamento de traduções, coletâneas e publicações póstumas.
 2. Baixar e guardar fontes individuais; extrair o texto, preservar Unicode e registrar correções. Separar conteúdo do autor de introduções editoriais, fichas e cabeçalhos.
 3. Detectar duplicatas, principalmente textos avulsos que reaparecem em coletâneas. Comparar inventário esperado e obtido e relatar lacunas.
-4. Gerar um arquivo mestre UTF-8 com delimitadores de obras e manter mapa de proveniência. Criar derivados de treino, validação e teste sem sobreposição; ajustar tokenizador somente no treino. Definir com clareza se “todos os livros” descreve o corpus mestre, pois reservar obras inteiras para teste implica não usá-las no ajuste de pesos.
+4. Gerar um arquivo mestre UTF-8 com delimitadores de obras e manter mapa de proveniência. Criar derivados de treino, validação e teste sem sobreposição; ajustar tokenizador somente no treino. Explicitar critérios de seleção e limites da amostra; a reserva de obras inteiras para teste significa que elas não participam do ajuste dos pesos.
 5. Registrar perda, perplexidade, custo e amostras com prompts fixos. Comparar configurações sob a mesma tokenização e partições. Para uma extensão de perguntas e respostas, estabelecer avaliação específica: geração estilística não demonstra capacidade factual.
 
 Esses itens são recomendações para o projeto, não resultados obtidos nesta pesquisa. Não foi construído nem treinado um corpus/modelo neste complemento.

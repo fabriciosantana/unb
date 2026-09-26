@@ -13,8 +13,9 @@
 /checkpoints/
 /logs/
 /experimentos/
-/aux/
-/out/
+# Saídas auxiliares e PDF gerado pelo LaTeX (a fonte permanece versionada).
+/latex/aux/
+/latex/out/
 *.ckpt
 *.pt
 *.pth

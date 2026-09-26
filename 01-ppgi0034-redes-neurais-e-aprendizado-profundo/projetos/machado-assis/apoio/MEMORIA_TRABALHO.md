@@ -5,7 +5,7 @@
 - Projeto: `01-ppgi0034-redes-neurais-e-aprendizado-profundo`.
 - Execução realizada no Colab Web com GPU Tesla T4.
 - PyTorch: `2.11.0+cu128`.
-- Notebook executado: `projetos/machado-assis/03_baseline_gpt_caractere_nanogpt.ipynb`.
+- Notebook executado: `projetos/machado-assis/notebooks/03_baseline_gpt_caractere_nanogpt.ipynb`.
 - Modelo: nanoGPT treinado em nível de caractere, a partir do zero.
 - Commit do nanoGPT: `3adf61e154c3fe3fca428ad6bc3818b27a3b8291`.
 - Vocabulário: 147 caracteres, incluindo EOS e UNK.
@@ -24,16 +24,16 @@
 - A avaliação usa 200 lotes de 32 sequências de contexto 256 no fluxo concatenado de teste; é estimativa amostral, não varredura exaustiva nem média por obra.
 - Artefatos do baseline estavam trocados de nome. Foram corrigidos: `config_train_machado_char.py`, `meta.pkl` (tokenizer pickle) e `amostra_gerada.txt` (texto). `resultados_baseline.json` registra a saída reportada do Colab; `reevaluacao_baseline_cpu.json` documenta a reavaliação independente que concordou ao arredondamento (loss 1,239860; PPL 3,455131). O ZIP original não foi recuperado. A cópia de checkpoint de 129 MB disfarçada de amostra foi removida após SHA-256 confirmar identidade com `out/ckpt.pt`.
 - Parâmetros totais únicos incluindo posições: baseline 10.776.576; reduzido 3.251.200 (redução 69,8%). A contagem de pesos impressa pelo nanoGPT exclui posição: 10.678.272 e 3.185.664.
-- A cobertura do corpus não está comprovada. A ABL lista `Correspondência` (1932), ausente no pacote NLTK; não afirmar obra completa nem alterar o corpus sem regenerar partições e repetir ambas as condições.
-- O artigo foi ampliado e compilado em seis páginas. Matrícula e links dos Colabs aguardam preenchimento; o roteiro oral prepara, mas não comprova, a apresentação.
-- Sumário reprodutível dos resultados de ambos os modelos: `RESULTADOS_EXPERIMENTOS.json`.
+- O corpus é uma amostra, não uma coleção exaustiva. O professor esclareceu que não é necessário reunir todas as obras; a ausência de `Correspondência` (1932) é documentada, mas não é pendência nem motivo para novo treinamento. Não afirmar que a amostra é completa.
+- O artigo foi ampliado; após os ajustes de escopo e recompilação na estrutura `latex/`, o PDF atual ficou com cinco páginas, portanto falta uma página para atender às seis exigidas. Matrícula e links dos Colabs também aguardam preenchimento; o roteiro oral prepara, mas não comprova, a apresentação.
+- Sumário reprodutível dos resultados de ambos os modelos: `projetos/machado-assis/RESULTADOS_EXPERIMENTOS.json`.
 
 ### Esclarecimento do professor e avaliação revisada
 
 - O professor esclareceu que **não é necessário reunir todas as obras**: o objetivo é construir uma amostra boa e útil ao treinamento de um modelo de linguagem e ao aprendizado da disciplina. Portanto, a ausência de `Correspondência` (1932) e a falta de exaustividade bibliográfica não devem ser tratadas como descumprimento central do requisito. Não alegar que o corpus é completo; descrevê-lo como amostra de trabalho e justificar sua utilidade/limitações.
 - A amostra existente tem 242 itens, aproximadamente 14 MB de texto mestre, variedade de categorias e partições por documento (181 treino, 30 validação, 31 teste). A seleção heurística de contos avulsos e os elementos editoriais continuam sendo limitações a relatar, não razão automática para exigir a reunião de todas as obras.
 - Nota simulada revisada frente ao esclarecimento: **8,5/10**, não oficial. A avaliação anterior de 7,8/10 foi revista porque atribuía perda excessiva à ausência de cobertura integral. A nota ainda é provisória: matrícula e links dos Colabs faltam, e a apresentação oral não foi observada.
-- Próximo passo quando o estudante retornar: revisar o artigo e os materiais de entrega; incorporar, se apropriado, a explicação do professor como delimitação de escopo (sem afirmar completude); preencher matrícula e links dos Colabs; preparar/apresentar os cinco minutos em sala.
+- Próximo passo quando o estudante retornar: revisar o artigo e os materiais de entrega; preencher matrícula e links dos Colabs; preparar/apresentar os cinco minutos em sala.
 
 ## Artefatos
 
@@ -59,7 +59,7 @@
 
 ## Experimento comparativo concluído
 
-- Notebook: `projetos/machado-assis/04_comparativo_gpt_caractere_reduzido.ipynb`.
+- Notebook: `projetos/machado-assis/notebooks/04_comparativo_gpt_caractere_reduzido.ipynb`.
 - Condição comparativa: 4 camadas, 4 cabeças e embedding 256.
 - Alteração: capacidade conjunta (camadas, cabeças e embedding); não isola causalmente cada fator.
 - Compartilhados: corpus, partições, tokenização, contexto de 256, 5.000 iterações, hiperparâmetros, GPU, precisão e protocolo.

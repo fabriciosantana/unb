@@ -11,7 +11,7 @@
     "context_characters": 256,
     "data_preparation_seed": 20260925,
     "corpus_sha256": "f5562aa740556fae3435cfacf5b54c414909cd54f2fb627067132225791cc5b3",
-    "coverage_warning": "Versão de trabalho; completude bibliográfica não comprovada. Ver dados/AVALIACAO_COBERTURA_CORPUS.md."
+    "coverage_warning": "Amostra de trabalho, sem alegação de completude bibliográfica; o professor esclareceu que não é necessário reunir todas as obras. Ver apoio/AVALIACAO_COBERTURA_CORPUS.md para composição e limites de representatividade."
   },
   "training": {
     "base_code": "nanoGPT",

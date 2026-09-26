@@ -29,7 +29,7 @@ caracteres mapeados para `UNK` no treino e 2 na validação.
 
 ## 3. Código e ambiente
 
-- Notebook: `03_baseline_gpt_caractere_nanogpt.ipynb`;
+- Notebook: [`../notebooks/03_baseline_gpt_caractere_nanogpt.ipynb`](../notebooks/03_baseline_gpt_caractere_nanogpt.ipynb);
 - código-base: nanoGPT;
 - commit fixado: `3adf61e154c3fe3fca428ad6bc3818b27a3b8291`;
 - licença do código-base: MIT, presente no checkout utilizado;
@@ -134,9 +134,9 @@ conversacional ou de reprodução do GPT-2.
 
 ## 10. Artefatos relacionados
 
-- Notebook: [`03_baseline_gpt_caractere_nanogpt.ipynb`](03_baseline_gpt_caractere_nanogpt.ipynb)
-- Memória do trabalho: [`../../MEMORIA_TRABALHO.md`](../../MEMORIA_TRABALHO.md)
-- Dados preparados: [`dados/modelagem/`](dados/modelagem/)
+- Notebook: [`../notebooks/03_baseline_gpt_caractere_nanogpt.ipynb`](../notebooks/03_baseline_gpt_caractere_nanogpt.ipynb)
+- Memória do trabalho: [`MEMORIA_TRABALHO.md`](MEMORIA_TRABALHO.md)
+- Dados preparados: [`../dados/modelagem/`](../dados/modelagem/)
 
 ## 11. Experimento comparativo de capacidade reduzida
 
@@ -167,7 +167,7 @@ semântica. Essa observação qualitativa é compatível com as métricas, mas n
 substitui uma avaliação humana formal.
 
 O notebook do segundo experimento é
-[`04_comparativo_gpt_caractere_reduzido.ipynb`](04_comparativo_gpt_caractere_reduzido.ipynb),
+[`../notebooks/04_comparativo_gpt_caractere_reduzido.ipynb`](../notebooks/04_comparativo_gpt_caractere_reduzido.ipynb),
 com resultados esperados em
-`experimentos/gpt_caractere_reduzido/`. O checkpoint e os demais artefatos do
+`../experimentos/gpt_caractere_reduzido/`. O checkpoint e os demais artefatos do
 segundo modelo foram preservados nessa pasta.
