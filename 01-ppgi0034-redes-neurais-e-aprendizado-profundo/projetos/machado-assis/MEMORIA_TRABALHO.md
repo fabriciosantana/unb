@@ -28,6 +28,13 @@
 - O artigo foi ampliado e compilado em seis páginas. Matrícula e links dos Colabs aguardam preenchimento; o roteiro oral prepara, mas não comprova, a apresentação.
 - Sumário reprodutível dos resultados de ambos os modelos: `RESULTADOS_EXPERIMENTOS.json`.
 
+### Esclarecimento do professor e avaliação revisada
+
+- O professor esclareceu que **não é necessário reunir todas as obras**: o objetivo é construir uma amostra boa e útil ao treinamento de um modelo de linguagem e ao aprendizado da disciplina. Portanto, a ausência de `Correspondência` (1932) e a falta de exaustividade bibliográfica não devem ser tratadas como descumprimento central do requisito. Não alegar que o corpus é completo; descrevê-lo como amostra de trabalho e justificar sua utilidade/limitações.
+- A amostra existente tem 242 itens, aproximadamente 14 MB de texto mestre, variedade de categorias e partições por documento (181 treino, 30 validação, 31 teste). A seleção heurística de contos avulsos e os elementos editoriais continuam sendo limitações a relatar, não razão automática para exigir a reunião de todas as obras.
+- Nota simulada revisada frente ao esclarecimento: **8,5/10**, não oficial. A avaliação anterior de 7,8/10 foi revista porque atribuía perda excessiva à ausência de cobertura integral. A nota ainda é provisória: matrícula e links dos Colabs faltam, e a apresentação oral não foi observada.
+- Próximo passo quando o estudante retornar: revisar o artigo e os materiais de entrega; incorporar, se apropriado, a explicação do professor como delimitação de escopo (sem afirmar completude); preencher matrícula e links dos Colabs; preparar/apresentar os cinco minutos em sala.
+
 ## Artefatos
 
 - Checkpoint: `out/ckpt.pt`.
