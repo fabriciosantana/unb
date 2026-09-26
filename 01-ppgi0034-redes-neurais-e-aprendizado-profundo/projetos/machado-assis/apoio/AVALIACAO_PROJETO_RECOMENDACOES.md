@@ -70,13 +70,13 @@ Isso não prova que o treino esteja errado. Demonstra que a cópia local dos art
 
 **O que fazer:** nenhuma expansão ou novo treinamento é necessário por motivo de cobertura integral. Preservar a descrição honesta da amostra e, caso a curadoria seja ampliada voluntariamente, versionar dados e partições e repetir as condições antes de atribuir resultados à nova versão.
 
-### 3. Concluir o artigo de seis páginas IEEE — prioridade alta
+### 3. Completar e revisar o artigo IEEE — recomendação histórica sobre conteúdo e identificação
 
-**Por quê:** o PDF atual possui três páginas; há placeholders de nome e matrícula. Trata-se de descumprimento direto de formato/extensão.
+**Por quê (entendimento inicial):** o PDF examinado naquele momento tinha três páginas e campos de identificação pendentes. O professor esclareceu posteriormente que seis páginas é o limite máximo, não uma meta de extensão. A recomendação de preencher páginas foi superada; continuam pertinentes a clareza, a fundamentação e o preenchimento dos dados de identificação.
 
-**Como implementar:** ampliar o conteúdo com material já disponível: origem e cobertura do corpus, decisões de preparação, explicação da arquitetura, protocolo de avaliação, tabela completa das condições e trechos qualitativos comentados. Manter a classe IEEE e o tamanho tipográfico do template.
+**Como implementar:** preservar o formato IEEE e revisar a coerência entre método, métricas, resultados e conclusões. Não ampliar o texto apenas para alcançar uma quantidade de páginas.
 
-**O que fazer:** completar seis páginas de conteúdo e referências, preencher autoria/matrícula, corrigir linhas que ultrapassam a coluna e conferir o PDF final em `out/`. Evitar preenchimento por repetição ou aumento de fonte/margem. Critério de conclusão: seis páginas legíveis, duas colunas, identificação completa e correspondência entre texto, tabelas e artefatos.
+**O que fazer:** preencher a matrícula, conferir a diagramação e garantir que a versão final esteja dentro do máximo de seis páginas. O PDF atual com cinco páginas está dentro do limite; não há página faltante por esse motivo.
 
 ### 4. Corrigir a documentação da seed e do checkpoint — prioridade alta
 
@@ -138,7 +138,7 @@ Isso não prova que o treino esteja errado. Demonstra que a cópia local dos art
 
 Não se exige atingir perplexidade arbitrária, reproduzir a escala do GPT-2, empregar BPE, realizar fine-tuning, implementar RAG, executar um terceiro modelo, testar múltiplas seeds ou produzir novidade científica. O enunciado pede comparações, mas não define um número obrigatório de modelos; as duas condições existentes constituem uma comparação pertinente. Múltiplas execuções, curvas completas e métricas de custo seriam úteis, mas não são requisitos autônomos do PDF.
 
-A prioridade é reparar a rastreabilidade dos resultados, resolver a abrangência do corpus, descrever fielmente os procedimentos, finalizar as seis páginas e realizar a apresentação. O material atual sustenta avanço substancial do projeto, mas não sustenta declarar toda a entrega concluída ou atribuir nota 10.
+A prioridade indicada naquele parecer é histórica e parte de um entendimento depois corrigido sobre corpus e extensão do artigo. Os pontos ainda úteis são descrever fielmente os procedimentos, completar dados de identificação e realizar a apresentação; a amostra é aceitável e o PDF atual respeita o limite de páginas.
 
 ## Situação após implementação — 26 de setembro de 2026
 
@@ -148,9 +148,9 @@ Esta seção atualiza o estado das recomendações sem substituir a nota 6,5/10,
 |---|---|---|
 | 1. Artefatos baseline | Parcialmente concluída | Arquivos locais renomeados a partir da inspeção de conteúdo; tokenizer, configuração e amostra restaurados. A reavaliação independente em CPU (200×32 janelas) reproduziu loss 1,239860 e PPL 3,455131, arredondando aos valores do Colab. Registro em `reevaluacao_baseline_cpu.json`; o ZIP original do Drive e logs históricos não foram localizados. Cópia redundante de 129.363.420 bytes foi removida após SHA-256 idêntico ao checkpoint preservado. |
 | 2. Cobertura do corpus | Adequada ao escopo esclarecido | Amostra, composição e limites documentados; professor confirmou que não é necessário reunir todas as obras. Não há pendência de completar a lacuna de *Correspondência* nem de repetir os treinamentos por esse motivo. |
-| 3. Artigo IEEE | Parcialmente concluída | PDF recompilado em duas colunas com cinco páginas em `../latex/out/ARTIGO_PROJETO1_RASCUNHO.pdf`; falta uma página para o formato de seis páginas indicado no enunciado. Nome preenchido; matrícula ainda precisa de confirmação/preenchimento. |
+| 3. Artigo IEEE | Dentro do limite; identificação pendente | PDF recompilado em duas colunas com cinco páginas em `../latex/out/ARTIGO_PROJETO1_RASCUNHO.pdf`, dentro do máximo de seis páginas esclarecido pelo professor. Nome preenchido; matrícula ainda precisa de confirmação/preenchimento. |
 | 4. Seeds e checkpoint | Implementada documentalmente | Notebooks, artigo, relatório e roteiro distinguem seed efetiva do treino (1337 no commit fixado/uma GPU) das seeds de preparação, avaliação e geração; checkpoint identificado como iteração 5000 sem afirmar mínimo histórico de validação. |
-| 5. Protocolo comparativo | Implementada documentalmente | Artigo e relatório descrevem as 200 janelas amostradas por 32, contexto 256, unidade nats/caractere, amostragem no fluxo concatenado, mudança simultânea de três dimensões e limite do orçamento em atualizações. |
+| 5. Protocolo comparativo | Implementada documentalmente | Artigo e relatório descrevem as 200 janelas amostradas por 32, contexto 256, unidade em símbolos do vocabulário char-level (incluindo EOS/UNK), amostragem no fluxo concatenado, mudança simultânea de três dimensões e limite do orçamento em atualizações. |
 | 6. Parâmetros | Implementada | Artigo/relatório distinguem contagem do log sem posições (10.678.272; 3.185.664) e totais únicos com posições (10.776.576; 3.251.200). |
 | 7. Fundamentação/amostras | Implementada no artigo | Atenção causal, objetivo, perplexidade, trechos de saída e erros específicos analisados com limites explícitos. |
 | 8. Autoria/acesso | Parcial | Página `LEIA-ME-ENTREGA.md` descreve procedência e ordem dos quatro notebooks. Links de compartilhamento dos Colabs ainda dependem do autor. |

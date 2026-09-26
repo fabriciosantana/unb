@@ -82,8 +82,8 @@ e preservados no Google Drive, na pasta `machado-gpt-treinamento-colab`.
 |---|---:|
 | Número de parâmetros | 10,68 M |
 | Documentos avaliados no teste | 31 |
-| Test loss | 1,2399 nats por caractere |
-| Perplexidade por caractere | 3,455 |
+| Perda amostral | 1,2399 nats por símbolo previsto (vocabulário char-level com EOS/UNK) |
+| Perplexidade amostral | 3,455 por símbolo previsto |
 
 A perplexidade foi calculada em nível de caractere e, portanto, não deve ser
 comparada diretamente com perplexidades de modelos que utilizam tokenização BPE
@@ -115,7 +115,7 @@ tratada como inspeção qualitativa, não como avaliação humana formal.
 - O modelo foi treinado em um corpus específico e relativamente pequeno.
 - A unidade de modelagem é o caractere, não palavras ou tokens BPE.
 - O modelo não deve ser descrito como GPT-2 pré-treinado.
-- A perplexidade por caractere não é diretamente comparável à de outros
+- A perplexidade do vocabulário char-level não é diretamente comparável à de outros
   tokenizadores.
 - Não há, nesta execução, série completa de perdas de treino e validação.
 - O conjunto de teste foi usado somente após o treinamento.
@@ -127,7 +127,8 @@ tratada como inspeção qualitativa, não como avaliação humana formal.
 ## 9. Conclusão
 
 O baseline foi executado com sucesso em GPU, produziu um checkpoint válido e
-apresentou `test loss = 1,2399` e perplexidade por caractere igual a `3,455`.
+apresentou perda amostral de `1,2399` nats por símbolo previsto e perplexidade
+de `3,455` por símbolo (vocabulário char-level com tokens especiais).
 Esses resultados são suficientes para documentar a primeira linha de base do
 trabalho. A conclusão não deve extrapolar para alegações de capacidade
 conversacional ou de reprodução do GPT-2.
@@ -156,7 +157,7 @@ O orçamento iguala atualizações, não FLOPs nem tempo.
 Contando parâmetros únicos incluindo posições, são 3.251.200 no modelo reduzido
 contra 10.776.576 no baseline, redução de 69,8%. Sem posições, conforme o log do
 nanoGPT, são 3.185.664 contra 10.678.272. Em relação
-ao baseline, sua perda de teste aumentou 0,1463 nats por caractere, ou cerca de
+ao baseline, sua perda amostral aumentou 0,1463 nats por símbolo previsto, ou cerca de
 11,8%, enquanto sua perplexidade aumentou 0,545, ou cerca de 15,8%. Portanto,
 neste protocolo, a redução de capacidade diminuiu o custo paramétrico, mas
 produziu pior desempenho preditivo no conjunto de teste.

@@ -13,8 +13,8 @@
 - Documentos de teste: 31.
 - Configuração principal: 6 camadas, 6 cabeças, embedding 384, `block_size=256`, `batch_size=64`, `max_iters=5000`, `float16`.
 - Parâmetros do modelo: aproximadamente 10,68 milhões.
-- Test loss: `1,2399 nats/caractere`.
-- Perplexidade por caractere: `3,455`.
+- Perda amostral: `1,2399 nats por símbolo` (vocabulário char-level, incluindo EOS e UNK quando ocorre).
+- Perplexidade amostral por símbolo: `3,455`.
 - O modelo aprendeu padrões de português e estilo literário, mas as amostras ainda apresentam incoerências semânticas, como esperado para um modelo pequeno treinado do zero.
 
 ### Atualização da auditoria e documentação (2026-09-26)
@@ -25,7 +25,7 @@
 - Artefatos do baseline estavam trocados de nome. Foram corrigidos: `config_train_machado_char.py`, `meta.pkl` (tokenizer pickle) e `amostra_gerada.txt` (texto). `resultados_baseline.json` registra a saída reportada do Colab; `reevaluacao_baseline_cpu.json` documenta a reavaliação independente que concordou ao arredondamento (loss 1,239860; PPL 3,455131). O ZIP original não foi recuperado. A cópia de checkpoint de 129 MB disfarçada de amostra foi removida após SHA-256 confirmar identidade com `out/ckpt.pt`.
 - Parâmetros totais únicos incluindo posições: baseline 10.776.576; reduzido 3.251.200 (redução 69,8%). A contagem de pesos impressa pelo nanoGPT exclui posição: 10.678.272 e 3.185.664.
 - O corpus é uma amostra, não uma coleção exaustiva. O professor esclareceu que não é necessário reunir todas as obras; a ausência de `Correspondência` (1932) é documentada, mas não é pendência nem motivo para novo treinamento. Não afirmar que a amostra é completa.
-- O artigo foi ampliado; após os ajustes de escopo e recompilação na estrutura `latex/`, o PDF atual ficou com cinco páginas, portanto falta uma página para atender às seis exigidas. Matrícula e links dos Colabs também aguardam preenchimento; o roteiro oral prepara, mas não comprova, a apresentação.
+- O artigo foi compilado em cinco páginas, dentro do limite de até seis esclarecido pelo professor. Matrícula e links dos Colabs ainda aguardam preenchimento; o roteiro oral prepara, mas não comprova, a apresentação.
 - Sumário reprodutível dos resultados de ambos os modelos: `projetos/machado-assis/RESULTADOS_EXPERIMENTOS.json`.
 
 ### Esclarecimento do professor e avaliação revisada
@@ -53,7 +53,7 @@
 
 - O baseline já cobre o núcleo do trabalho: preparação dos dados, treinamento de um modelo autorregressivo nanoGPT em nível de caractere, avaliação no conjunto de teste e preservação do checkpoint.
 - O notebook caracteriza o modelo como uma linha de base educacional, não como reprodução do GPT-2 original nem como modelo conversacional.
-- A especificação formal exige um artigo IEEE de seis páginas com avaliações e comparações dos resultados obtidos.
+- A especificação formal pede artigo IEEE de até seis páginas, com descrição do problema e avaliações/comparações dos resultados obtidos. O limite não é uma meta de extensão; priorizar clareza e fundamentação.
 - A comparação experimental está atendida pelas duas condições; os limites da comparação estão registrados no artigo.
 - Não comparar diretamente a perplexidade deste modelo com GPT-2/GPT-3, pois as escalas, corpora e tokenizações são diferentes.
 
@@ -69,8 +69,8 @@
 ### Resultado do comparativo
 
 - Parâmetros: 3,19 milhões.
-- Test loss: `1,3862 nats/caractere`.
-- Perplexidade por caractere: `4,000`.
+- Perda amostral: `1,3862 nats por símbolo` (vocabulário char-level, incluindo EOS e UNK quando ocorre).
+- Perplexidade amostral por símbolo: `4,000`.
 - Documentos de teste: 31.
 - Em relação ao baseline, a contagem total incluindo embeddings posicionais caiu 69,8%; a perda amostral aumentou 11,8% e a perplexidade 15,8%.
 - A amostra preservou padrões locais de português, mas mostrou maior fragmentação e incoerência semântica.
