@@ -13,6 +13,8 @@
 /checkpoints/
 /logs/
 /experimentos/
+/aux/
+/out/
 *.ckpt
 *.pt
 *.pth
