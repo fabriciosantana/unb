@@ -9,6 +9,7 @@
     },
     "vocabulary_size": 147,
     "context_characters": 256,
+    "context_unit_note": "A chave context_characters é legada: o contexto é de 256 tokens do vocabulário de caracteres, incluindo EOS e UNK.",
     "data_preparation_seed": 20260925,
     "corpus_sha256": "f5562aa740556fae3435cfacf5b54c414909cd54f2fb627067132225791cc5b3",
     "coverage_warning": "Amostra de trabalho, sem alegação de completude bibliográfica; o professor esclareceu que não é necessário reunir todas as obras. Ver apoio/AVALIACAO_COBERTURA_CORPUS.md para composição e limites de representatividade."
@@ -26,13 +27,14 @@
     "checkpoint_selection": "checkpoint salvo na iteração 5000; não há evidência arquivada de que seja o mínimo histórico de validação"
   },
   "evaluation": {
-    "metric": "estimativa amostral de perda e perplexidade por caractere",
+    "metric": "estimativa amostral de perda em nats por token do vocabulário de caracteres, incluindo EOS e UNK, e perplexidade sobre os mesmos tokens",
     "test_window_seed": 20260926,
     "batches": 200,
     "batch_size": 32,
     "window_characters": 256,
+    "legacy_key_note": "window_characters e as chaves com per_character foram preservadas por compatibilidade; a unidade efetiva é o token do vocabulário de caracteres, incluindo EOS e UNK.",
     "sampling": "inícios aleatórios no fluxo concatenado de teste; janelas podem incluir o EOS entre documentos; não é varredura exaustiva nem média por obra",
-    "perplexity_definition": "exp(loss); valores char-level não são diretamente comparáveis com métricas BPE"
+    "perplexity_definition": "exp(loss), adimensional; valores do vocabulário de caracteres não são diretamente comparáveis com métricas BPE"
   },
   "experiments": [
     {
@@ -69,6 +71,7 @@
   "comparison": {
     "parameter_reduction_percent_including_positions": 69.83086278981376,
     "test_loss_increase_nats_per_character": 0.1463685995340346,
+    "rounding_note": "Diferenças calculadas com a precisão integral das métricas armazenadas: a diferença de perda arredondada a quatro casas é 0,1464 nats por token, não a subtração dos valores já arredondados da tabela.",
     "test_loss_relative_increase_percent": 11.8052,
     "test_perplexity_increase": 0.5446074427160175,
     "test_perplexity_relative_increase_percent": 15.7623,
