@@ -12,6 +12,7 @@
 /resultados/
 /checkpoints/
 /logs/
+/experimentos/
 *.ckpt
 *.pt
 *.pth
