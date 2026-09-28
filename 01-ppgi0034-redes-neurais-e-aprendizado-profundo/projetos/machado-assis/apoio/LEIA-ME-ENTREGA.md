@@ -11,6 +11,7 @@
 
 ## Execução dos notebooks
 
+- Notebook 01 grava ZIP original, arquivos extraídos e auditorias em `MyDrive/machado-gpt-treinamento-colab/dados/`; ele monta o Drive antes de qualquer gravação.
 Os resultados históricos dos notebooks 03 e 04 foram obtidos no Google Colab com GPU. Para a nova rodada, use as versões atualizadas: salve cada notebook no seu Drive, selecione GPU e autorize a montagem do Drive na configuração inicial.
 
 - Entrada: `MyDrive/machado-gpt-treinamento-colab/dados/modelagem/{train,validation,test}.jsonl`. Use as mesmas partições locais; os hashes são conferidos. Se faltarem arquivos, o notebook oferece upload e grava os JSONL nessa pasta.

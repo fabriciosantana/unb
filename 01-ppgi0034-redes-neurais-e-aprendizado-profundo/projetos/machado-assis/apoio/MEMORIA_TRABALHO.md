@@ -95,3 +95,7 @@ Matrícula informada pelo autor: 262114527. Campo preenchido no artigo; a pendê
 ### Preparação de nova rodada no Colab/Drive (2026-09-28)
 
 O autor decidiu repetir os treinamentos e gravar os artefatos no Drive. Os notebooks 03 e 04 foram adaptados para pastas únicas em `machado-gpt-treinamento-colab/novas_execucoes/`, com dados e código-base preservados, ambiente, logs contínuos, curvas, último checkpoint e avaliação de 6.400 janelas em qualquer dispositivo. Hiperparâmetros experimentais mantidos; as saídas antigas dos notebooks foram limpas para a nova execução. Resultados históricos em `experimentos/`, sumário consolidado e artigo permanecem referentes à rodada anterior. Os novos treinos completos ainda serão executados pelo autor; não declarar novos resultados antes de recebê-los.
+
+### Persistência do notebook 01 no Google Drive (2026-09-28)
+
+Corrigido o caminho de saída no Colab: o notebook monta o Drive antes de acessar/gerar dados e usa `MyDrive/machado-gpt-treinamento-colab/dados/` para o ZIP-fonte, arquivos extraídos, corpus mestre, auditorias e manifesto. Uma verificação interrompe a execução se o Drive não estiver montado. Fora do Colab, os caminhos locais permanecem relativos ao projeto.
