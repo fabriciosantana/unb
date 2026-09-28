@@ -99,3 +99,7 @@ O autor decidiu repetir os treinamentos e gravar os artefatos no Drive. Os noteb
 ### Persistência do notebook 01 no Google Drive (2026-09-28)
 
 Corrigido o caminho de saída no Colab: o notebook monta o Drive antes de acessar/gerar dados e usa `MyDrive/machado-gpt-treinamento-colab/dados/` para o ZIP-fonte, arquivos extraídos, corpus mestre, auditorias e manifesto. Uma verificação interrompe a execução se o Drive não estiver montado. Fora do Colab, os caminhos locais permanecem relativos ao projeto.
+
+### Encadeamento dos notebooks no Drive (2026-09-28)
+
+Notebook 02 atualizado para montar `MyDrive/machado-gpt-treinamento-colab`, ler o corpus mestre criado pelo notebook 01 em `dados/` e salvar JSONL/auditorias em `dados/modelagem/`. Instruções dos notebooks 03/04 agora orientam executar 01 e 02 antes; ambos já procuram os JSONL nesse diretório compartilhado e validam seus hashes.
