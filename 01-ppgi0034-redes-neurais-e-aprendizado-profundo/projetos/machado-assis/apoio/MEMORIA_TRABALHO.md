@@ -87,3 +87,11 @@ Arquivos principais: `latex/ARTIGO_PROJETO1_RASCUNHO.tex`, `referências/bibliog
 - Documentos de teste: 31.
 - Em relação ao baseline, a contagem total incluindo embeddings posicionais caiu 69,8%; a perda amostral aumentou 11,8% e a perplexidade 15,8%.
 - A amostra preservou padrões locais de português, mas também apresentou fragmentação e incoerência semântica; não há avaliação humana formal que classifique a qualidade literária dos dois modelos.
+
+### Atualização de identificação (2026-09-28)
+
+Matrícula informada pelo autor: 262114527. Campo preenchido no artigo; a pendência de matrícula registrada acima está resolvida. Os links de entrega continuam pendentes.
+
+### Preparação de nova rodada no Colab/Drive (2026-09-28)
+
+O autor decidiu repetir os treinamentos e gravar os artefatos no Drive. Os notebooks 03 e 04 foram adaptados para pastas únicas em `machado-gpt-treinamento-colab/novas_execucoes/`, com dados e código-base preservados, ambiente, logs contínuos, curvas, último checkpoint e avaliação de 6.400 janelas em qualquer dispositivo. Hiperparâmetros experimentais mantidos; as saídas antigas dos notebooks foram limpas para a nova execução. Resultados históricos em `experimentos/`, sumário consolidado e artigo permanecem referentes à rodada anterior. Os novos treinos completos ainda serão executados pelo autor; não declarar novos resultados antes de recebê-los.

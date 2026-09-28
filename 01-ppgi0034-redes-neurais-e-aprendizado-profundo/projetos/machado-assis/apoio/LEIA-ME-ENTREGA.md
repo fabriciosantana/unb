@@ -11,7 +11,16 @@
 
 ## Execução dos notebooks
 
-Os notebooks 03 e 04 foram executados no Google Colab com GPU. Em uma sessão nova, carregar os três arquivos `train.jsonl`, `validation.jsonl` e `test.jsonl` de `dados/modelagem/`, executar as células em ordem e exportar os artefatos antes de encerrar a sessão. A GPU e o espaço de `/content` são temporários. Os checkpoints e os resultados exportados devem ser mantidos no Drive, fora do histórico Git se excederem os limites de tamanho.
+Os resultados históricos dos notebooks 03 e 04 foram obtidos no Google Colab com GPU. Para a nova rodada, use as versões atualizadas: salve cada notebook no seu Drive, selecione GPU e autorize a montagem do Drive na configuração inicial.
+
+- Entrada: `MyDrive/machado-gpt-treinamento-colab/dados/modelagem/{train,validation,test}.jsonl`. Use as mesmas partições locais; os hashes são conferidos. Se faltarem arquivos, o notebook oferece upload e grava os JSONL nessa pasta.
+- Saída automática: `MyDrive/machado-gpt-treinamento-colab/novas_execucoes/<experimento>/<identificador>/`. Cada inicialização cria uma pasta exclusiva; os resultados históricos não são alterados.
+- Antes do treinamento: cópias dos JSONL, tokenizador, configuração, versão exata do código-base, ambiente e dependências.
+- Durante o treinamento: `treinamento.log`, `curvas_perda.csv`, status e `out/ckpt.pt`, atualizado a cada 500 iterações. É preservado o último checkpoint, não todos os estados históricos. Não há retomada automática.
+- Depois do treinamento: resultados, amostra, inícios das 6.400 janelas de teste, perdas por lote, figura das curvas e manifesto de artefatos. CPU usa sublotes de oito sem reduzir o total de janelas.
+- Salve também o próprio notebook com suas saídas pelo menu do Colab. Os artefatos produzidos pelas células e o arquivo `.ipynb` são itens distintos.
+
+Execute 03 e 04 separadamente. Em uma interrupção, consulte a pasta impressa, o status e o log; reexecutar a primeira célula cria outra execução do zero. A atualização do artigo deve ocorrer somente após conferir os novos resultados de ambos os modelos.
 
 Os notebooks do autor devem ser vinculados aqui antes da entrega final:
 
@@ -29,6 +38,6 @@ Os notebooks do autor devem ser vinculados aqui antes da entrega final:
 
 ## Estado de verificação
 
-O sumário versionável dos dois experimentos está em [`../RESULTADOS_EXPERIMENTOS.json`](../RESULTADOS_EXPERIMENTOS.json); os JSONs detalhados ficam dentro das pastas experimentais, ignoradas pelo Git por conterem checkpoints grandes. `../experimentos/gpt_caractere_nanogpt/reevaluacao_baseline_cpu.json` documenta a reavaliação independente que reproduziu, ao arredondamento, a saída Colab do baseline. O ZIP original e logs históricos não foram recuperados. A matrícula ainda precisa ser preenchida no artigo. Os links públicos/compartilháveis dos Colabs também precisam ser acrescentados. Não se afirma que a apresentação oral já ocorreu.
+O sumário versionável dos dois experimentos está em [`../RESULTADOS_EXPERIMENTOS.json`](../RESULTADOS_EXPERIMENTOS.json); os JSONs detalhados ficam dentro das pastas experimentais, ignoradas pelo Git por conterem checkpoints grandes. `../experimentos/gpt_caractere_nanogpt/reevaluacao_baseline_cpu.json` documenta a reavaliação independente que reproduziu, ao arredondamento, a saída Colab do baseline. O ZIP original e logs históricos não foram recuperados. A matrícula 262114527 foi preenchida no artigo. Os links públicos/compartilháveis dos Colabs também precisam ser acrescentados. Não se afirma que a apresentação oral já ocorreu.
 
 Para compilar a partir da raiz do projeto: `latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=latex/aux latex/ARTIGO_PROJETO1_RASCUNHO.tex`. A cópia de entrega do PDF fica em `latex/out/`.
