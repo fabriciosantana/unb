@@ -24,7 +24,7 @@
     "iterations": 5000,
     "batch_size": 64,
     "dtype": "float16",
-    "checkpoint_selection": "checkpoint salvo na iteração 5000; não há evidência arquivada de que seja o mínimo histórico de validação"
+    "checkpoint_selection": "checkpoint da iteração 5000; menor perda de validação entre os pontos registrados a cada 500 iterações"
   },
   "evaluation": {
     "metric": "estimativa amostral de perda em nats por token do vocabulário de caracteres, incluindo EOS e UNK, e perplexidade sobre os mesmos tokens",
@@ -34,7 +34,10 @@
     "window_characters": 256,
     "legacy_key_note": "window_characters e as chaves com per_character foram preservadas por compatibilidade; a unidade efetiva é o token do vocabulário de caracteres, incluindo EOS e UNK.",
     "sampling": "inícios aleatórios no fluxo concatenado de teste; janelas podem incluir o EOS entre documentos; não é varredura exaustiva nem média por obra",
-    "perplexity_definition": "exp(loss), adimensional; valores do vocabulário de caracteres não são diretamente comparáveis com métricas BPE"
+    "perplexity_definition": "exp(loss), adimensional; valores do vocabulário de caracteres não são diretamente comparáveis com métricas BPE",
+    "device": "NVIDIA Tesla T4 / CUDA",
+    "framework": "PyTorch 2.11.0+cu128",
+    "unknown_test_character": {"character": "½", "unicode": "U+00BD", "occurrences": 1, "handling": "mapped to UNK; included in test targets"}
   },
   "experiments": [
     {
@@ -46,11 +49,13 @@
       },
       "trainable_parameters_excluding_position_embeddings": 10678272,
       "unique_parameters_including_position_embeddings": 10776576,
-      "test_loss_nats_per_character": 1.2398603546619416,
-      "test_perplexity_per_character": 3.45513093814427,
+      "test_loss_nats_per_character": 1.2397083312273025,
+      "test_perplexity_per_character": 3.4546057171958835,
       "unknown_characters_in_test": 1,
-      "metric_provenance": "Independent CPU re-evaluation of local checkpoint, matching the previously reported Colab output at its displayed precision.",
-      "evaluation_artifact": "experimentos/gpt_caractere_nanogpt/reevaluacao_baseline_cpu.json"
+      "metric_provenance": "Colab GPU evaluation, matched protocol/environment with reduced-capacity condition.",
+      "run_id": "20260928T230901Z-62253fb3",
+      "evaluation_artifact": "Google Drive: novas_execucoes/gpt_caractere_nanogpt/20260928T230901Z-62253fb3/resultados_baseline.json",
+      "drive_folder": "https://drive.google.com/drive/folders/1ErqbAtjN2N0iqyVb9NXiKCVkSuOiW_TH"
     },
     {
       "name": "reduced_capacity",
@@ -61,20 +66,22 @@
       },
       "trainable_parameters_excluding_position_embeddings": 3185664,
       "unique_parameters_including_position_embeddings": 3251200,
-      "test_loss_nats_per_character": 1.3862289541959762,
-      "test_perplexity_per_character": 3.9997383808602875,
+      "test_loss_nats_per_character": 1.3862125158309937,
+      "test_perplexity_per_character": 3.9996726322413494,
       "unknown_characters_in_test": 1,
-      "metric_provenance": "Results exported from the Colab run.",
-      "evaluation_artifact": "experimentos/gpt_caractere_reduzido/resultados_comparativo_reduzido.json"
+      "metric_provenance": "Colab GPU evaluation, matched protocol/environment with baseline condition.",
+      "run_id": "20260928T232621Z-f4c538e9",
+      "evaluation_artifact": "Google Drive: novas_execucoes/gpt_caractere_reduzido/20260928T232621Z-f4c538e9/resultados_comparativo_reduzido.json",
+      "drive_folder": "https://drive.google.com/drive/folders/1kaZddXelvV4kguyTvsGoMfbNndCjY0FR"
     }
   ],
   "comparison": {
     "parameter_reduction_percent_including_positions": 69.83086278981376,
-    "test_loss_increase_nats_per_character": 0.1463685995340346,
-    "rounding_note": "Diferenças calculadas com a precisão integral das métricas armazenadas: a diferença de perda arredondada a quatro casas é 0,1464 nats por token, não a subtração dos valores já arredondados da tabela.",
-    "test_loss_relative_increase_percent": 11.8052,
-    "test_perplexity_increase": 0.5446074427160175,
-    "test_perplexity_relative_increase_percent": 15.7623,
+    "test_loss_increase_nats_per_character": 0.1465041846036912,
+    "rounding_note": "Diferenças calculadas com a precisão integral das métricas armazenadas; a diferença da perda arredondada a quatro casas é 0,1465 nats por token.",
+    "test_loss_relative_increase_percent": 11.8176,
+    "test_perplexity_increase": 0.5450669150454659,
+    "test_perplexity_relative_increase_percent": 15.778,
     "interpretation": "Descriptive comparison of two configurations; layers, heads, and embedding dimension change jointly. One run per condition; update budget is equal, FLOPs and runtime were not measured/equalized."
   }
 }

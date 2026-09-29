@@ -158,3 +158,7 @@ Esta seção atualiza o estado das recomendações sem substituir a nota 6,5/10,
 | 10. Apresentação | Preparação concluída; realização pendente | `ROTEIRO_APRESENTACAO_5_MIN.md` foi criado. Ensaiar e apresentar em sala continua sendo responsabilidade do estudante e não pode ser atestado aqui. |
 
 Itens dependentes de informação ou ação do estudante: matrícula, links dos Colabs e apresentação oral. A matriz ABL lista “Correspondência, 1932”, mas a ausência do texto na amostra não constitui pendência segundo o esclarecimento do professor. Este arquivo preserva recomendações e pontuações de um estado anterior; para a organização atual, consulte também `MEMORIA_TRABALHO.md` e `AVALIACAO_COBERTURA_CORPUS.md`.
+
+## Atualização de fechamento — 29 de setembro de 2026
+
+As execuções pareadas mais recentes, com GPU Tesla T4 e PyTorch 2.11.0+cu128, substituem os valores anteriores como resultados principais: baseline loss 1,239708/PPL 3,454606; reduzido loss 1,386213/PPL 3,999673. Os notebooks executados foram commitados, e logs, curvas, JSONs e checkpoints estão nas pastas de execução do Drive, identificadas no `../README.md`. O artigo foi recompilado com links para notebooks e artefatos; o PDF final tem quatro páginas. A avaliação final e as ações restantes estão em [`AVALIACAO_FINAL_FECHAMENTO.md`](AVALIACAO_FINAL_FECHAMENTO.md). As pontuações nesta avaliação anterior continuam sendo pareceres simulados, não oficiais, e não devem ser interpretadas como avaliação da rodada final.

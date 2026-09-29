@@ -15,7 +15,8 @@
 /experimentos/
 # Saídas auxiliares e PDF gerado pelo LaTeX (a fonte permanece versionada).
 /latex/aux/
-/latex/out/
+/latex/out/*
+!/latex/out/ARTIGO_PROJETO1_FINAL.pdf
 *.ckpt
 *.pt
 *.pth

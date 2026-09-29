@@ -103,3 +103,7 @@ Corrigido o caminho de saída no Colab: o notebook monta o Drive antes de acessa
 ### Encadeamento dos notebooks no Drive (2026-09-28)
 
 Notebook 02 atualizado para montar `MyDrive/machado-gpt-treinamento-colab`, ler o corpus mestre criado pelo notebook 01 em `dados/` e salvar JSONL/auditorias em `dados/modelagem/`. Instruções dos notebooks 03/04 agora orientam executar 01 e 02 antes; ambos já procuram os JSONL nesse diretório compartilhado e validam seus hashes.
+
+### Fechamento após execuções Colab (2026-09-29)
+
+O autor executou e commitou os quatro notebooks. As métricas principais agora vêm das execuções GPU pareadas: baseline `1.2397083312273025` nats/token, PPL `3.4546057171958835`; reduzido `1.3862125158309937`, PPL `3.9996726322413494`. As duas curvas mostram menor perda de validação entre os checkpoints registrados na iteração 5.000. As execuções e seus manifestos estão no Google Drive, links no `README.md`. O artigo foi atualizado e compilado para `latex/out/ARTIGO_PROJETO1_FINAL.pdf` (4 páginas); `RESULTADOS_EXPERIMENTOS.json` foi sincronizado. O caractere `½` ocorre uma vez no teste e é mapeado para UNK. Pendências de submissão: compartilhar as duas pastas de resultados do Drive com o avaliador e realizar a apresentação oral. Ver `apoio/AVALIACAO_FINAL_FECHAMENTO.md`.

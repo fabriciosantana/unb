@@ -5,6 +5,7 @@
 \usepackage[brazil]{babel}
 \usepackage{booktabs}
 \usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
 \usepackage[nopatch=eqnum]{microtype}
 
 \title{Treinamento de um Modelo de Linguagem Autorregressivo em Nível de Caractere com Textos de Machado de Assis}
@@ -20,7 +21,7 @@
 \maketitle
 
 \begin{abstract}
-Este trabalho implementa, treina e compara duas configurações de modelos autorregressivos em nível de caractere, treinadas do zero com uma amostra de textos de Machado de Assis. Usando nanoGPT em versão fixada e o mesmo orçamento de atualizações em uma Tesla T4, investigamos como a redução conjunta de camadas, cabeças e dimensão das representações vetoriais se associa à previsão no teste. Em 6.400 janelas amostradas do fluxo de teste, o modelo de referência obteve perda de 1,2399 nats por token e perplexidade 3,455; a configuração reduzida obteve 1,3862 e 4,000. As métricas usam o vocabulário de caracteres, incluindo os tokens especiais de fim de documento e de caractere desconhecido. Incluindo representações posicionais, a configuração reduzida tem 69,8\% menos parâmetros únicos, mas maior perda neste protocolo. O corpus é uma amostra de trabalho, sem alegação de representar a obra completa. Discute-se uma extensão por recuperação de evidências, sem atribuir capacidade conversacional aos modelos atuais.
+Este trabalho implementa, treina e compara duas configurações de modelos autorregressivos em nível de caractere, treinadas do zero com uma amostra de textos de Machado de Assis. Usando nanoGPT em versão fixada e o mesmo orçamento de atualizações em uma Tesla T4, investigamos como a redução conjunta de camadas, cabeças e dimensão das representações vetoriais se associa à previsão no teste. Em 6.400 janelas amostradas do fluxo de teste, o modelo de referência obteve perda de 1,2397 nats por token e perplexidade 3,455; a configuração reduzida obteve 1,3862 e 4,000. As métricas usam o vocabulário de caracteres, incluindo os tokens especiais de fim de documento e de caractere desconhecido. Incluindo representações posicionais, a configuração reduzida tem 69,8\% menos parâmetros únicos, mas maior perda neste protocolo. O corpus é uma amostra de trabalho, sem alegação de representar a obra completa. Discute-se uma extensão por recuperação de evidências, sem atribuir capacidade conversacional aos modelos atuais.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -75,7 +76,7 @@ O tokenizador foi ajustado somente no treino e possui 147 tokens, incluindo EOS 
 
 Foi utilizado o nanoGPT, de Andrej Karpathy, sob licença MIT, no commit \texttt{3adf61e154c3} \cite{karpathyNanoGPT}. O baseline tem seis camadas, seis cabeças e dimensão de embedding 384; a condição reduzida tem quatro camadas, quatro cabeças e dimensão 256. Os demais hiperparâmetros são compartilhados, conforme a Tabela~\ref{tab:config}. Ambas as configurações foram treinadas do zero por 5.000 iterações no Colab, com PyTorch 2.11.0+cu128 e Tesla T4.
 
-O treinamento calcula gradientes por retropropagação e atualiza os pesos com AdamW. A semente efetiva do código \texttt{train.py} em uma GPU é 1337; já a preparação dos dados e a geração usam 20260925. A opção \path{always_save_checkpoint=True} grava o estado do treinamento (\textit{checkpoint}) em cada avaliação. Os arquivos \texttt{ckpt.pt} preservados correspondem à iteração 5.000; não há série histórica de perdas que comprove serem os estados de menor perda de validação.
+O treinamento calcula gradientes por retropropagação e atualiza os pesos com AdamW. A semente efetiva do código \texttt{train.py} em uma GPU é 1337; já a preparação dos dados e a geração usam 20260925. A opção \path{always_save_checkpoint=True} grava o estado do treinamento (\textit{checkpoint}) em cada avaliação. Os arquivos \texttt{ckpt.pt} preservados correspondem à iteração 5.000. As curvas registram avaliações a cada 500 iterações e mostram que esse checkpoint teve a menor perda de validação entre os pontos registrados.
 
 Reduzir camadas, cabeças e dimensão simultaneamente constitui uma intervenção composta: os resultados comparam duas configurações, mas não isolam o efeito de cada componente. Há uma execução por condição. O orçamento iguala atualizações e tokens processados, não operações de ponto flutuante (FLOPs) nem tempo de execução.
 
@@ -105,7 +106,7 @@ Iterações / GPU & 5.000 / Tesla T4 \\
 
 A avaliação abre os documentos de teste somente após o treinamento de cada modelo. Usa 200 lotes de 32 janelas de 256 tokens, sorteadas do fluxo concatenado de teste com semente NumPy 20260926. Cada lote contém entradas e alvos deslocados em um token. Calcula-se a média das 200 perdas de lote e aplica-se a exponencial para obter a perplexidade. Trata-se de uma estimativa amostral, não de uma varredura exaustiva nem de uma média por obra. Os inícios podem se repetir ou gerar janelas sobrepostas; as 6.400 sequências não são necessariamente independentes. A semente torna o sorteio reproduzível, mas não remove a incerteza amostral.
 
-O baseline foi reavaliado em CPU com o tokenizador recuperado do artefato local. Essa reavaliação, registrada em JSON separado, reproduziu a saída original do Colab à precisão reportada: quatro casas para a perda e três para a perplexidade. O resultado da variante reduzida foi exportado diretamente do Colab. A diferença de ambiente de avaliação é considerada na discussão.
+Ambas as condições foram avaliadas no Colab em Tesla T4, com PyTorch 2.11.0+cu128, a mesma semente de teste e o mesmo protocolo. O conjunto de teste contém uma ocorrência do caractere ``½'', ausente do vocabulário ajustado no treino; ela foi mapeada para UNK e permaneceu como alvo na avaliação. O resultado é, portanto, uma comparação pareada no ambiente, embora baseada em uma amostra de janelas.
 
 A geração usa o prefixo ``Era '' (incluindo o espaço final), temperatura 0,8, top-k 40 e semente 20260925. São gerados 700 novos tokens, e o texto apresentado é truncado no primeiro EOS, quando presente. A temperatura reescala os escores antes da amostragem; top-k restringe a distribuição aos 40 candidatos de maior pontuação. O prefixo é um início narrativo, não uma pergunta. As amostras servem à inspeção qualitativa e não substituem avaliação humana sistemática de qualidade, autoria ou factualidade.
 
@@ -119,15 +120,15 @@ A geração usa o prefixo ``Era '' (incluindo o espaço final), temperatura 0,8,
 \toprule
 Modelo & Parâmetros totais & Perda & PPL \\
 \midrule
-Baseline (6/6/384) & 10,78 M & 1,2399 & 3,455 \\
+Baseline (6/6/384) & 10,78 M & 1,2397 & 3,455 \\
 Reduzido (4/4/256) & 3,25 M & 1,3862 & 4,000 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Os dois checkpoints foram carregados com sucesso e registraram 5.000 iterações. A contagem total inclui embeddings posicionais e conta uma vez os pesos dos embeddings de token compartilhados com a projeção de saída: 10.776.576 no baseline e 3.251.200 na variante, redução de 69,8\%. Sem posições, o nanoGPT informa 10.678.272 e 3.185.664 parâmetros. A perda amostral aumentou 0,1464 nats por token (11,8\%) na configuração menor, e a perplexidade aumentou 0,545 (15,8\%). As diferenças foram calculadas com a precisão integral dos resultados armazenados, antes do arredondamento da Tabela~\ref{tab:comparison}.
+Os dois checkpoints foram carregados com sucesso e registraram 5.000 iterações. A contagem total inclui embeddings posicionais e conta uma vez os pesos dos embeddings de token compartilhados com a projeção de saída: 10.776.576 no baseline e 3.251.200 na variante, redução de 69,8\%. Sem posições, o nanoGPT informa 10.678.272 e 3.185.664 parâmetros. A perda amostral aumentou 0,1465 nats por token (11,8\%) na configuração menor, e a perplexidade aumentou 0,545 (15,8\%). As diferenças foram calculadas com a precisão integral dos resultados armazenados, antes do arredondamento da Tabela~\ref{tab:comparison}.
 
-Na amostra baseline, “Juro-lhe que esta irritação para a Prata” combina palavras e pontuação plausíveis, mas não estabelece relação semântica clara; “D. Quincas Borba ou Jesus Baratina” justapõe nomes de modo incoerente. Na amostra reduzida, “as duas amizas” e “a idéia de Estela Reveirou” ilustram grafia inventada e continuidade instável. As duas gerações reproduzem pontuação e moldes de diálogo reconhecíveis, sem manter coerência narrativa. Esta inspeção é ilustrativa, não uma avaliação humana sistemática, e não sustenta uma conclusão global sobre qualidade literária.
+Na amostra baseline, “Era uma coisa de Fernando recebida na sua imaginação” combina palavras e pontuação plausíveis, mas não estabelece relação semântica clara; a continuação mistura datas e nomes. Na amostra reduzida, “as duas amizas” e “a cadeira um ar de tendência” ilustram grafia inventada e continuidade instável. As duas gerações reproduzem pontuação e moldes de diálogo reconhecíveis, sem manter coerência narrativa. Esta inspeção é ilustrativa, não uma avaliação humana sistemática, e não sustenta uma conclusão global sobre qualidade literária.
 
 \subsection{Comparação experimental}
 
@@ -146,9 +147,9 @@ Os resultados indicam um compromisso entre número de parâmetros e qualidade pr
 
 O corpus e a divisão são tão importantes quanto a arquitetura. Duplicatas ou sobreposição entre documentos podem reduzir artificialmente a dificuldade do teste; por isso, a auditoria de proveniência e a divisão por obra devem permanecer parte do protocolo. Estudos sobre deduplicação mostram que sobreposição de dados pode afetar tanto a avaliação quanto a memorização de modelos de linguagem \cite{lee2022}.
 
-As perdas intermediárias de treino e validação não foram preservadas, o que impede analisar convergência, sobreajuste e selecionar retrospectivamente o melhor checkpoint. O campo \texttt{best\_val\_loss} não comprova um mínimo histórico nessa configuração, que sempre salva o estado em avaliação. Futuras execuções devem preservar os registros de treinamento, a curva de validação e a iteração selecionada, reservando o teste para a avaliação posterior à seleção.
+As curvas de treino e validação das execuções atuais estão preservadas junto aos logs no Drive; a perda de validação diminuiu nos pontos registrados até a iteração 5.000. Esse resultado permite descrever a trajetória amostrada, embora não substitua repetições independentes para estimar variabilidade entre treinamentos. O checkpoint reportado é o da iteração 5.000, que também foi o de menor perda entre os pontos de avaliação registrados.
 
-Há quatro limites principais à interpretação. Primeiro, a composição do pacote NLTK e a seleção heurística dos contos delimitam a representatividade da amostra. Segundo, a estimativa por janelas sobrepostas não quantifica a incerteza da perda. Terceiro, a intervenção arquitetural composta e a execução única por condição impedem separar seus componentes da variabilidade entre treinamentos. Quarto, a reavaliação do baseline usou CPU com PyTorch 2.13, enquanto o resultado reduzido foi exportado do Colab com PyTorch 2.11. Embora o baseline tenha concordado com sua saída original à precisão reportada, as duas métricas não foram recalculadas no mesmo ambiente.
+Há três limites principais à interpretação. Primeiro, a composição do pacote NLTK e a seleção heurística dos contos delimitam a representatividade da amostra. Segundo, a estimativa por janelas sobrepostas não quantifica a incerteza da perda; além disso, a ocorrência de ``½'' foi representada pelo token UNK. Terceiro, a intervenção arquitetural composta e a execução única por condição impedem separar seus componentes da variabilidade entre treinamentos. As duas condições atuais foram avaliadas no mesmo ambiente e protocolo; resultados de rodadas históricas em outros ambientes não são usados como comparação principal.
 
 Há também uma limitação temporal: o resultado do baseline já era conhecido quando se decidiu executar a variante. O teste não foi usado para calcular gradientes, mas a escolha da segunda configuração não foi cega aos resultados anteriores. A comparação deve, portanto, ser interpretada como exploratória. Em novos estudos, as configurações podem ser fixadas antes de consultar o teste, com decisões de arquitetura baseadas na validação.
 
@@ -170,7 +171,9 @@ O experimento articula preparação rastreável de um corpus literário, treinam
 
 Os arquivos \texttt{model.py}, \texttt{train.py} e utilitários são do nanoGPT, de Andrej Karpathy, sob licença MIT; a configuração de caracteres deriva de \texttt{shakespeare\_char} \cite{karpathyNanoGPT}. Os notebooks do projeto acrescentam auditoria e preparação do corpus, tokenizador, partições, configurações, avaliação e exportação. Não se atribui autoria própria ao código-base.
 
-Os procedimentos estão em \path{notebooks/}. Os manifestos dos diretórios \path{dados/} e \path{dados/modelagem/} registram fontes, hashes e preparação. O arquivo \path{RESULTADOS_EXPERIMENTOS.json} consolida métricas e proveniência. Os checkpoints, tokenizadores e resultados detalhados estão preservados em \path{experimentos/}, fora do histórico Git. O JSON de reavaliação em CPU distingue a confirmação local do baseline da saída original do Colab. A ausência dos registros completos de treinamento e do ZIP original do baseline limita a reconstrução integral da execução.
+Os notebooks executados e as instruções de reprodução estão no \href{https://github.com/fabriciosantana/unb/blob/main/01-ppgi0034-redes-neurais-e-aprendizado-profundo/projetos/machado-assis/README.md}{README do projeto}. Os quatro notebooks abrem no Colab: \href{https://colab.research.google.com/github/fabriciosantana/unb/blob/main/01-ppgi0034-redes-neurais-e-aprendizado-profundo/projetos/machado-assis/notebooks/01_construcao_auditoria_corpus.ipynb}{01 auditoria}, \href{https://colab.research.google.com/github/fabriciosantana/unb/blob/main/01-ppgi0034-redes-neurais-e-aprendizado-profundo/projetos/machado-assis/notebooks/02_preparacao_dados_modelagem.ipynb}{02 preparação}, \href{https://colab.research.google.com/github/fabriciosantana/unb/blob/main/01-ppgi0034-redes-neurais-e-aprendizado-profundo/projetos/machado-assis/notebooks/03_baseline_gpt_caractere_nanogpt.ipynb}{03 baseline} e \href{https://colab.research.google.com/github/fabriciosantana/unb/blob/main/01-ppgi0034-redes-neurais-e-aprendizado-profundo/projetos/machado-assis/notebooks/04_comparativo_gpt_caractere_reduzido.ipynb}{04 comparativo}. Dados e resultados estão na pasta compartilhada do \href{https://drive.google.com/drive/folders/1VgfGCoNn-FatGc0q5tSDLwDOgLNgdkGa}{Google Drive}; o \href{https://drive.google.com/file/d/1F5IyjmACoBWa8HJQLv8BQb8EuwnpjMyx/view?usp=drivesdk}{PDF final} também está disponível nela.
+
+\noindent Página de entrada do projeto: \href{https://github.com/fabriciosantana/unb/blob/main/01-ppgi0034-redes-neurais-e-aprendizado-profundo/projetos/machado-assis/README.md}{README e instruções de avaliação}.
 
 \bibliographystyle{IEEEtran}
 \bibliography{referências/bibliografia}
