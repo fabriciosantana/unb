@@ -82,8 +82,8 @@ e preservados no Google Drive, na pasta `machado-gpt-treinamento-colab`.
 |---|---:|
 | Número de parâmetros | 10,68 M |
 | Documentos avaliados no teste | 31 |
-| Perda amostral | 1,2399 nats por token do vocabulário de caracteres, incluindo EOS/UNK |
-| Perplexidade amostral | 3,455 (adimensional; calculada sobre os mesmos tokens) |
+| Perda amostral (execução final pareada no Colab) | 1,239708 nats por token do vocabulário de caracteres, incluindo EOS/UNK |
+| Perplexidade amostral (execução final pareada no Colab) | 3,454606 (adimensional; calculada sobre os mesmos tokens) |
 
 A perda inclui caracteres e tokens especiais quando presentes nos alvos; a
 perplexidade é a exponencial dessa perda. Portanto, não deve ser comparada
@@ -93,12 +93,14 @@ unidade lexical.
 As perdas intermediárias de treino e validação não foram preservadas. Não é
 possível afirmar que o checkpoint final seja o de menor perda de validação:
 `always_save_checkpoint=True` sobrescreve `ckpt.pt` nos intervalos, e o arquivo
-disponível corresponde à iteração 5.000. A métrica foi informada pelo autor na
-saída Colab e reproduzida pela reavaliação independente em CPU, registrada em
-`experimentos/gpt_caractere_nanogpt/reevaluacao_baseline_cpu.json`. A estimativa
-usa 200 lotes amostrados (batch 32,
-contexto de 256 tokens), sorteados do fluxo concatenado que inclui EOS entre
-documentos; não é uma varredura exaustiva de todos os tokens.
+disponível corresponde à iteração 5.000. A métrica principal deste relatório é a
+da execução final pareada no Colab, registrada em
+`RESULTADOS_EXPERIMENTOS.json` e nos artefatos ligados no README do projeto.
+Uma reavaliação anterior em CPU (loss 1,239860; PPL 3,455131) permanece como
+checagem histórica de consistência, não como resultado principal. A estimativa
+final usa 200 lotes amostrados (batch 32, contexto de 256 tokens), sorteados do
+fluxo concatenado que inclui EOS entre documentos; não é uma varredura
+exaustiva de todos os tokens.
 
 ## 7. Avaliação qualitativa
 
@@ -128,8 +130,9 @@ tratada como inspeção qualitativa, não como avaliação humana formal.
 ## 9. Conclusão
 
 O baseline foi executado com sucesso em GPU, produziu um checkpoint válido e
-apresentou perda amostral de `1,2399` nats por token do vocabulário de caracteres,
-incluindo EOS/UNK, e perplexidade de `3,455` sobre os mesmos tokens.
+apresentou, na execução final pareada, perda amostral de `1,239708` nats por
+token do vocabulário de caracteres, incluindo EOS/UNK, e perplexidade de
+`3,454606` sobre os mesmos tokens.
 Esses resultados são suficientes para documentar a primeira linha de base do
 trabalho. A conclusão não deve extrapolar para alegações de capacidade
 conversacional ou de reprodução do GPT-2.
@@ -152,20 +155,21 @@ O orçamento iguala atualizações, não FLOPs nem tempo.
 
 | Modelo | Parâmetros sem posições | Perda (nats/token, incluindo EOS/UNK) | Perplexidade |
 |---|---:|---:|---:|
-| Baseline (6/6/384) | 10,68 M | 1,2399 | 3,455 |
-| Comparativo reduzido (4/4/256) | 3,19 M | 1,3862 | 4,000 |
+| Baseline (6/6/384) | 10,68 M | 1,239708 | 3,454606 |
+| Comparativo reduzido (4/4/256) | 3,19 M | 1,386213 | 3,999673 |
 
 Contando parâmetros únicos incluindo posições, são 3.251.200 no modelo reduzido
 contra 10.776.576 no baseline, redução de 69,8%. Sem posições, conforme o log do
 nanoGPT, são 3.185.664 contra 10.678.272. Em relação
-ao baseline, sua perda amostral aumentou 0,1464 nats por token, ou cerca de
-11,8%, enquanto sua perplexidade aumentou 0,545, ou cerca de 15,8%. Portanto,
+ao baseline, sua perda amostral aumentou 0,146504 nats por token (0,1465
+arredondado), ou cerca de 11,8%, enquanto sua perplexidade aumentou 0,545067
+(0,545 arredondado), ou cerca de 15,8%. Portanto,
 neste protocolo, a redução de capacidade diminuiu o custo paramétrico, mas
 esteve associada a maior perda preditiva no conjunto de teste.
 
 As diferenças foram calculadas com os valores completos de
 [`../RESULTADOS_EXPERIMENTOS.json`](../RESULTADOS_EXPERIMENTOS.json), antes do
-arredondamento: `1.3862289541959762 - 1.2398603546619416 ≈ 0.146368599534`.
+arredondamento: `1.3862125158309937 - 1.2397083312273025 ≈ 0.1465041846036912`.
 A razão entre perplexidades é `exp(perda_reduzido - perda_baseline) ≈ 1,158`.
 
 As amostras dos dois modelos mantiveram padrões locais de português, pontuação

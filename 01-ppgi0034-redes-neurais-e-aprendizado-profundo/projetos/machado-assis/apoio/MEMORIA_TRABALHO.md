@@ -2,6 +2,8 @@
 
 ## Estado atual
 
+Esta memória preserva decisões e estados de etapas anteriores. Registros datados abaixo que dizem que matrícula, links dos Colabs ou compartilhamento ainda faltavam foram superados pelas atualizações de 29/09/2026: a matrícula está no artigo, os quatro links do Colab estão no README e o Drive foi configurado como leitor por link. A apresentação oral continua pendente de realização/avaliação.
+
 - Projeto: `01-ppgi0034-redes-neurais-e-aprendizado-profundo`.
 - Execução realizada no Colab Web com GPU Tesla T4.
 - PyTorch: `2.11.0+cu128`.
@@ -13,8 +15,8 @@
 - Documentos de teste: 31.
 - Configuração principal: 6 camadas, 6 cabeças, embedding 384, `block_size=256`, `batch_size=64`, `max_iters=5000`, `float16`.
 - Parâmetros do modelo: aproximadamente 10,68 milhões.
-- Perda amostral: `1,2399 nats por token` do vocabulário de caracteres, incluindo EOS e UNK nos alvos.
-- Perplexidade amostral: `3,455` (adimensional, calculada sobre os mesmos tokens).
+- Perda amostral da execução final pareada: `1,239708 nats por token` do vocabulário de caracteres, incluindo EOS e UNK nos alvos.
+- Perplexidade amostral da execução final pareada: `3,454606` (adimensional, calculada sobre os mesmos tokens).
 - O modelo aprendeu padrões de português e estilo literário, mas as amostras ainda apresentam incoerências semânticas, como esperado para um modelo pequeno treinado do zero.
 
 ### Atualização da auditoria e documentação (2026-09-26)
@@ -25,7 +27,7 @@
 - Artefatos do baseline estavam trocados de nome. Foram corrigidos: `config_train_machado_char.py`, `meta.pkl` (tokenizer pickle) e `amostra_gerada.txt` (texto). `resultados_baseline.json` registra a saída reportada do Colab; `reevaluacao_baseline_cpu.json` documenta a reavaliação independente que concordou ao arredondamento (loss 1,239860; PPL 3,455131). O ZIP original não foi recuperado. A cópia de checkpoint de 129 MB disfarçada de amostra foi removida após SHA-256 confirmar identidade com `out/ckpt.pt`.
 - Parâmetros totais únicos incluindo posições: baseline 10.776.576; reduzido 3.251.200 (redução 69,8%). A contagem de pesos impressa pelo nanoGPT exclui posição: 10.678.272 e 3.185.664.
 - O corpus é uma amostra, não uma coleção exaustiva. O professor esclareceu que não é necessário reunir todas as obras; a ausência de `Correspondência` (1932) é documentada, mas não é pendência nem motivo para novo treinamento. Não afirmar que a amostra é completa.
-- O artigo revisado foi compilado em quatro páginas, dentro do limite de até seis esclarecido pelo professor. Matrícula e links dos Colabs ainda aguardam preenchimento; o roteiro oral prepara, mas não comprova, a apresentação.
+- Naquele registro de etapa, o artigo revisado tinha quatro páginas e matrícula/links dos Colabs ainda aguardavam preenchimento; essa pendência foi resolvida nas atualizações finais de 29/09/2026. O roteiro oral prepara, mas não comprova, a apresentação.
 - Sumário reprodutível dos resultados de ambos os modelos: `projetos/machado-assis/RESULTADOS_EXPERIMENTOS.json`.
 
 ### Implementação da revisão de redação acadêmica (2026-09-26)
@@ -45,8 +47,8 @@ Arquivos principais: `latex/ARTIGO_PROJETO1_RASCUNHO.tex`, `referências/bibliog
 
 - O professor esclareceu que **não é necessário reunir todas as obras**: o objetivo é construir uma amostra boa e útil ao treinamento de um modelo de linguagem e ao aprendizado da disciplina. Portanto, a ausência de `Correspondência` (1932) e a falta de exaustividade bibliográfica não devem ser tratadas como descumprimento central do requisito. Não alegar que o corpus é completo; descrevê-lo como amostra de trabalho e justificar sua utilidade/limitações.
 - A amostra existente tem 242 itens, aproximadamente 14 MB de texto mestre, variedade de categorias e partições por documento (181 treino, 30 validação, 31 teste). A seleção heurística de contos avulsos e os elementos editoriais continuam sendo limitações a relatar, não razão automática para exigir a reunião de todas as obras.
-- Nota simulada revisada frente ao esclarecimento: **8,5/10**, não oficial. A avaliação anterior de 7,8/10 foi revista porque atribuía perda excessiva à ausência de cobertura integral. A nota ainda é provisória: matrícula e links dos Colabs faltam, e a apresentação oral não foi observada.
-- Próximo passo quando o estudante retornar: revisar o artigo e os materiais de entrega; preencher matrícula e links dos Colabs; preparar/apresentar os cinco minutos em sala.
+- Nota simulada revisada frente ao esclarecimento: **8,5/10**, não oficial e referente ao estado daquela data. A avaliação anterior de 7,8/10 foi revista porque atribuía perda excessiva à ausência de cobertura integral. Naquele momento, matrícula/links ainda constavam como pendentes; foram preenchidos nas atualizações finais. A apresentação oral não foi observada.
+- Próximo passo registrado naquela etapa: revisar o artigo e os materiais de entrega, preencher matrícula e links dos Colabs e preparar/apresentar os cinco minutos. Matrícula e links foram concluídos posteriormente; a apresentação segue pendente.
 
 ## Artefatos
 
@@ -82,15 +84,15 @@ Arquivos principais: `latex/ARTIGO_PROJETO1_RASCUNHO.tex`, `referências/bibliog
 ### Resultado do comparativo
 
 - Parâmetros: 3,19 milhões.
-- Perda amostral: `1,3862 nats por token` do vocabulário de caracteres, incluindo EOS e UNK nos alvos.
-- Perplexidade amostral: `4,000` (adimensional, calculada sobre os mesmos tokens).
+- Perda amostral da execução final pareada: `1,386213 nats por token` do vocabulário de caracteres, incluindo EOS e UNK nos alvos.
+- Perplexidade amostral da execução final pareada: `3,999673` (adimensional, calculada sobre os mesmos tokens).
 - Documentos de teste: 31.
 - Em relação ao baseline, a contagem total incluindo embeddings posicionais caiu 69,8%; a perda amostral aumentou 11,8% e a perplexidade 15,8%.
 - A amostra preservou padrões locais de português, mas também apresentou fragmentação e incoerência semântica; não há avaliação humana formal que classifique a qualidade literária dos dois modelos.
 
 ### Atualização de identificação (2026-09-28)
 
-Matrícula informada pelo autor: 262114527. Campo preenchido no artigo; a pendência de matrícula registrada acima está resolvida. Os links de entrega continuam pendentes.
+Matrícula informada pelo autor: 262114527. Campo preenchido no artigo; os quatro links Colab estão no README e o acesso ao Drive está configurado como leitura por link. A pendência acadêmica remanescente é a apresentação oral.
 
 ### Preparação de nova rodada no Colab/Drive (2026-09-28)
 

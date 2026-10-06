@@ -1,5 +1,7 @@
 # Avaliação do Projeto Individual 1 — Machado de Assis
 
+> **Documento histórico.** As notas e recomendações abaixo avaliam etapas anteriores e não representam o estado atual nem uma nota oficial. Para métricas, links, identificação e pendências atuais, consulte `AVALIACAO_FINAL_FECHAMENTO.md` e `LEIA-ME-ENTREGA.md`. A matrícula e os links dos quatro Colabs estão preenchidos; o acesso ao Drive foi configurado como leitura por link. A apresentação oral permanece por realizar/avaliar.
+
 Data: 26 de setembro de 2026.
 
 ## Parecer e nota
@@ -148,16 +150,16 @@ Esta seção atualiza o estado das recomendações sem substituir a nota 6,5/10,
 |---|---|---|
 | 1. Artefatos baseline | Parcialmente concluída | Arquivos locais renomeados a partir da inspeção de conteúdo; tokenizer, configuração e amostra restaurados. A reavaliação independente em CPU (200×32 janelas) reproduziu loss 1,239860 e PPL 3,455131, arredondando aos valores do Colab. Registro em `reevaluacao_baseline_cpu.json`; o ZIP original do Drive e logs históricos não foram localizados. Cópia redundante de 129.363.420 bytes foi removida após SHA-256 idêntico ao checkpoint preservado. |
 | 2. Cobertura do corpus | Adequada ao escopo esclarecido | Amostra, composição e limites documentados; professor confirmou que não é necessário reunir todas as obras. Não há pendência de completar a lacuna de *Correspondência* nem de repetir os treinamentos por esse motivo. |
-| 3. Artigo IEEE | Dentro do limite; identificação pendente | PDF recompilado em duas colunas com cinco páginas em `../latex/out/ARTIGO_PROJETO1_RASCUNHO.pdf`, dentro do máximo de seis páginas esclarecido pelo professor. Nome preenchido; matrícula ainda precisa de confirmação/preenchimento. |
+| 3. Artigo IEEE | Concluída no estado final | A identificação foi preenchida e o PDF final atual está em `../latex/out/ARTIGO_PROJETO1_FINAL.pdf`, com quatro páginas, dentro do máximo de seis. Esta linha atualiza o retrato histórico da tabela original. |
 | 4. Seeds e checkpoint | Implementada documentalmente | Notebooks, artigo, relatório e roteiro distinguem seed efetiva do treino (1337 no commit fixado/uma GPU) das seeds de preparação, avaliação e geração; checkpoint identificado como iteração 5000 sem afirmar mínimo histórico de validação. |
 | 5. Protocolo comparativo | Implementada documentalmente | Artigo e relatório descrevem as 200 janelas amostradas por 32, contexto 256, unidade em símbolos do vocabulário char-level (incluindo EOS/UNK), amostragem no fluxo concatenado, mudança simultânea de três dimensões e limite do orçamento em atualizações. |
 | 6. Parâmetros | Implementada | Artigo/relatório distinguem contagem do log sem posições (10.678.272; 3.185.664) e totais únicos com posições (10.776.576; 3.251.200). |
 | 7. Fundamentação/amostras | Implementada no artigo | Atenção causal, objetivo, perplexidade, trechos de saída e erros específicos analisados com limites explícitos. |
-| 8. Autoria/acesso | Parcial | Página `LEIA-ME-ENTREGA.md` descreve procedência e ordem dos quatro notebooks. Links de compartilhamento dos Colabs ainda dependem do autor. |
+| 8. Autoria/acesso | Concluída no estado final | `LEIA-ME-ENTREGA.md` descreve procedência e ordem dos notebooks; os quatro links Colab estão no README e o acesso aos artefatos do Drive está configurado como leitura por link. |
 | 9. Extensão QA | Implementada como proposta | Artigo descreve recuperação por obra/trecho, evidência, citação/abstenção e avaliação separada; nenhuma funcionalidade RAG é alegada como implementada. |
 | 10. Apresentação | Preparação concluída; realização pendente | `ROTEIRO_APRESENTACAO_5_MIN.md` foi criado. Ensaiar e apresentar em sala continua sendo responsabilidade do estudante e não pode ser atestado aqui. |
 
-Itens dependentes de informação ou ação do estudante: matrícula, links dos Colabs e apresentação oral. A matriz ABL lista “Correspondência, 1932”, mas a ausência do texto na amostra não constitui pendência segundo o esclarecimento do professor. Este arquivo preserva recomendações e pontuações de um estado anterior; para a organização atual, consulte também `MEMORIA_TRABALHO.md` e `AVALIACAO_COBERTURA_CORPUS.md`.
+No estado atual, a apresentação oral é a única ação acadêmica ainda pendente de realização/avaliação. A matriz ABL lista “Correspondência, 1932”, mas a ausência do texto na amostra não constitui pendência segundo o esclarecimento do professor. Este arquivo preserva recomendações e pontuações de um estado anterior; para a organização atual, consulte também `AVALIACAO_FINAL_FECHAMENTO.md`, `LEIA-ME-ENTREGA.md` e `AVALIACAO_COBERTURA_CORPUS.md`.
 
 ## Atualização de fechamento — 29 de setembro de 2026
 

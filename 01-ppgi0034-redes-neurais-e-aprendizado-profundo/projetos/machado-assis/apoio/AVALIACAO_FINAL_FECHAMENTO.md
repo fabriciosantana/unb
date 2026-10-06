@@ -5,7 +5,7 @@
 
 ## Parecer
 
-O trabalho está **tecnicamente fechado e pronto para submissão após liberar ao avaliador as duas pastas de resultados no Drive**. Não há justificativa para treinar outro modelo, ampliar o corpus ou acrescentar mais uma arquitetura. O artigo foi atualizado para os resultados pareados mais recentes, compilado com a bibliografia resolvida e gerado com quatro páginas, dentro do limite máximo de seis páginas informado para a atividade.
+O trabalho está **tecnicamente fechado e pronto para submissão**. O acesso de leitura por link às pastas de resultados e ao PDF no Drive foi confirmado nesta revisão; não consta liberação pendente. Restam ao autor enviar ao GitHub as alterações locais, realizar a entrega conforme as instruções da disciplina e fazer a apresentação oral. Não há justificativa para treinar outro modelo, ampliar o corpus ou acrescentar mais uma arquitetura. O artigo foi atualizado para os resultados pareados mais recentes, compilado com a bibliografia resolvida e gerado com quatro páginas, dentro do limite máximo de seis páginas informado para a atividade.
 
 ## Resultados finais registrados
 
