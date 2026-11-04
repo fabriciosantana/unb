@@ -1,0 +1,45 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage[margin=1.55cm]{geometry}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,urlcolor=blue,citecolor=black,linkcolor=black}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.36em}
+\setlist{nosep,leftmargin=*}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+{\small Universidade de Brasília}\\[0.9em]
+{\footnotesize
+\begin{tabular}{@{}ll@{}}
+\textbf{Nome:} & Fabricio Fernandes Santana\\
+\textbf{Matrícula:} & 262114527 \\
+\textbf{Programa:} & PROGRAMA DE PÓS-GRADUAÇÃO EM INFORMÁTICA — PPGI \\
+\textbf{Disciplina:} & REDES NEURAIS E APRENDIZADO PROFUNDO  — 2026/2
+\end{tabular}}\\[0.15em] 
+\end{center}
+
+\textbf{Título.} Legal-QAFD-RAG: incorporação de vigência e relações hierárquicas entre normas à recuperação de evidências em perguntas multi-hop sobre normas jurídicas
+
+\textbf{Problema.} Modelos de linguagem de grande porte (\textit{large language models} -- LLMs) podem gerar informações incorretas e refletir conhecimento desatualizado. A geração aumentada por recuperação (\textit{retrieval-augmented generation} -- RAG) busca mitigar esses problemas recuperando trechos de um corpus externo e fornecendo-os como contexto ao modelo antes da geração da resposta. Entretanto, sistemas RAG baseados principalmente em similaridade podem ter dificuldade com perguntas multi-hop, que exigem combinar evidências distribuídas por diferentes documentos. O GraphRAG organiza entidades e relações em um grafo para apoiar a conexão entre evidências, mas os benefícios dessa abordagem dependem da tarefa e da qualidade do grafo~\cite{graphragbench}. O \textit{Query-Aware Flow Diffusion for Graph-Based RAG} (QAFD-RAG) foi proposto para melhorar a recuperação em sistemas RAG baseados em grafos, sobretudo em perguntas multi-hop, ao usar a consulta para adaptar o peso das arestas do grafo e guiar a difusão de fluxo pelo grafo com o objetivo de recuperar subgrafos mais relevantes~\cite{qafd}. Contudo, em domínios específicos, como o legislativo, pode ser relevante considerar aspectos como vigência e relações hierárquicas entre normas, não representados explicitamente na difusão implementada pelo QAFD-RAG~\cite{qafd}.
+
+\textbf{Pergunta de pesquisa.} Em perguntas multi-hop sobre normas jurídicas em uma data indicada, incorporar ao QAFD-RAG informações sobre vigência e relações hierárquicas entre normas aumenta o Recall@k dos dispositivos de suporte e a acurácia da versão recuperada, em comparação com o QAFD-RAG original, sob o mesmo modelo de geração e orçamento de contexto?
+
+\textbf{Proposta de inovação.} O QAFD-RAG adapta a difusão de fluxo no grafo em função da consulta, ajustando os pesos das arestas com base nas similaridades semânticas entre os nós conectados e entre cada nó e a consulta, a fim de recuperar subgrafos relevantes~\cite{qafd}. Este projeto propõe o Legal-QAFD-RAG, uma adaptação para o contexto legislativo que incorpora ao cálculo desses pesos informações de vigência e relações hierárquicas entre normas. Para cada aresta, o Legal-QAFD-RAG ajustará o peso calculado pelo QAFD-RAG por um fator definido a partir da vigência e hierarquia. Esse ajuste buscará priorizar caminhos que conduzam à versão pertinente dos dispositivos na data consultada, preservando o acesso a normas revogadas necessárias para responder a perguntas históricas. 
+
+\textbf{Proposta de experimentos.} Propõe-se construir um corpus controlado de dispositivos da legislação federal de licitações, incluindo o art. 37, XXI, da Constituição, dispositivos selecionados das Leis nº 8.666/1993 e nº 14.133/2021 e dos decretos que as regulamentam. Com base nesse corpus, serão elaboradas perguntas multi-hop com data de referência e dispositivos de suporte anotados. As mesmas perguntas serão submetidas ao QAFD-RAG original e ao Legal-QAFD-RAG, mantendo-se constantes o corpus, os parâmetros de recuperação aplicáveis, o modelo de geração e o orçamento de contexto. Os resultados serão comparados pelo Recall@k dos dispositivos de suporte e pela acurácia na recuperação da versão aplicável à data de referência.
+
+\begin{thebibliography}{9}\footnotesize
+\setlength{\itemsep}{-0.25em}
+\bibitem{qafd} ZHOU, Zhuoping; ATAEE TARZANAGH, Davoud; DIDARI, Sima; HU, Wenjun; GUTOW, Baruch; VERKHOLYAK, Oxana; FARAKI, Masoud; HAO, Heng; MOON, Hankyu; MIN, Seungjai. Query-Aware Flow Diffusion for Graph-Based RAG with Retrieval Guarantees. In: \emph{International Conference on Learning Representations (ICLR)}, 2026, p. 53808--53845. \url{https://proceedings.iclr.cc/paper_files/paper/2026/file/584f32ccf76d73b85fa2053e795df697-Paper-Conference.pdf}.
+\bibitem{graphragbench} XIANG, Zhishang; WU, Chuanjie; ZHANG, Qinggang; CHEN, Shengyuan; HONG, Zijin; HUANG, Xiao; SU, Jinsong. When to use Graphs in RAG: A Comprehensive Analysis for Graph Retrieval-Augmented Generation. In: \emph{International Conference on Learning Representations (ICLR)}, 2026, p. 66145--66178. \url{https://proceedings.iclr.cc/paper_files/paper/2026/file/6c9e01d6cefbbf4cdd265032550e767f-Paper-Conference.pdf}.
+\end{thebibliography}
+
+\end{document}
